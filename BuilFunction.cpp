@@ -51,7 +51,7 @@ ostream& operator << ( ostream& os, Date date ){
 		os << date.month << "-";
 	else 
 		os << "0" << date.month << "/";
-	os << date.year << endl;
+	os << date.year;
 	return os;
 }
 Date Date::operator = ( const Date &date ){
@@ -82,15 +82,15 @@ istream& operator >> ( istream& is, Time &time ){
 	}while( time.minute < 0 || time.minute > 59 );
 	return is;
 }
-ostream& operator << ( ostream& os, MyTime time ){
+ostream& operator << ( ostream& os, Time time ){
 	if( time.hour > 9 )
 		os << time.hour << ":";
 	else 
 		os << "0" << time.hour << ":";
-	if( time.min > 9 )
-		os << time.min << ":";
+	if( time.minute > 9 )
+		os << time.minute;
 	else 
-		os << "0" << time.min << ":";
+		os << "0" << time.minute;
 	return os;
 }
 Time Time::operator = ( const Time &time ){
@@ -139,7 +139,7 @@ istream& operator >> ( istream& is, Human &human ){
 		if( human.age < 13 )
 			cout << "\nHang bay chi chap nhan tre tren 11 tuoi. Vui long nhap lai.\n\n";
 	}while( human.age < 13 );
-	char choice
+	char choice;
 	cout << "\nChon gioi tinh cua ban:\n1.Nam\n2.Nu\n3.Tuy chinh" << endl;
 	do {
 		cout << "Nhap lua chon cua ban:  ";
@@ -153,14 +153,15 @@ istream& operator >> ( istream& is, Human &human ){
 		human.sex = "Nu";
 	else
 		human.sex = "Tuy chinh";
-	cout << "Nhap ngay sinh (day/month/year):  \n";
+	cout << "Nhap ngay sinh (year/month/day):  \n";
 	is >> human.date;
+	cin.ignore();
 	cout << "Nhap dia chi ( So nha, xa/phuong, huyen/quan, tinh/thanh pho ):  ";
-	is >> human.address;
+	getline(is, human.address);
 	return is;
 }
 ostream& operator << ( ostream& os, Human human ){
-	os << human.name << "\t" << human.age << "\t" << human.sex << "\t" << human.date << "\t" << human.address << "\t";
+	os << human.name << "\t" << human.age << "\t" << human.sex << "\t" << (Date)human.date << "\t" << human.address << "\t";
 	return os;
 }
 Human Human::operator = ( const Human &human ){
@@ -182,18 +183,17 @@ void humanInPlane::setSalary( string position ){
 		this->salary = 25000;
 }
 humanInPlane::humanInPlane( const Human &human, string position ){
-	Human::Human( human );
 	this->position = position;
 	setSalary(position);
 }
 istream& operator >> ( istream& is, humanInPlane &hip ){
 	is >> (Human&)hip;
-	char choice
+	char choice;
 	cout << "\nChon chuc vu: \n1.Co truong \n2.Co pho \n3.Tiep vien\n\n";
 	do {
 		cout << "Nhap lua chon cua ban:  ";
 		is >> choice;
-		if( choice != '1' && choice != '2' && choice != '3' ){
+		if( choice != '1' && choice != '2' && choice != '3' )
 			cout << "\nBan chi duoc nhap trong khoang 1 -> 3. Vui long nhap lai\n\n";
 	}while( choice != '1' && choice != '2' && choice != '3' );
 	if( choice == '1' )
@@ -202,12 +202,12 @@ istream& operator >> ( istream& is, humanInPlane &hip ){
 		hip.position = "Co pho";
 	else 
 		hip.position = "Tiep vien";	
-	setSalary(position);
+	hip.setSalary(hip.position);
 	return is;
 }
 ostream& operator << ( ostream& os, humanInPlane hip ){
 	os << (Human)hip << hip.position << "\t" << hip.salary << endl;
-	return is;
+	return os;
 }
 
 // Build class Plane
@@ -283,12 +283,12 @@ Plane Plane::operator = ( const Plane &plane ){
 
 // Build class Flight 
 Flight::Flight(){
-	id = mp[plane.planeName] + to_string(i++);
+	//id = mp[plane.getPlaneName()] + to_string(i++);
 	departureLocation = destination = "";
 	ticketPrice = 0;
 }
 Flight::Flight( string departureLocation, string destination, Time departureTime, Time landingTime, Date flightDate, Plane plane, double ticketPrice ){
-	id = mp[plane.planeName] + to_string(i++);
+	//id = mp[plane.getPlaneName()] + to_string(i++);
 	this->departureLocation = departureLocation;
 	this->destination = destination;
 	this->departureTime = departureTime;
@@ -302,11 +302,11 @@ istream& operator >> ( istream& is, Flight &fly ){
 	getline(is, fly.departureLocation);
 	cout << "Nhap noi den ( Tinh hoac TP ):  ";
 	getline(is, fly.destination);
-	cout << "Nhap ngay bay ( day/month/year ):  ";
+	cout << "Nhap ngay bay ( year/month/day ):  \n";
 	is >> fly.flightDate;
-	cout << "Nhap thoi gian khoi hanh ( hour:minute ):  ";
+	cout << "Nhap thoi gian khoi hanh ( hour:minute ):  \n";
 	is >> fly.departureTime;
-	cout << "Nhap thoi gian ha canh ( hour:minute ):  ";
+	cout << "Nhap thoi gian ha canh ( hour:minute ):  \n";
 	is >> fly.landingTime;
 	cout << "Nhap gia ve (.000 VND):  ";
 	is >> fly.ticketPrice;
@@ -314,6 +314,7 @@ istream& operator >> ( istream& is, Flight &fly ){
 }
 ostream& operator << ( ostream& os, Flight fly ){
 	os << fly.id << "\t" << fly.departureLocation << "\t" << fly.destination << "\t" << fly.flightDate << "\t" << fly.departureTime << "\t" << fly.landingTime << "\t" << fly.ticketPrice << endl;
+	return os;
 }
 string Flight::getDepartureLocation(){
 	return this->departureLocation;
@@ -335,6 +336,18 @@ double Flight::getTicketPrice(){
 }
 
 // Build class Passeger
+bool Passenger::isPassport( string passport ){
+	if( passport[0] != toupper(passport[0]) )
+		return false;
+	for( int i = 1 ; i < 8 ; i++ ){
+		if( passport[i] < '0' || passport[i] > '9' )
+			return false;
+	}
+	return true;
+}
+void Passenger::setInCountry( bool check ){
+	this->isInCountry = check;
+}
 istream& operator >> ( istream& is, Passenger &pas ){
 	is >> (Human&)pas;
 	do {
@@ -356,9 +369,9 @@ istream& operator >> ( istream& is, Passenger &pas ){
 				cout << "\nHo chieu phai du 8 ky tu. Vui long nhap lai\n\n";
 				continue;
 			}
-			if( !isPassport( pas.passportNum ) )
+			if( !pas.isPassport( pas.passportNum ) )
 				cout << "\nBan da nhap sai format ho chieu. Vui long nhap lai\n\n";
-		}while( !isPassport( pas.passportNum ) || pas.passportNum.size() != 8 );
+		}while( !pas.isPassport( pas.passportNum ) || pas.passportNum.size() != 8 );
 	}
 	do {
 		cout << "Nhap so CCCD :  ";
@@ -380,41 +393,9 @@ ostream& operator << ( ostream& os, Passenger pas ){
 	os << pas.cidNum << "\t" << pas.rank << "\t" << pas.position << endl;
 	return os;
 }
-void setInCountry( bool check ){
-	this->isInCountry = check;
-}
-void setRank( string rank ){
+void Passenger::setRank( string rank ){
 	this->rank = rank;
 }
-void setPosition( int position ){
+void Passenger::setPosition( int position ){
 	this->position = position;
 }
-bool isPassport( string passport ){
-	if( passport[0] != toupper(passport[0]) )
-		return false;
-	for( int i = 1 ; i < 8 ; i++ ){
-		if( passport[i] < '0' || passport[i] > '9' )
-			return false;
-	}
-	return true;
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
