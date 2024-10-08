@@ -70,10 +70,13 @@ void SignIn::sign_up(){
 		cout << "Password:  ";  inputPass(password);
 		if( password.size() < 8 ){
 			cout << "\n\nWeak password ( password must more than 8 character ) please re-enter\n\n";
+			password = "";
 			continue;
 		}
-		if( checkPass(password) == false )
+		if( checkPass(password) == false ){
 			cout << "\n\nPassword is incorrect ( phai co chu HOA, chu THUONG, chu SO ), please re-enter\n\n";
+			password = "";
+		}
 	}while( checkPass(password) == false || password.size() < 8 );
 	
 	// Nhap lai pass;
@@ -81,8 +84,10 @@ void SignIn::sign_up(){
 		fflush(stdin);
 		cout << "\nRe-enter password:  ";
 		inputPass(repeatPass);
-		if( repeatPass != password )
+		if( repeatPass != password ){
 			cout << "\n\nPassword is incorrect, please re-enter\n";
+			repeatPass = "";
+		}
 	}while( repeatPass != password );
 	cout << "\nSign Up Success\n\n";
 	
