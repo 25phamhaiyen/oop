@@ -59,7 +59,7 @@ void inputPass( string &password ){
     }
 }
 void SignIn::sign_up(){
-	ofstream file("passengerSignUpAccount.txt");
+	ofstream fileSignIn("passengerSignInAccount.txt");
 	string userName, password = "", repeatPass = "";
 	
 	fflush(stdin);
@@ -87,9 +87,9 @@ void SignIn::sign_up(){
 	cout << "\nSign Up Success\n\n";
 	
 	// ghi file
-	file << userName << endl;
-	file << password;
-	file.close();
+	fileSignIn << userName << endl;
+	fileSignIn << password;
+	fileSignIn.close();
 }
 void SignIn::sign_in( int choice ){
 	ifstream file;
@@ -97,8 +97,6 @@ void SignIn::sign_in( int choice ){
 		file.open("managerAccount.txt");
 	else if( choice == 2 )
 		file.open("passengerSignInAccount.txt");
-	else 
-		file.open("passengerSignUpAccount.txt");
 	string userName, password;
 	string userTemp, passTemp;
 	int count = 0;
@@ -112,7 +110,7 @@ void SignIn::sign_in( int choice ){
 	do {
 		count++;
 		if( count > 3 ){
-			cout << "\n\nEntered more than 3 times. Please wait a few minutes and try again\n";
+			cout << "\nEntered more than 3 times. Please wait a few minutes and try again\n";
 			return;
 		}		
 		cout << "UserName:  ";  
@@ -172,7 +170,7 @@ int main(){
 		cin.ignore();
 		if( signChoice == 1 ){
 			cout << "\n-----------------Sign In---------------------\n";
-			si.sign_in(1);
+			si.sign_in(2);
 			cout << "\n---------------------------------------------\n";
 		}
 		else {
@@ -181,7 +179,7 @@ int main(){
 			cout << "\n---------------------------------------------\n";
 			
 			cout << "\n-----------------Sign In---------------------\n";
-			si.sign_in(3);
+			si.sign_in(2);
 			cout << "\n---------------------------------------------\n";
 		}
 	}
