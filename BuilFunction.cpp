@@ -7,6 +7,11 @@ Date::Date( int day, int month, int year ){
 	this->month = month;
 	this->year = year;
 }
+Date::Date( const Date &date ){
+	this->day = date.day;
+	this->month = date.month;
+	this->year = date.year;
+}
 void inputDay( int &day, int maxDay ){ // Ham check input day
 	do {
 		cout << "Nhap ngay:  ";
@@ -86,6 +91,10 @@ Time::Time( int hour, int minute ){
 	this->hour = hour;
 	this->minute = minute;
 }
+Time::Time( const Time &time ){
+	this->hour = time.hour;
+	this->minute = time.minute;
+}
 istream& operator >> ( istream& is, Time &time ){
 	do {
 		cout << "Nhap gio:  ";
@@ -116,6 +125,18 @@ Time Time::operator = ( const Time &time ){
 	Time::operator=(time); 
 	return *this;
 } 
+bool operator < ( const Time &time1, const Time &time2 ){
+	if( time1.hour < time2.hour )
+		return true;
+	else if( time1.hour == time2.hour ){
+		if( time1.minute < time2.minute )
+			return true;
+		else
+			return false;
+	}
+	else
+		return false;
+}
 
 
 // Build class Human
@@ -149,7 +170,7 @@ void standarName( string &name ){
 istream& operator >> ( istream& is, Human &human ){
 	cout << "Nhap ho va ten cua ban:  "; 
 	getline(is,human.name);
-	human.standarName(human.name);
+	standarName(human.name);
 	do {
 		cout << "\nNhap tuoi:  "; 
 		is >> human.age;
@@ -291,13 +312,16 @@ ostream& operator << ( ostream& os, const Plane &plane ){
 	return os;
 }
 string Plane::getPlaneName(){
-	return this->planeName;
+	return planeName;
 }
 string Plane::getType(){
-	return this->type;
+	return type;
 }
 string Plane::getStatus(){
-	return this->status;
+	return status;
+}
+string Plane::getAircraftNumber(){
+	return aircraftNumber;
 }
 Plane Plane::operator = ( const Plane &plane ){
 	Plane::operator=(plane); 
@@ -307,37 +331,46 @@ Plane Plane::operator = ( const Plane &plane ){
 
 // Build class Flight 
 Flight::Flight(){
-	//id = mp[plane.getPlaneName()] + to_string(i++);
-	departureLocation = destination = "";
+	id = departureLocation = destination = "";
 	ticketPrice = 0;
+	departureTime = Time(); 
+    landingTime = Time(); 
+    flightDate = Date();
 }
-Flight::Flight( string departureLocation, string destination, Time departureTime, Time landingTime, Date flightDate, Plane plane, double ticketPrice ){
-	//id = mp[plane.getPlaneName()] + to_string(i++);
+Flight::Flight( string id, Date flightDate, string departureLocation, string destination, Time departureTime, Time landingTime, double ticketPrice ){
+	this->id = id;
 	this->departureLocation = departureLocation;
 	this->destination = destination;
 	this->departureTime = departureTime;
 	this->landingTime = landingTime;
 	this->flightDate = flightDate;
-	this->plane = plane;
 	this->ticketPrice = ticketPrice;
 }
 istream& operator >> ( istream& is, Flight &fly ){
-	cout << "Nhap noi xuat phat ( Tinh hoac TP ):  ";
-	getline(is, fly.departureLocation);
+	fly.departureLocation = "Sai Gon";
 	cout << "\nNhap noi den ( Tinh hoac TP ):  ";
 	getline(is, fly.destination);
 	cout << "\nNhap ngay bay ( day/month/year ):  \n";
 	is >> fly.flightDate;
 	cout << "\nNhap thoi gian khoi hanh ( hour:minute ):  \n";
 	is >> fly.departureTime;
-	cout << "\nNhap thoi gian ha canh ( hour:minute ):  \n";
-	is >> fly.landingTime;
-	cout << "\nNhap gia ve (.000 VND):  ";
-	is >> fly.ticketPrice;
+	do {
+		cout << "\nNhap thoi gian ha canh ( hour:minute ):  \n";
+		is >> fly.landingTime;
+		if( fly.landingTime < fly.departureTime )
+			cout << "\nThoi gian ha canh phai lon hon thoi gian khoi hanh. Vui long nhap lai\n";
+	}while( fly.landingTime < fly.departureTime );
+	do {
+		cout << "\nNhap gia ve (.000 VND):  ";
+		is >> fly.ticketPrice;
+		if( fly.ticketPrice <= 0 )
+			cout << "\nGia ve phai lon hon 0. Vui long nhap lai\n";
+	}while( fly.ticketPrice <= 0 );
+	
 	return is;
 }
 ostream& operator << ( ostream& os, const Flight &fly ){
-	os << fly.id << "\t" << fly.departureLocation << "\t" << fly.destination << "\t" << fly.flightDate << "\t" << fly.departureTime << "\t" << fly.landingTime << "\t" << fly.ticketPrice << endl;
+	os << fly.id << "\t" << fly.flightDate << "\t" << fly.departureLocation << "\t" << fly.destination << "\t" << fly.departureTime << "\t" << fly.landingTime << "\t" << fly.ticketPrice << endl;
 	return os;
 }
 string Flight::getDepartureLocation(){
