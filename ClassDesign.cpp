@@ -14,6 +14,7 @@ class Date {
 	public:
 		Date();
 		Date( int day, int month, int year );
+		Date( const Date &date );
 		friend void inputDay( int &day, int maxDay );
 		friend istream& operator >> ( istream& is, Date &date );
 		friend ostream& operator << ( ostream& os, const Date &date );
@@ -26,9 +27,11 @@ class Time {
 	public:
 		Time();
 		Time( int hour, int minute );
+		Time( const Time &time );
 		friend istream& operator >> ( istream& is, Time &time );
 		friend ostream& operator << ( ostream& os, const Time &time );
 		Time operator = ( const Time &time );
+		friend bool operator < ( const Time &time1, const Time &time2 );
 };
 class Human {
 	private:
@@ -74,6 +77,7 @@ class Plane {
 		string getPlaneName();
 		string getStatus();
 		string getType();
+		string getAircraftNumber();
 };
 class Flight {
 	private:
@@ -89,7 +93,7 @@ class Flight {
 		unordered_map<string,string> mp = {{"VietNam Airlines","VA"}, {"VietJet Air", "VJ"}, {"Bamboo Airways", "BA"}, {"Jetstar Pacific", "JP"}};
 	public:
 		Flight();
-		Flight( string departureLocation, string destination, Time departureTime, Time landingTime, Date flightDate, Plane plane, double ticketPrice );
+		Flight( string id, Date flightDate, string departureLocation, string destination, Time departureTime, Time landingTime, double ticketPrice );
 		friend istream& operator >> ( istream& is, Flight &fly );
 		friend ostream& operator << ( ostream& os, const Flight &fly );
 		string getDepartureLocation();
