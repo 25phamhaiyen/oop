@@ -16,8 +16,9 @@ class Date {
 		Date( int day, int month, int year );
 		friend void inputDay( int &day, int maxDay );
 		friend istream& operator >> ( istream& is, Date &date );
-		friend ostream& operator << ( ostream& os, Date date );
+		friend ostream& operator << ( ostream& os, const Date &date );
 		Date operator = ( const Date &date );
+		friend bool operator < ( const Date &date1, const Date &date2 );
 };
 class Time {
 	private:
@@ -26,7 +27,7 @@ class Time {
 		Time();
 		Time( int hour, int minute );
 		friend istream& operator >> ( istream& is, Time &time );
-		friend ostream& operator << ( ostream& os, Time time );
+		friend ostream& operator << ( ostream& os, const Time &time );
 		Time operator = ( const Time &time );
 };
 class Human {
@@ -42,7 +43,7 @@ class Human {
 		Human( const Human &human );
 		friend void standarName( string &name );
 		friend istream& operator >> ( istream& is, Human &human );
-		friend ostream& operator << ( ostream& os, Human human );
+		friend ostream& operator << ( ostream& os, const Human &human );
 		Human operator = ( const Human &human );
 		
 };
@@ -54,7 +55,7 @@ class humanInPlane : public Human {
 		humanInPlane();
 		humanInPlane( const Human &human, string position );
 		friend istream& operator >> ( istream& is, humanInPlane &hip );
-		friend ostream& operator << ( ostream& os, humanInPlane hip );
+		friend ostream& operator << ( ostream& os, const humanInPlane &hip );
 		void setSalary( string position );
 };
 class Plane {
@@ -63,12 +64,12 @@ class Plane {
 		string aircraftNumber; // số hiệu máy bay
 		string type;  // loại máy bay ( dân dung, chở hàng )
 		string status;  // tình trạng ( bảo trì, hoạt động )
-		vector<int> sitPos(50,0);  // vị trí ghế ngồi( 0 -> 14: hạng thương gia, 15 -> 49: hạng thường )
+		  // vị trí ghế ngồi( 0 -> 14: hạng thương gia, 15 -> 49: hạng thường )
 	public:
 		Plane();
 		Plane( string planeName, string aircraftNumber, string type, string status );
 		friend istream& operator >> ( istream& is, Plane &plane );
-		friend ostream& operator << ( ostream& os, Plane plane );
+		friend ostream& operator << ( ostream& os, const Plane &plane );
 		Plane operator = ( const Plane &plane );
 		string getPlaneName();
 		string getStatus();
@@ -84,13 +85,13 @@ class Flight {
 		Date flightDate; // ngày bay
 		Plane plane; // thông tin máy bay của chuyến bay
 		double ticketPrice; // giá vé
-		static int i = 1;
+		//static int i = 1;
 		unordered_map<string,string> mp = {{"VietNam Airlines","VA"}, {"VietJet Air", "VJ"}, {"Bamboo Airways", "BA"}, {"Jetstar Pacific", "JP"}};
 	public:
 		Flight();
-		Flight( string id, string departureLocation, string destination, Time departureTime, Time landingTime, Date flightDate, Plane plane );
+		Flight( string departureLocation, string destination, Time departureTime, Time landingTime, Date flightDate, Plane plane, double ticketPrice );
 		friend istream& operator >> ( istream& is, Flight &fly );
-		friend ostream& operator << ( ostream& os, Flight fly );
+		friend ostream& operator << ( ostream& os, const Flight &fly );
 		string getDepartureLocation();
 		string getDestination();
 		Time getDepartureTime();
@@ -102,18 +103,19 @@ class Flight {
 class Passenger : public Human {
 	private:
 		string phoneNum; // số đt
-		bool isInCountry = false; // biến check xem là bay trong nước hay bay ra nước ngoài
+		bool isInCountry; // biến check xem là bay trong nước hay bay ra nước ngoài
 		string passportNum; // số hộ chiếu
 		string cidNum; // số căn cước
 		string rank; // hạng ghế ngồi
 		int position; // vị trí ghế ngồi
 	public:
 		friend istream& operator >> ( istream& is, Passenger &pas );
-		friend ostream& operator << ( ostream& os, Passenger pas );
+		friend ostream& operator << ( ostream& os, const Passenger &pas );
 		void setInCountry( bool check );
 		void setRank( string rank );
 		void setPosition( int position );
-		bool isPassport();
+		bool isPassport( string passport );
+		string getRank();
 		void deleteFlight();
 		void addFlight();
 		double allTicketPrice();
@@ -125,15 +127,29 @@ class Passenger : public Human {
 		void findWithPlaneName();
 		void sortIncreaseTicketPrice();
 		void sortDecreaseTicketPrice();		
-		string getRank();
 };
 class Voucher {
 	private:
 		string id;  // mã giảm giá
 		double reduceLevel;  // mức giảm (%)
+		Date fromDate; // ngày có hiệu lực
 		Date reduceDeadline;  // ngày hết hạn giảm;
+	public:
+		friend istream& operator >> ( istream& is, Voucher &voucher );
+		friend ostream& operator << ( ostream& os, const Voucher &voucher );
+		string getID();
+		double getReduceLevel();
+		Date getFromDate();
+		Date getReduceDeadline();
 };
 class Manager {
 	public:
-		
+		Plane plane;
+		humanInPlane hip;
+		Flight fly;
+		Voucher vou;
+		friend istream& operator >> ( istream& is, Manager &manager );
+		friend ostream& operator << ( ostream& os, const Manager &manager );
+		friend void displayHistory();
+		friend void displayFlight();
 };
