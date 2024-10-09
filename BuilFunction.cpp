@@ -42,13 +42,13 @@ istream& operator >> ( istream& is, Date &date ){
 	}
 	return is;
 }
-ostream& operator << ( ostream& os, Date date ){
+ostream& operator << ( ostream& os, const Date &date ){
 	if( date.day > 9 )
 		os << date.day << "/";
 	else 
 		os << "0" << date.day << "/";
 	if( date.month > 9 )
-		os << date.month << "-";
+		os << date.month << "/";
 	else 
 		os << "0" << date.month << "/";
 	os << date.year;
@@ -58,6 +58,25 @@ Date Date::operator = ( const Date &date ){
 	Date::operator=(date);
 	return *this;
 }
+bool operator < ( const Date &date1, const Date &date2 ){
+	if( date1.year < date2.year )
+		return true;
+	else if( date1.year == date2.year ){
+		if( date1.month < date2.month )
+			return true;
+		else if( date1.month == date2.month ){
+			if( date1.day < date2.day)
+				return true;
+			else 
+				return false;
+		}
+		else
+			return false;
+	}
+	else 
+		return false;
+}
+
 
 // Build class Time
 Time::Time(){
@@ -82,7 +101,7 @@ istream& operator >> ( istream& is, Time &time ){
 	}while( time.minute < 0 || time.minute > 59 );
 	return is;
 }
-ostream& operator << ( ostream& os, Time time ){
+ostream& operator << ( ostream& os, const Time &time ){
 	if( time.hour > 9 )
 		os << time.hour << ":";
 	else 
@@ -97,6 +116,7 @@ Time Time::operator = ( const Time &time ){
 	Time::operator=(time); 
 	return *this;
 } 
+
 
 // Build class Human
 Human::Human(){
@@ -129,18 +149,19 @@ void standarName( string &name ){
 istream& operator >> ( istream& is, Human &human ){
 	cout << "Nhap ho va ten cua ban:  "; 
 	getline(is,human.name);
+	human.standarName(human.name);
 	do {
-		cout << "Nhap tuoi:  "; 
+		cout << "\nNhap tuoi:  "; 
 		is >> human.age;
 		if( human.age <= 0 ){
 			cout << "\nSo tuoi phai > 0. Vui long nhap lai.\n\n";
 			continue;
 		}
 		if( human.age < 13 )
-			cout << "\nHang bay chi chap nhan tre tren 11 tuoi. Vui long nhap lai.\n\n";
+			cout << "\nHang bay chi chap nhan tre tren 11 tuoi. Vui long nhap lai.\n";
 	}while( human.age < 13 );
 	char choice;
-	cout << "\nChon gioi tinh cua ban:\n1.Nam\n2.Nu\n3.Tuy chinh" << endl;
+	cout << "\nChon gioi tinh cua ban:\n1.Nam\n2.Nu\n3.Tuy chinh\n" << endl;
 	do {
 		cout << "Nhap lua chon cua ban:  ";
 		is >> choice;
@@ -153,21 +174,22 @@ istream& operator >> ( istream& is, Human &human ){
 		human.sex = "Nu";
 	else
 		human.sex = "Tuy chinh";
-	cout << "Nhap ngay sinh (year/month/day):  \n";
+	cout << "\nNhap ngay sinh (year/month/day):  \n";
 	is >> human.date;
 	cin.ignore();
-	cout << "Nhap dia chi ( So nha, xa/phuong, huyen/quan, tinh/thanh pho ):  ";
+	cout << "\nNhap dia chi ( So nha, xa/phuong, huyen/quan, tinh/thanh pho ):  ";
 	getline(is, human.address);
 	return is;
 }
-ostream& operator << ( ostream& os, Human human ){
-	os << human.name << "\t" << human.age << "\t" << human.sex << "\t" << (Date)human.date << "\t" << human.address << "\t";
+ostream& operator << ( ostream& os, const Human &human ){
+	os << human.name << "\t" << human.age << "\t" << human.sex << "\t" << human.date << "\t" << human.address << "\t";
 	return os;
 }
 Human Human::operator = ( const Human &human ){
 	Human::operator=(human); 
 	return *this;
 }
+
 
 // Build class humanInPlane
 humanInPlane::humanInPlane(){
@@ -205,10 +227,11 @@ istream& operator >> ( istream& is, humanInPlane &hip ){
 	hip.setSalary(hip.position);
 	return is;
 }
-ostream& operator << ( ostream& os, humanInPlane hip ){
-	os << (Human)hip << hip.position << "\t" << hip.salary << endl;
+ostream& operator << ( ostream& os, const humanInPlane &hip ){
+	os << static_cast<const Human&>(hip) << hip.position << "\t" << hip.salary << endl;
 	return os;
 }
+
 
 // Build class Plane
 Plane::Plane(){
@@ -263,7 +286,7 @@ istream& operator >> ( istream& is, Plane &plane ){
 	plane.status = ( choice == '1' )?"Hoat dong":"Bao tri";
 	return is;
 }
-ostream& operator << ( ostream& os, Plane plane ){
+ostream& operator << ( ostream& os, const Plane &plane ){
 	os << plane.planeName << "\t" << plane.aircraftNumber << "\t" << plane.type << "\t" << plane.status << endl;
 	return os;
 }
@@ -280,6 +303,7 @@ Plane Plane::operator = ( const Plane &plane ){
 	Plane::operator=(plane); 
 	return *this;
 }
+
 
 // Build class Flight 
 Flight::Flight(){
@@ -300,19 +324,19 @@ Flight::Flight( string departureLocation, string destination, Time departureTime
 istream& operator >> ( istream& is, Flight &fly ){
 	cout << "Nhap noi xuat phat ( Tinh hoac TP ):  ";
 	getline(is, fly.departureLocation);
-	cout << "Nhap noi den ( Tinh hoac TP ):  ";
+	cout << "\nNhap noi den ( Tinh hoac TP ):  ";
 	getline(is, fly.destination);
-	cout << "Nhap ngay bay ( year/month/day ):  \n";
+	cout << "\nNhap ngay bay ( day/month/year ):  \n";
 	is >> fly.flightDate;
-	cout << "Nhap thoi gian khoi hanh ( hour:minute ):  \n";
+	cout << "\nNhap thoi gian khoi hanh ( hour:minute ):  \n";
 	is >> fly.departureTime;
-	cout << "Nhap thoi gian ha canh ( hour:minute ):  \n";
+	cout << "\nNhap thoi gian ha canh ( hour:minute ):  \n";
 	is >> fly.landingTime;
-	cout << "Nhap gia ve (.000 VND):  ";
+	cout << "\nNhap gia ve (.000 VND):  ";
 	is >> fly.ticketPrice;
 	return is;
 }
-ostream& operator << ( ostream& os, Flight fly ){
+ostream& operator << ( ostream& os, const Flight &fly ){
 	os << fly.id << "\t" << fly.departureLocation << "\t" << fly.destination << "\t" << fly.flightDate << "\t" << fly.departureTime << "\t" << fly.landingTime << "\t" << fly.ticketPrice << endl;
 	return os;
 }
@@ -334,6 +358,7 @@ Date Flight::getFlightDate(){
 double Flight::getTicketPrice(){
 	return this->ticketPrice;
 }
+
 
 // Build class Passeger
 bool Passenger::isPassport( string passport ){
@@ -363,30 +388,60 @@ istream& operator >> ( istream& is, Passenger &pas ){
 	
 	if( !pas.isInCountry ){
 		do {
-			cout << "Nhap so ho chieu ( 1 chu IN HOA + 7 chu SO ):  ";
+			cout << "\nNhap so ho chieu ( 1 chu IN HOA + 7 chu SO ):  ";
 			is >> pas.passportNum;
 			if( pas.passportNum.size() != 8 ){
-				cout << "\nHo chieu phai du 8 ky tu. Vui long nhap lai\n\n";
+				cout << "\nHo chieu phai du 8 ky tu. Vui long nhap lai\n";
 				continue;
 			}
 			if( !pas.isPassport( pas.passportNum ) )
-				cout << "\nBan da nhap sai format ho chieu. Vui long nhap lai\n\n";
+				cout << "\nBan da nhap sai format ho chieu. Vui long nhap lai\n";
 		}while( !pas.isPassport( pas.passportNum ) || pas.passportNum.size() != 8 );
 	}
 	do {
-		cout << "Nhap so CCCD :  ";
+		cout << "\nNhap so CCCD :  ";
 		is >> pas.cidNum;
 		if( pas.cidNum.size() != 12 ){
-			cout << "\nSo CCCD phai du 12 chu so. Vui long nhap lai\n\n";
+			cout << "\nSo CCCD phai du 12 chu so. Vui long nhap lai\n";
 			continue;
 		}
 		if( pas.cidNum[0] != '0' )
-			cout << "\nSo CCCD phai bat dau bang 0. Vui long nhap lai\n\n";
+			cout << "\nSo CCCD phai bat dau bang 0. Vui long nhap lai\n";
 	}while( pas.cidNum.size() != 12 || pas.cidNum[0] != '0' );
-	return is;	
+	char choice;
+	cout << "\nQuy khach muon chon loai ghe nao: \n1.Thuong gia \n2.Pho thong\n";
+	do {
+		cout << "\nNhap lua chon cua ban:  ";
+		is >> choice;
+		if( choice != '1' && choice != '2' )
+			cout << "\nBan chi duoc chon 1 hoac 2. Vui long chon lai\n";
+	}while( choice != '1' && choice != '2' );
+	if( choice == '1' )	{
+		pas.rank = "Thuong gia";
+		int position;
+		do {
+			cout << "\nNhap so ghe muon ghoi ( 1 -> 15 ):  ";
+			is >> position;
+			if( position > 15 || position < 1 )
+				cout << "\nSo ghe cua ban phai > 0 va < 16. Vui long chon lai\n";		
+		}while( position > 15 || position < 1 );
+		pas.position = position;
+	}
+	else {
+		pas.rank = "Pho thong";
+		int position;
+		do {
+			cout << "\nNhap so ghe muon ghoi ( 16 -> 50 ):  ";
+			is >> position;
+			if( position > 50 || position < 16 )
+				cout << "\nSo ghe cua ban phai > 15 va < 51. Vui long chon lai\n";	
+		}while( position > 50 || position < 16 );
+		pas.position = position;
+	}	
+	return is;
 }
-ostream& operator << ( ostream& os, Passenger pas ){
-	os << (Human)pas;
+ostream& operator << ( ostream& os, const Passenger &pas ){
+	os << static_cast<const Human&>(pas);
 	os << pas.phoneNum << "\t";
 	if( !pas.isInCountry )
 		os << pas.passportNum << "\t";
@@ -398,4 +453,45 @@ void Passenger::setRank( string rank ){
 }
 void Passenger::setPosition( int position ){
 	this->position = position;
+}
+string Passenger::getRank(){
+	return rank;
+}
+
+
+// Build class Voucher
+istream& operator >> ( istream& is, Voucher &voucher ){
+	cout << "Nhap ma giam gia:  ";
+	is >> voucher.id;
+	do {
+		cout << "\nNhap muc giam (%):  ";
+		is >> voucher.reduceLevel;
+		if( voucher.reduceLevel <= 0 || voucher.reduceLevel > 100 )
+			cout << "\nMuc giam gia chi nam trong khoang ( 0 -> 100 ). Vui long nhap lai\n";
+	}while( voucher.reduceLevel <= 0 || voucher.reduceLevel > 100 );
+	cout << "\nNhap ngay voucher co hieu luc:  \n";
+	is >> voucher.fromDate;
+	do {
+		cout << "\nNhap ngay voucher het hieu luc:  \n";
+		is >> voucher.reduceDeadline;
+		if( voucher.reduceDeadline < voucher.fromDate )
+			cout << "\nNgay voucher het hieu luc phai lon hon ngay bat dau co hieu luc. Vui long nhap lai\n";
+	}while( voucher.reduceDeadline < voucher.fromDate );
+	return is;
+}
+ostream& operator << ( ostream& os, const Voucher &voucher ){
+	os << voucher.id << "\t" << voucher.reduceLevel << "\t" << voucher.fromDate << "\t" << voucher.reduceDeadline << endl;
+	return os;
+}
+string Voucher::getID(){
+	return id;
+}
+double Voucher::getReduceLevel(){
+	return reduceLevel;
+}
+Date Voucher::getFromDate(){
+	return fromDate;
+}
+Date Voucher::getReduceDeadline(){
+	return reduceDeadline;
 }
