@@ -415,8 +415,8 @@ Flight::Flight(){
 	id = departureLocation = destination = "";
 	vipTicketPrice = popTicketPrice = 0;
 	departureTime = Time(); 
-    landingTime = Time(); 
-    flightDate = Date();
+	landingTime = Time(); 
+    	flightDate = Date();
 }
 Flight::Flight( string id, Date flightDate, string departureLocation, string destination, Time departureTime, Time landingTime, double popTicketPrice, double vipTicketPrice ){
 	this->id = id;
