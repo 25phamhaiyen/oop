@@ -156,7 +156,7 @@ class Passenger : public Human {
 		string getCidNum();
 		string getPassportNum();
 		friend void deleteFlight();
-		friend void addFlight( vector<pair<Passenger,string>> &passInfo, vector<pair<Passenger,string>> &history );
+		friend void addUserFlight( vector<pair<Passenger,string>> &passInfo, vector<pair<Passenger,string>> &history );
 		double allTicketPrice();
 		friend void findWithTicketPrice( vector<pair<Flight, string>> flight, double minPrice, double maxPrice, string rank );
 		friend void findWithDestination( vector<pair<Flight, string>> flight, string destination );
