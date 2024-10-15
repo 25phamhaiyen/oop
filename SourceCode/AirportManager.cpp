@@ -715,7 +715,7 @@ void sortIncreaseTicketPrice( vector<pair<Flight, string>> &flight ){
         flight[j + 1] = key;
     }
 }
-void addFlight( vector<pair<Passenger,string>> &passInfo, vector<pair<Passenger,string>> &history ){
+void addUserFlight( vector<pair<Passenger,string>> &passInfo, vector<pair<Passenger,string>> &history ){
 	Passenger p;
 	cin >> p;
 	history.push_back(make_pair(p,""));
