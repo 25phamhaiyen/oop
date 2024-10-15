@@ -22,4 +22,4 @@ VietJet Air     ,VJ021,Cho hang,Hoat dong
 Bamboo Airways  ,BA022,Cho hang,Hoat dong
 Jetstar Pacific ,JP023,Dan dung,Bao tri  
 VietJet Air     ,VJ024,Cho hang,Bao tri  
-Bamboo Airways  ,BA025,Cho hang,Bao tri
+Bamboo Airways  ,BA025,Cho hang,Bao tri  
