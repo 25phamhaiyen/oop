@@ -1,4 +1,4 @@
-#include "AirportManager.h"
+#include "AirportManager.h";
 
 // Build class Date
 Date::Date(){
@@ -237,13 +237,13 @@ void standarName( string &name ){
 }
 istream& operator >> ( istream& is, Human &human ){
 	cin.ignore();
-	cout << "Nhap ho va ten:  "; 
+	cout << "\nNhap ho va ten:  "; 
 	getline(is,human.name);
 	standarName(human.name);
 	cout << "\nNhap ngay sinh (year/month/day):  \n";
 	is >> human.date;
 	char choice;
-	cout << "\nChon gioi tinh cua ban:\n1.Nam\n2.Nu\n3.Tuy chinh\n" << endl;
+	cout << "\nChon gioi tinh cua ban:\n1.Nam\n2.Nu\n3.Khac\n" << endl;
 	do {
 		cout << "Nhap lua chon cua ban:  ";
 		is >> choice;
@@ -255,7 +255,7 @@ istream& operator >> ( istream& is, Human &human ){
 	else if( choice == '2' )
 		human.sex = "Nu ";
 	else
-		human.sex = "Tuy chinh";
+		human.sex = "Khac";
 	human.age = 2024-human.date.getYear();
 	return is;
 }
@@ -359,13 +359,13 @@ istream& operator >> ( istream& is, Plane &plane ){
 			plane.planeName = "VietNam Airlines";
 			break;
 		case '2':
-			plane.planeName = "VietJet Air";
+			plane.planeName = "VietJet Air     ";
 			break;
 		case '3':
-			plane.planeName = "Bamboo Airways";
+			plane.planeName = "Bamboo Airways  ";
 			break;
 		case '4':
-			plane.planeName = "Jetstar Pacific";
+			plane.planeName = "Jetstar Pacific ";
 			break;
 	}
 	cout << "\nNhap so hieu may bay:  ";
@@ -385,7 +385,7 @@ istream& operator >> ( istream& is, Plane &plane ){
 		if( choice != '2' && choice != '1' )
 			cout << "\nBan chi duoc chon 1 hoac 2. Vui long nhap lai.\n\n";
 	}while( choice != '2' && choice != '1' );
-	plane.status = ( choice == '1' )?"Hoat dong":"Bao tri";
+	plane.status = ( choice == '1' )?"Hoat dong":"Bao tri  ";
 	return is;
 }
 ostream& operator << ( ostream& os, const Plane &plane ){
@@ -415,8 +415,8 @@ Flight::Flight(){
 	id = departureLocation = destination = "";
 	vipTicketPrice = popTicketPrice = 0;
 	departureTime = Time(); 
-	landingTime = Time(); 
-    	flightDate = Date();
+    landingTime = Time(); 
+    flightDate = Date();
 }
 Flight::Flight( string id, Date flightDate, string departureLocation, string destination, Time departureTime, Time landingTime, double popTicketPrice, double vipTicketPrice ){
 	this->id = id;
@@ -433,6 +433,7 @@ istream& operator >> ( istream& is, Flight &fly ){
 	cin.ignore();
 	cout << "\nNhap ID chuyen bay: ";
 	is >> fly.id;
+	cin.ignore();
 	cout << "\nNhap noi den ( Tinh hoac TP ):  ";
 	getline(is, fly.destination);
 	cout << "\nNhap ngay bay ( year/month/day ):  \n";
@@ -471,6 +472,18 @@ ostream& operator << ( ostream& os, const Flight &fly ){
 		cout << fly.vipTicketPrice << "    |";
 	return os;
 }
+Flight Flight::operator = ( const Flight &fly2 ){
+	this->id = fly2.id;
+	this->flightDate = fly2.flightDate;
+	this->departureLocation = fly2.departureLocation;
+	this->destination = fly2.destination;
+	this->departureTime = fly2.departureTime;
+	this->landingTime = fly2.landingTime;
+	this->popTicketPrice = fly2.popTicketPrice;
+	this->vipTicketPrice = fly2.vipTicketPrice;
+	return *this;
+	
+}
 string Flight::getDepartureLocation(){
 	return this->departureLocation;
 }
@@ -507,18 +520,20 @@ int Flight::getSitNum(){
 	return count;
 }
 void Flight::listVip(){
-	cout << endl << "Nhung vi tri ghe ngoi hang THUONG GIA con trong: { ";
+	cout << endl << "Nhung vi tri ghe ngoi hang THUONG GIA con trong: \n{ ";
 	for( int i = 1 ; i <= 15 ; i++ ){
-		if( sitPos[i] == 0 )
-			cout << i << ", ";
+		if( sitPos[i] != 0 )
+			continue;
+		cout << i << ", ";
 	}
 	cout << "}";
 }
 void Flight::listPopular(){
-	cout << endl << "Nhung vi tri ghe ngoi hang PHO THONG con trong: { ";
+	cout << endl << "Nhung vi tri ghe ngoi hang PHO THONG con trong: \n{ ";
 	for( int i = 16 ; i <= 50 ; i++ ){
-		if( sitPos[i] == 0 )
-			cout << i << ", ";
+		if( sitPos[i] != 0 )
+			continue;
+		cout << i << ", ";
 	}
 	cout << "}";
 }
@@ -607,28 +622,10 @@ istream& operator >> ( istream& is, Passenger &pas ){
 		if( choice != '1' && choice != '2' )
 			cout << "\nBan chi duoc chon 1 hoac 2. Vui long chon lai\n";
 	}while( choice != '1' && choice != '2' );
-	if( choice == '1' )	{
+	if( choice == '1' )
 		pas.rank = "Thuong gia";
-		int position;
-		do {
-			cout << "\nNhap so ghe muon ghoi ( 1 -> 15 ):  ";
-			is >> position;
-			if( position > 15 || position < 1 )
-				cout << "\nSo ghe cua ban phai > 0 va < 16. Vui long chon lai\n";		
-		}while( position > 15 || position < 1 );
-		pas.position = position;
-	}
-	else {
-		pas.rank = "Pho thong";
-		int position;
-		do {
-			cout << "\nNhap so ghe muon ghoi ( 16 -> 50 ):  ";
-			is >> position;
-			if( position > 50 || position < 16 )
-				cout << "\nSo ghe cua ban phai > 15 va < 51. Vui long chon lai\n";	
-		}while( position > 50 || position < 16 );
-		pas.position = position;
-	}	
+	else
+		pas.rank = "Pho thong ";
 	pas.status = "DAT";
 	return is;
 }
@@ -666,42 +663,67 @@ string Passenger::getCidNum(){
 }
 
 void findWithTicketPrice( vector<pair<Flight,string>> flight, double minPrice, double maxPrice, string rank ){
-	cout << endl << PINK << " ID:\t" << "    Ngay bay:     \t" << "Lich trinh bay:    \t" << "   TG cat canh:  " << "TG ha canh:" << " Gia ve thuong: " << "Gia ve vip:" << " Luot dat:\n\n" << RESET;
+	int count = 0;
+	cout << endl << PINK << "|   ID" << "\t    |    Ngay bay    " << "|   Lich trinh bay\t\t     " << "| TG cat canh " << "| TG ha canh  " << "| Gia ve thuong " << "| Gia ve vip " << "| Luot dat |   " << "Ten hang bay      |\n\n" << RESET;
 	for( auto &it : flight ){
 		double veThuong = it.first.getPopTicketPrice();
 		double veVip = it.first.getVipTicketPrice();
-		if( rank == "Pho thong" && veThuong >= minPrice && veThuong <= maxPrice ||  rank == "Thuong gia" && veVip >= minPrice && veVip <= maxPrice )
-			cout << it.first << "    " << it.first.getSitNum() << "    |"<< endl;
+		if( rank == "Pho thong" && veThuong >= minPrice && veThuong <= maxPrice ||  rank == "Thuong gia" && veVip >= minPrice && veVip <= maxPrice ){
+			cout << "|   " << it.first << "    " << it.first.getSitNum() << "     |   " << it.second << "  |" << endl;
+			count++;
+		}
 	}
+	if( !count )
+		cout << "Khong tim thay khoang gia ve ban muon tim.\n";
 }
 void findWithDestination( vector<pair<Flight,string>> flight, string destination ){
-	cout << endl << PINK << " ID:\t" << "    Ngay bay:     \t" << "Lich trinh bay:    \t" << "   TG cat canh:  " << "TG ha canh:" << " Gia ve thuong: " << "Gia ve vip:" << " Luot dat:\n\n" << RESET;
+	int count = 0;
+	cout << endl << PINK << "|   ID" << "\t    |    Ngay bay    " << "|   Lich trinh bay\t\t     " << "| TG cat canh " << "| TG ha canh  " << "| Gia ve thuong " << "| Gia ve vip " << "| Luot dat |   " << "Ten hang bay      |\n\n" << RESET;
 	for( auto &it : flight ){
-		if( it.first.getDestination() == destination && it.first.getPopTicketPrice() != 0 )
-			cout << it.first << "    " << it.first.getSitNum() << "    |"<< endl;
+		if( it.first.getDestination() == destination && it.first.getPopTicketPrice() != 0 ){
+			cout << "|   " << it.first << "    " << it.first.getSitNum() << "     |   " << it.second << "  |" << endl;
+			count++;
+		}
 	}
+	if( !count )
+		cout << "Khong tim thay noi den ban muon tim.\n";
 }
 void findWithTime( vector<pair<Flight,string>> flight, Time startTime, Time endTime ){
-	cout << endl << PINK << " ID:\t" << "    Ngay bay:     \t" << "Lich trinh bay:    \t" << "   TG cat canh:  " << "TG ha canh:" << " Gia ve thuong: " << "Gia ve vip:" << " Luot dat:\n\n" << RESET;
+	int count = 0;
+	cout << endl << PINK << "|   ID" << "\t    |    Ngay bay    " << "|   Lich trinh bay\t\t     " << "| TG cat canh " << "| TG ha canh  " << "| Gia ve thuong " << "| Gia ve vip " << "| Luot dat |   " << "Ten hang bay      |\n\n" << RESET;
 	for( auto &it : flight ){
-		if( it.first.getDepartureTime() >= startTime && it.first.getLandingTime() <= endTime && it.first.getPopTicketPrice() != 0)
-			cout << it.first << "    " << it.first.getSitNum() << "    |"<< endl;
+		if( it.first.getDepartureTime() >= startTime && it.first.getLandingTime() <= endTime && it.first.getPopTicketPrice() != 0 ){
+			cout << "|   " << it.first << "    " << it.first.getSitNum() << "     |   " << it.second << "  |" << endl;
+			count++;
+		}
 	}
+	if( !count )
+		cout << "Khong tim thay khoang thoi gian bay ban muon tim.\n";
 }
 
 void findWithFlightDate( vector<pair<Flight, string>> flight, Date date ){
-	cout << endl << PINK << " ID:\t" << "    Ngay bay:     \t" << "Lich trinh bay:    \t" << "   TG cat canh:  " << "TG ha canh:" << " Gia ve thuong: " << "Gia ve vip:" << " Luot dat:\n\n" << RESET;
+	int count = 0;
+	cout << endl << PINK << "|   ID" << "\t    |    Ngay bay    " << "|   Lich trinh bay\t\t     " << "| TG cat canh " << "| TG ha canh  " << "| Gia ve thuong " << "| Gia ve vip " << "| Luot dat |   " << "Ten hang bay      |\n\n" << RESET;
 	for( auto &it : flight ){
-		if( it.first.getFlightDate() == date )
-			cout << it.first << "    " << it.first.getSitNum() << "    |"<< endl;
+		if( it.first.getFlightDate() == date ){
+			cout << "|   " << it.first << "    " << it.first.getSitNum() << "     |   " << it.second << "  |" << endl;
+			count++;
+		}
 	}
+	if( !count )
+		cout << "Khong tim thay ngay bay ban muon tim.\n";
 }
 void findWithPlaneName( vector<pair<Flight,string>> flight, string planeName ){
-	cout << endl << PINK << " ID:\t" << "    Ngay bay:     \t" << "Lich trinh bay:    \t" << "   TG cat canh:  " << "TG ha canh:" << " Gia ve thuong: " << "Gia ve vip:" << " Luot dat:\n\n" << RESET;
+	int count = 0;
+	cout << endl << PINK << "|   ID" << "\t    |    Ngay bay    " << "|   Lich trinh bay\t\t     " << "| TG cat canh " << "| TG ha canh  " << "| Gia ve thuong " << "| Gia ve vip " << "| Luot dat |   " << "Ten hang bay      |\n\n" << RESET;
 	for( auto &it : flight ){
-		if( it.second == planeName && it.first.getPopTicketPrice() != 0 )
-			cout << it.first << "    " << it.first.getSitNum() << "    |"<< endl;
+		if( it.second == planeName && it.first.getPopTicketPrice() != 0 ){
+			cout << "|   " << it.first << "    " << it.first.getSitNum() << "     |   " << it.second << "  |" << endl;
+			count++;
+		}
 	}
+	if( !count )
+		cout << "Khong tim thay ten hang bay ban muon tim.\n";
 }
 void sortIncreaseTicketPrice( vector<pair<Flight, string>> &flight ){
 	int n = flight.size();
@@ -715,7 +737,7 @@ void sortIncreaseTicketPrice( vector<pair<Flight, string>> &flight ){
         flight[j + 1] = key;
     }
 }
-void addUserFlight( vector<pair<Passenger,string>> &passInfo, vector<pair<Passenger,string>> &history ){
+void addFlight( vector<pair<Passenger,string>> &passInfo, vector<pair<Passenger,string>> &history ){
 	Passenger p;
 	cin >> p;
 	history.push_back(make_pair(p,""));
@@ -759,7 +781,14 @@ istream& operator >> ( istream& is, Voucher &voucher ){
 	return is;
 }
 ostream& operator << ( ostream& os, const Voucher &voucher ){
-	os << "|  " << voucher.id << "  |  " << voucher.reduceLevel << "  |  " << voucher.fromDate << "  |  " << voucher.reduceDeadline << "  |" << endl;
+	os << "|  " << voucher.id;
+	if( voucher.reduceLevel - round(voucher.reduceLevel) != 0 )
+		os << "  |     " << voucher.reduceLevel << "     |  ";
+	else if( voucher.reduceLevel < 10 )
+		os << "  |     " << voucher.reduceLevel << "       |  ";
+	else
+		os << "  |     " << voucher.reduceLevel << "      |  ";
+	os << voucher.fromDate << "  |  " << voucher.reduceDeadline << "   |" << endl;
 	return os;
 }
 string Voucher::getID(){
@@ -869,7 +898,7 @@ void readData( vector<Plane> &plane, vector<pair<Flight, string>> &flight, vecto
     }
     file.close();
     
-    file.open("C:\\Users\\Nguyen\\OneDrive\\Lap trinh\\C++\\OOP\\BTL\\Database\\humanInPlaneData.txt");
+    file.open("C:\\Users\\Nguyen\\OneDrive\\Lap trinh\\C++\\OOP\\BTL\\Database\\HumanInPlaneData.txt");
     int count = 0;
     vector<pair<humanInPlane,string>> tmp;
     while( getline(file, line) ) {
@@ -897,21 +926,44 @@ void readData( vector<Plane> &plane, vector<pair<Flight, string>> &flight, vecto
         	count = 0;
 		}
     }
-    personal.push_back(tmp);
+    if( !tmp.empty() ) 
+    	personal.push_back(tmp);
     file.close();
-    
 }
 void writeFile( vector<Plane> &plane, vector<pair<Flight, string>> &flight, vector<pair<Passenger,string>> &passInfo, vector<Voucher> &voucher, vector<vector<pair<humanInPlane, string>>> &personal, vector<pair<Passenger,string>> &history ){
-	ostream file("data.txt");
+	// ghi file du lieu cua Plane
+	ofstream file;
+	file.open("C:\\Users\\Nguyen\\OneDrive\\Lap trinh\\C++\\OOP\\BTL\\Database\\PlaneData.txt",ios::trunc);
 	string str = "";
-    if( outFile.is_open() ) {
-        for( auto it : plane )
-        	str += to_string(it) + ",";
-        str.pop_back();
-        file << str << endl;
-        str = "";
+    if( file.is_open() ) {
+        for( auto &it : plane ){
+        	str = it.getPlaneName() + "," + it.getAircraftNumber() + "," + it.getType() + "," + it.getStatus();
+	        file << str << endl;
+	        str = "";
+	    }  
     } 
     file.close();
+    
+    // ghi file du lieu cua Flight
+    file.open("C:\\Users\\Nguyen\\OneDrive\\Lap trinh\\C++\\OOP\\BTL\\Database\\FlightData.txt",ios::trunc);
+    if( file.is_open() ) {
+        for( auto &it : flight ){
+	        file << it.first.getId() << "," << it.first.getFlightDate() << "," << it.first.getDepartureLocation() << "," << it.first.getDestination() << "," << it.first.getDepartureTime() << "," 
+				<< it.first.getLandingTime() << ","<< it.first.getPopTicketPrice() << "," << it.first.getVipTicketPrice() << "," << it.second << endl;
+	    }  
+    } 
+    file.close();
+    
+    // ghi file dư lieu cua Passenger
+    file.open("C:\\Users\\Nguyen\\OneDrive\\Lap trinh\\C++\\OOP\\BTL\\Database\\PassengerData.txt",ios::trunc);
+    if( file.is_open() ) {
+        for( auto &it : passInfo ){
+	        file << it.first.getName() << "," << it.first.getDate() << "," << it.first.getSex() << "," << it.first.getPhoneNum() << "," << it.first.getPassportNum() << "," 
+				<< it.first.getCidNum() << ","<< it.first.getRank() << "," << it.first.getPos() << "," << it.second << endl;
+	    }  
+    } 
+    file.close();
+    
 }
 void updateSitPos( vector<pair<Flight, string>> &flight, vector<pair<Passenger,string>> passInfo ){
 	for( auto &it : passInfo ){
@@ -926,10 +978,10 @@ void updateSitPos( vector<pair<Flight, string>> &flight, vector<pair<Passenger,s
 
 // build class Manager
 void displayFlight( vector<pair<Flight,string>> flight ){
-	cout << endl << PINK << "|   ID" << "\t    |    Ngay bay    " << "|   Lich trinh bay\t\t     " << "| TG cat canh " << "| TG ha canh  " << "| Gia ve thuong " << "| Gia ve vip " << "| Luot dat |\n\n" << RESET;
+	cout << endl << PINK << "|   ID" << "\t    |    Ngay bay    " << "|   Lich trinh bay\t\t     " << "| TG cat canh " << "| TG ha canh  " << "| Gia ve thuong " << "| Gia ve vip " << "| Luot dat |   " << "Ten hang bay      |\n\n" << RESET;
 	for( auto &it : flight ){
 		if( it.first.getPopTicketPrice() != 0 )
-			cout << "|   " << it.first << "    " << it.first.getSitNum() << "     |"<< endl;
+			cout << "|   " << it.first << "    " << it.first.getSitNum() << "     |   " << it.second << "  |" << endl;
 	}
 }
 void displayPassenger( vector<pair<Passenger,string>> passInfo ){
@@ -961,7 +1013,7 @@ void displayHumanInPlane( vector<vector<pair<humanInPlane, string>>> personal ){
 	for( auto &it : personal ){
 		for( auto &i : it ){
 			cout << "|   " << i.first.getName() << "  |   " << i.first.getDate() << "   |    " << i.first.getSex() << "    |   " << i.first.getAge() << "   |   " << i.first.getPosition() << "   |      ";
-			if( i.first.getSalary() >= 100000 )
+			if( i.first.getSalary() == 100000 )
 				cout << i.first.getSalary() << "     |     " << i.second << "      |\n";
 			else
 				cout << i.first.getSalary() << "      |     " << i.second << "      |\n";
@@ -971,10 +1023,56 @@ void displayHumanInPlane( vector<vector<pair<humanInPlane, string>>> personal ){
 	}
 }
 void displayVoucher( vector<Voucher> voucher ){
-	cout << PINK << "|   ID   " << "|  Muc giam(%)  " << "|  Ngay bat dau  " << "|  Ngay ket thuc  |\n\n" << RESET;
+	cout << PINK << "|   ID   " << "| Muc giam(%) " << "| Ngay bat dau " << "| Ngay ket thuc |\n\n" << RESET;
 	for( auto &it : voucher ){
 		cout << it;
 	}
+}
+void inputFlight( Flight &fly ){
+	time_t t = time(nullptr); // Lấy thời gian hiện tại
+    tm* now = localtime(&t); 
+    string id, destination;
+    Time dpTime, ldTime;
+    double pop, vip;
+    Date date;
+    Date nowDate(now->tm_mday, now->tm_mon+1, now->tm_year+1900);
+	cout << "\nNhap ID chuyen bay: ";
+	cin >> id;
+	cin.ignore();
+	cout << "\nNhap noi den ( Tinh hoac TP ):  ";
+	getline(cin, destination);
+	do {
+		cout << "\nNhap ngay bay ( year/month/day ):  \n";
+		cin >> date;
+		if( date < nowDate )
+			cout << "\nNgay bay phai lon hon ngay hom nay. Vui long nhap lai.\n";
+	}while( date < nowDate );
+	cout << "\nNhap thoi gian khoi hanh ( hour:minute ):  \n";
+	cin >> dpTime;
+	do {
+		cout << "\nNhap thoi gian ha canh ( hour:minute ):  \n";
+		cin >> ldTime;
+		if( ldTime < dpTime )
+			cout << "\nThoi gian ha canh phai lon hon thoi gian khoi hanh. Vui long nhap lai\n";
+	}while( ldTime < dpTime );
+	do {
+		cout << "\nNhap gia ve hang thuong (.000 VND):  ";
+		cin >> pop;
+		if( pop <= 0 )
+			cout << "\nGia ve phai lon hon 0. Vui long nhap lai\n";
+	}while( pop <= 0 );
+	do {
+		cout << "\nNhap gia ve hang thuong gia (.000 VND):  ";
+		cin >> vip;
+		if( vip <= 0 ){
+			cout << "\nGia ve phai lon hon 0. Vui long nhap lai\n";
+			continue;
+		}
+		if( vip <= pop )
+			cout << "\nGia ve hang thuong gia phai lon hon gia ve hang thuong. Vui long nhap lai\n";
+	}while( vip <= 0 || vip <= pop );
+	Flight flight(id,date,"Sai gon",destination, dpTime, ldTime, pop, vip);
+	fly = flight;
 }
 void addFlight( vector<Plane> &plane, vector<pair<Flight,string>> &flight, vector<vector<pair<humanInPlane,string>>> &personal ){
 	cout << endl;
@@ -984,9 +1082,9 @@ void addFlight( vector<Plane> &plane, vector<pair<Flight,string>> &flight, vecto
 	humanInPlane hip;
 	cout << "Nhap thong tin may bay:\n\n";
 	cin >> p;
-	cout << "\nNhap thong tin chuyen bay:\n\n";
-	cin >> fly;
-	cout << "\nNhap thong tin nhan su ( 1 Co truong, 1 Co pho, 2 Tiep vien ):\n\n";
+	cout << "\n\nNhap thong tin chuyen bay:\n";
+	inputFlight(fly);
+	cout << "\n\nNhap thong tin nhan su ( 1 Co truong, 1 Co pho, 2 Tiep vien ):\n";
 	for( int i = 0 ; i < 4 ; i++ ){
 		cin >> hip;
 		cout << endl;
@@ -995,19 +1093,76 @@ void addFlight( vector<Plane> &plane, vector<pair<Flight,string>> &flight, vecto
 	personal.push_back(human);
 	flight.push_back(make_pair(fly,p.getPlaneName()));
 	plane.push_back(p);
+	
 }
 void addVoucher( vector<Voucher> &voucher ){
 	Voucher vou;
 	cin >> vou;
 	voucher.push_back(vou);
 }
-void listRevenue( vector<pair<Passenger, string>> history, vector<pair<Flight, string>> flight){
-	unordered_map<Date, int> revenue;
-	for( auto &it : history ){
-		for( auto &i : flight ){
-			if( it.second == i.first.getID() ){
-				mp[i.first.get]
-			}
+void displayBill( int ticketNum, vector<pair<Flight, string>> passfly, vector<pair<Passenger, string>> passenger, int voucherLevel ){
+	double total = 0;
+	for( auto &it : passenger ){
+		for( auto &i : passfly ){
+			if( it.first.getRank() == "Thuong gia" && i.first.getId() == it.second )
+				total += i.first.getVipTicketPrice();
+			else if( it.first.getRank() == "TPho thong " && i.first.getId() == it.second )
+				total += i.first.getPopTicketPrice();
 		}
 	}
+	double real = total - total*voucherLevel/100;
+	time_t t = time(nullptr); // Lấy thời gian hiện tại
+    tm* now = localtime(&t); 
+	cout << PINK << "---------------------------------------BILL THANH TOAN-----------------------------------------\n" << RESET;
+	cout << " So luong ve da dat:  " << ticketNum << endl;
+	cout << "-----------------------------------------------------------------------------------------------\n";
+	cout << " Thong tin dat cho:\n\n";
+	cout << " Trang thai dat cho:  Da xac nhan  \t\t\t\tNguoi dat:  " << passenger[0].first.getName() << endl;
+	cout << " Ngay dat:  " << now->tm_mday << "/" << (now->tm_mon + 1) << "/" << (now->tm_year + 1900) << "\t\t\t\t\t\tLien lac:  " << passenger[0].first.getPhoneNum() << endl;
+	cout << "-----------------------------------------------------------------------------------------------\n";
+	cout << " Thong tin hanh khach:\n\n";
+	cout << PINK << "|   Ho va ten\t  " << " |    Hang ghe    " << "| Vi tri ghe " <<  "| Ma chuyen bay |" << RESET << "\n\n"; 
+	for( auto it : passenger ){
+		cout << "|   " << it.first.getName() << "   |   " << it.first.getRank() << "   |     ";
+		if( it.first.getPos() < 10 )
+			cout << it.first.getPos() << "      |     ";
+		else
+			cout << it.first.getPos() << "     |     ";
+		cout << it.second << "     |" << endl;
+	}
+	cout << "\n------------------------------------------------------------------------------------------------\n";
+	cout << " Thong tin chuyen bay:\n";
+	cout << endl << PINK << "|   ID" << "\t    |    Ngay bay    " << "|   Lich trinh bay\t\t     " << "| TG cat canh " << "| TG ha canh  |\n\n" << RESET;
+	for( auto &it : passfly ){
+		cout << "|   " << it.first.getId() << "   |   " << it.first.getFlightDate() << "   |   from " << it.first.getDepartureLocation() << " to " << it.first.getDestination() << "   |    " 
+			<< it.first.getDepartureTime() << "    |    " << it.first.getLandingTime() << "    |\n";
+	}
+	cout << "\n------------------------------------------------------------------------------------------------\n";
+	cout << " Tong tien ve:  " << total << " (.000 VND)" << endl;
+	cout << " So tien phai thanh toan:  " << real << " (.000 VND)" << endl;
+	cout << "------------------------------------------------------------------------------------------------\n";
+}
+void displayMenuManager(){
+	cout << "---------------------MENU-----------------------\n\n";
+	cout << "1. Hien thi danh sach may bay.\n";
+	cout << "2. Hien thi danh sach chuyen bay.\n";
+	cout << "3. Hien thi danh sach thong tin nguoi dung.\n";
+	cout << "4. Hien thi danh sach luot dat ve.\n";
+	cout << "5. Hien thi danh sach nhan su.\n";
+	cout << "6. Hien thi danh sach Voucher.\n";
+	cout << "7. Them thong tin chuyen bay.\n";
+	cout << "8. Them Voucher.\n";
+	cout << "T. Thoat.\n";
+	cout << "------------------------------------------------\n\n";
+}
+void displayMenuUser(){
+	cout << "-----------------------MENU------------------------\n\n";
+	cout << "1. Dat ve." << endl;
+	cout << "2. Hien thi danh sach chuyen bay." << endl;
+    cout << "3. Tim kiem." << endl;
+    cout << "4. Sap xep." << endl;
+    cout << "5. Huy chuyen bay." << endl;
+    cout << "6. Xem lich su dat ve." << endl;
+    cout << "7. Thoat." << endl << endl;
+    cout << "---------------------------------------------------\n\n";
 }
