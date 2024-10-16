@@ -194,6 +194,8 @@ class Manager {
 		friend void addFlight( vector<Plane> &plane, vector<pair<Flight,string>> &flight, vector<vector<pair<humanInPlane,string>>> &personal );
 		friend void addVoucher( vector<Voucher> &voucher );
 		friend void displayBill( int ticketNum, vector<pair<Flight, string>> passfly, vector<pair<Passenger, string>> passenger, int voucherLevel );
+		friend void displayMenuManager();
+		friend void displayMenuUser();
 };
 class setUpData {
 	public:
