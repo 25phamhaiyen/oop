@@ -3,11 +3,12 @@
 #include<string>
 #include<vector>
 #include<map>
+#include<unordered_map>
 #include<conio.h>
 #include<fstream>
-#include<unordered_map>
 #include<sstream>
 #include<iomanip>
+#include<ctime>
 using namespace std;
 #define PINK "\033[38;5;206m"
 #define RESET "\033[0m"
@@ -115,6 +116,7 @@ class Flight {
 		Flight( string id, Date flightDate, string departureLocation, string destination, Time departureTime, Time landingTime, double popTicketPrice, double vipTicketPrice );
 		friend istream& operator >> ( istream& is, Flight &fly );
 		friend ostream& operator << ( ostream& os, const Flight &fly );
+		Flight operator = ( const Flight &fly2 );
 		string getId();
 		string getDepartureLocation();
 		string getDestination();
@@ -156,8 +158,7 @@ class Passenger : public Human {
 		string getCidNum();
 		string getPassportNum();
 		friend void deleteFlight();
-		friend void addUserFlight( vector<pair<Passenger,string>> &passInfo, vector<pair<Passenger,string>> &history );
-		double allTicketPrice();
+		friend void addFlight(vector<pair<Passenger,string>> &passenger );
 		friend void findWithTicketPrice( vector<pair<Flight, string>> flight, double minPrice, double maxPrice, string rank );
 		friend void findWithDestination( vector<pair<Flight, string>> flight, string destination );
 		friend void findWithTime( vector<pair<Flight, string>> flight, Time startTime, Time endTime );
@@ -189,9 +190,10 @@ class Manager {
 		friend void displayPassenger( vector<pair<Passenger,string>> plane );
 		friend void displayHumanInPlane( vector<vector<pair<humanInPlane,string>>> personal );
 		friend void displayVoucher( vector<Voucher> voucher );
+		friend void inputFlight( Flight &fly );
 		friend void addFlight( vector<Plane> &plane, vector<pair<Flight,string>> &flight, vector<vector<pair<humanInPlane,string>>> &personal );
 		friend void addVoucher( vector<Voucher> &voucher );
-		friend void displayRevenue( vector<pair<Passenger, string>> history );
+		friend void displayBill( int ticketNum, vector<pair<Flight, string>> passfly, vector<pair<Passenger, string>> passenger, int voucherLevel );
 };
 class setUpData {
 	public:
