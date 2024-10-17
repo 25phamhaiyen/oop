@@ -1,25 +1,25 @@
-VietNam Airlines,VA001,Dan dung,Hoat dong
-VietNam Airlines,VA002,Dan dung,Hoat dong
-VietNam Airlines,VA003,Dan dung,Hoat dong
-VietNam Airlines,VA004,Dan dung,Hoat dong
-VietNam Airlines,VA005,Dan dung,Hoat dong
-VietNam Airlines,VA006,Dan dung,Hoat dong
-VietNam Airlines,VA007,Dan dung,Hoat dong
-VietJet Air     ,VJ008,Dan dung,Hoat dong
-VietJet Air     ,VJ009,Dan dung,Hoat dong
-VietJet Air     ,VJ010,Dan dung,Hoat dong
-VietJet Air     ,VJ011,Dan dung,Hoat dong
-VietJet Air     ,VJ012,Dan dung,Hoat dong
-VietJet Air     ,VJ013,Dan dung,Hoat dong
-Bamboo Airways  ,BA014,Dan dung,Hoat dong
-Bamboo Airways  ,BA015,Dan dung,Hoat dong
-Bamboo Airways  ,BA016,Dan dung,Hoat dong
-Bamboo Airways  ,BA017,Dan dung,Hoat dong
-Jetstar Pacific ,JP018,Dan dung,Hoat dong
-Jetstar Pacific ,JP019,Dan dung,Hoat dong
-Jetstar Pacific ,JP020,Dan dung,Hoat dong
-VietJet Air     ,VJ021,Cho hang,Hoat dong
-Bamboo Airways  ,BA022,Cho hang,Hoat dong
-Jetstar Pacific ,JP023,Dan dung,Bao tri  
-VietJet Air     ,VJ024,Cho hang,Bao tri  
-Bamboo Airways  ,BA025,Cho hang,Bao tri  
+VietNam Airlines,VA001,Dan dung,Hoat dong,VN001
+VietNam Airlines,VA002,Dan dung,Hoat dong,VN002
+VietNam Airlines,VA003,Dan dung,Hoat dong,VN003
+VietNam Airlines,VA004,Dan dung,Hoat dong,VN004
+VietNam Airlines,VA005,Dan dung,Hoat dong,VN005
+VietNam Airlines,VA006,Dan dung,Hoat dong,VN006
+VietNam Airlines,VA007,Dan dung,Hoat dong,VN007
+VietJet Air     ,VJ008,Dan dung,Hoat dong,VN008
+VietJet Air     ,VJ009,Dan dung,Hoat dong,VN009
+VietJet Air     ,VJ010,Dan dung,Hoat dong,VN010
+VietJet Air     ,VJ011,Dan dung,Hoat dong,VN011
+VietJet Air     ,VJ012,Dan dung,Hoat dong,VN012
+VietJet Air     ,VJ013,Dan dung,Hoat dong,VN013
+Bamboo Airways  ,BA014,Dan dung,Hoat dong,VN014
+Bamboo Airways  ,BA015,Dan dung,Hoat dong,VN015
+Bamboo Airways  ,BA016,Dan dung,Hoat dong,VN016
+Bamboo Airways  ,BA017,Dan dung,Hoat dong,VN017
+Jetstar Pacific ,JP018,Dan dung,Hoat dong,VN018
+Jetstar Pacific ,JP019,Dan dung,Hoat dong,VN019
+Jetstar Pacific ,JP020,Dan dung,Hoat dong,VN020
+VietJet Air     ,VJ021,Cho hang,Hoat dong,VN021
+Bamboo Airways  ,BA022,Cho hang,Hoat dong,VN022
+Jetstar Pacific ,JP023,Dan dung,Bao tri  ,     
+VietJet Air     ,VJ024,Cho hang,Bao tri  ,     
+Bamboo Airways  ,BA025,Cho hang,Bao tri  ,     
