@@ -15,4 +15,5 @@ class SignIn {
 	    void sign_up();
 	    string getUserName();
 	    string getPassword();
+		
 };

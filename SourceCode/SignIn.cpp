@@ -21,6 +21,7 @@ bool checkPass( string password ){
             return true;
     }
     return false;
+	
 }
 void inputPass( string &password ){
 	char c;
