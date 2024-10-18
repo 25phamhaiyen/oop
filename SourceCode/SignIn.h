@@ -1,6 +1,7 @@
 #include<iostream>
 #include<conio.h>
 #include<fstream>
+#include<sstream>
 using namespace std;
 class SignIn {
 	private:
@@ -15,5 +16,4 @@ class SignIn {
 	    void sign_up();
 	    string getUserName();
 	    string getPassword();
-		
 };
