@@ -21,7 +21,6 @@ bool checkPass( string password ){
             return true;
     }
     return false;
-	
 }
 void inputPass( string &password ){
 	char c;
@@ -131,9 +130,9 @@ void SignIn::sign_in( int choice ){
 		cout << "\nNhap mat khau:  ";
 		this->password = "";
 		inputPass(this->password);
-		if( !isValidAccount(this->userName, this->password) )
+		if( !isValidAccount(this->userName, this->password, choice) )
 			cout << "\nTai khoan hoac mat khau sai. Vui long nhap lai.\n";
-	}while( !isValidAccount(this->userName, this->password) );
+	}while( !isValidAccount(this->userName, this->password, choice) );
 	cout << "\nDang nhap thanh cong!\n";	
 }
 string SignIn::getPassword(){
