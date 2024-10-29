@@ -1,4 +1,7 @@
 #include "date_time.h"
+#include "voucher.h"
+#include "flight.h"
+#include "plane.h"
 
 class Human {
 	private:
@@ -20,6 +23,7 @@ class Human {
 		int getAge();
 		
 };
+
 class humanInPlane : public Human {
 	private:
 		string position;  // chức vụ trên máy bay( cơ trưởng, tiếp viên, cơ phó )
@@ -33,58 +37,7 @@ class humanInPlane : public Human {
 		string getPosition();
 		double getSalary();
 };
-class Plane {
-	private:
-		string planeName; // tên hãng bay
-		string aircraftNumber; // số hiệu máy bay
-		string type;  // loại máy bay ( dân dung, chở hàng )
-		string status;  // tình trạng ( bảo trì, hoạt động )
-	public:
-		Plane();
-		Plane( string planeName, string aircraftNumber, string type, string status );
-		friend istream& operator >> ( istream& is, Plane &plane );
-		friend ostream& operator << ( ostream& os, const Plane &plane );
-		Plane operator = ( const Plane &plane );
-		string getPlaneName();
-		string getStatus();
-		string getType();
-		string getAircraftNumber();
-		void setAircraftNumber( string s );
-};
-class Flight {
-	private:
-		string id; //  mã chuyến bay
-		string departureLocation;  // nơi xuất phát
-		string destination; // nơi đến
-		Time departureTime; // giờ khởi hành
-		Time landingTime; // giờ hạ cánh
-		Date flightDate; // ngày bay
-		double popTicketPrice; // giá vé hạng thường
-		double vipTicketPrice; // giá vé hạng thương gia
-		unordered_map<int,int> sitPos; // vi tri ngoi
-	public:
-		Flight();
-		Flight( string id, Date flightDate, string departureLocation, string destination, Time departureTime, Time landingTime, double popTicketPrice, double vipTicketPrice );
-		friend istream& operator >> ( istream& is, Flight &fly );
-		friend ostream& operator << ( ostream& os, const Flight &fly );
-		Flight operator = ( const Flight &fly2 );
-		string getId();
-		string getDepartureLocation();
-		string getDestination();
-		Time getDepartureTime();
-		Time getLandingTime();
-		Date getFlightDate();
-		double getPopTicketPrice();
-		double getVipTicketPrice();
-		void setSitPos( int pos );
-		void setSitPosHuy( int pos );
-		int getSitNum();
-		void listVip();
-		void listPopular();
-		int countVip();
-		int countPopular();
-		
-};
+
 class Passenger : public Human {
 	private:
 		string phoneNum; // số đt
@@ -120,22 +73,7 @@ class Passenger : public Human {
 		friend void findWithPlaneName( vector<pair<Flight, string>> flight, string planeName );
 		friend void sortIncreaseTicketPrice( vector<pair<Flight, string>> flight );
 };
-class Voucher {
-	private:
-		string id;  // mã giảm giá
-		double reduceLevel;  // mức giảm (%)
-		Date fromDate; // ngày có hiệu lực
-		Date reduceDeadline;  // ngày hết hạn giảm;
-	public:
-		Voucher();
-		Voucher( string id, double reduceLevel, Date fromDate, Date reduceDeadline );
-		friend istream& operator >> ( istream& is, Voucher &voucher );
-		friend ostream& operator << ( ostream& os, const Voucher &voucher );
-		string getID();
-		double getReduceLevel();
-		Date getFromDate();
-		Date getReduceDeadline();
-};
+
 class Manager {
 	public:
 		friend void displayHistory( vector<pair<Passenger, string>> history );
@@ -149,6 +87,7 @@ class Manager {
 		friend void addVoucher( vector<Voucher> &voucher );
 		friend void displayBill( int ticketNum, vector<pair<Flight, string>> passfly, vector<pair<Passenger, string>> passenger, int voucherLevel );
 };
+
 class setUpData {
 	public:
 		friend Date stringToDate( string s );
@@ -509,287 +448,6 @@ void addFlight( vector<pair<Passenger,string>> &passInfo, vector<pair<Passenger,
 	}
 	passInfo.push_back(make_pair(p,""));
 }
-
-
-// Build class Plane
-Plane::Plane(){
-	planeName = aircraftNumber = type = status = "";
-}
-Plane::Plane( string planeName, string aircraftNumber, string type, string status ){
-	this->planeName = planeName;
-	this->aircraftNumber = aircraftNumber;
-	this->type = type;
-	this->status = status;
-}
-istream& operator >> ( istream& is, Plane &plane ){
-	cout << "Chon 1 trong cac hang bay duoi: \n1.VietNam Airlines \n2.VietJet Air \n3.Bamboo Airways \n4.Jetstar Pacific\n" << endl;
-	char choice;
-	do {
-		cout << "Nhap lua chon cua ban:  ";
-		is >> choice;
-		if( choice > '4' || choice < '1' )
-			cout << "\nBan chi duoc chon so trong khoang 1 -> 4. Vui long nhap lai.\n\n";
-	}while( choice > '4' || choice < '1' );
-	switch( choice ){
-		case '1':
-			plane.planeName = "VietNam Airlines";
-			break;
-		case '2':
-			plane.planeName = "VietJet Air     ";
-			break;
-		case '3':
-			plane.planeName = "Bamboo Airways  ";
-			break;
-		case '4':
-			plane.planeName = "Jetstar Pacific ";
-			break;
-	}
-	cout << "\nNhap so hieu may bay:  ";
-	is >> plane.aircraftNumber;
-	cout << "\nChon loai may bay: \n1.May bay dan dung \n2.May bay cho hang" << endl;
-	do {
-		cout << "\nNhap lua chon cua ban:  ";
-		is >> choice;
-		if( choice != '2' && choice != '1' )
-			cout << "\nBan chi duoc chon 1 hoac 2. Vui long nhap lai.\n\n";
-	}while( choice != '2' && choice != '1' );
-	plane.type = ( choice == '1' )?"Dan dung":"Cho hang";
-	cout << "\nTinh trang: \n1.Dang hoat dong \n2.Dang bao tri" << endl;
-	do {
-		cout << "\nNhap lua chon cua ban:  ";
-		is >> choice;
-		if( choice != '2' && choice != '1' )
-			cout << "\nBan chi duoc chon 1 hoac 2. Vui long nhap lai.\n\n";
-	}while( choice != '2' && choice != '1' );
-	plane.status = ( choice == '1' )?"Hoat dong":"Bao tri  ";
-	return is;
-}
-ostream& operator << ( ostream& os, const Plane &plane ){
-	os << plane.planeName << "\t" << plane.aircraftNumber << "\t" << plane.type << "\t" << plane.status << endl;
-	return os;
-}
-string Plane::getPlaneName(){
-	return planeName;
-}
-string Plane::getType(){
-	return type;
-}
-string Plane::getStatus(){
-	return status;
-}
-string Plane::getAircraftNumber(){
-	return aircraftNumber;
-}
-Plane Plane::operator = ( const Plane &plane ){
-	Plane::operator=(plane); 
-	return *this;
-}
-void Plane::setAircraftNumber( string s ){
-	this->aircraftNumber = s;
-}
-
-
-// Build class Flight 
-Flight::Flight(){
-	id = departureLocation = destination = "";
-	vipTicketPrice = popTicketPrice = 0;
-	departureTime = Time(); 
-    landingTime = Time(); 
-    flightDate = Date();
-}
-Flight::Flight( string id, Date flightDate, string departureLocation, string destination, Time departureTime, Time landingTime, double popTicketPrice, double vipTicketPrice ){
-	this->id = id;
-	this->departureLocation = departureLocation;
-	this->destination = destination;
-	this->departureTime = departureTime;
-	this->landingTime = landingTime;
-	this->flightDate = flightDate;
-	this->popTicketPrice = popTicketPrice;
-	this->vipTicketPrice = vipTicketPrice;
-}
-istream& operator >> ( istream& is, Flight &fly ){
-	fly.departureLocation = "Sai Gon";
-	cin.ignore();
-	cout << "\nNhap ID chuyen bay: ";
-	is >> fly.id;
-	cin.ignore();
-	cout << "\nNhap noi den ( Tinh hoac TP ):  ";
-	getline(is, fly.destination);
-	cout << "\nNhap ngay bay ( year/month/day ):  \n";
-	is >> fly.flightDate;
-	cout << "\nNhap thoi gian khoi hanh ( hour:minute ):  \n";
-	is >> fly.departureTime;
-	do {
-		cout << "\nNhap thoi gian ha canh ( hour:minute ):  \n";
-		is >> fly.landingTime;
-		if( fly.landingTime < fly.departureTime )
-			cout << "\nThoi gian ha canh phai lon hon thoi gian khoi hanh. Vui long nhap lai\n";
-	}while( fly.landingTime < fly.departureTime );
-	do {
-		cout << "\nNhap gia ve hang thuong (.000 VND):  ";
-		is >> fly.popTicketPrice;
-		if( fly.popTicketPrice <= 0 )
-			cout << "\nGia ve phai lon hon 0. Vui long nhap lai\n";
-	}while( fly.popTicketPrice <= 0 );
-	do {
-		cout << "\nNhap gia ve hang thuong gia (.000 VND):  ";
-		is >> fly.vipTicketPrice;
-		if( fly.vipTicketPrice <= 0 ){
-			cout << "\nGia ve phai lon hon 0. Vui long nhap lai\n";
-			continue;
-		}
-		if( fly.vipTicketPrice <= fly.popTicketPrice )
-			cout << "\nGia ve hang thuong gia phai lon hon gia ve hang thuong. Vui long nhap lai\n";
-	}while( fly.vipTicketPrice <= 0 || fly.vipTicketPrice <= fly.popTicketPrice );
-	return is;
-}
-ostream& operator << ( ostream& os, const Flight &fly ){
-	os << fly.id << "   |   " << fly.flightDate << "   |   from " << fly.departureLocation << " to " << fly.destination << "   |    " << fly.departureTime << "    |    " << fly.landingTime << "    |     " << fly.popTicketPrice  << "      |    ";
-	if( fly.vipTicketPrice >= 10000 )
-		cout << fly.vipTicketPrice << "   |";
-	else
-		cout << fly.vipTicketPrice << "    |";
-	return os;
-}
-Flight Flight::operator = ( const Flight &fly2 ){
-	this->id = fly2.id;
-	this->flightDate = fly2.flightDate;
-	this->departureLocation = fly2.departureLocation;
-	this->destination = fly2.destination;
-	this->departureTime = fly2.departureTime;
-	this->landingTime = fly2.landingTime;
-	this->popTicketPrice = fly2.popTicketPrice;
-	this->vipTicketPrice = fly2.vipTicketPrice;
-	return *this;
-	
-}
-string Flight::getDepartureLocation(){
-	return this->departureLocation;
-}
-string Flight::getDestination(){
-	return this->destination;
-}
-Time Flight::getDepartureTime(){
-	return this->departureTime;
-}
-Time Flight::getLandingTime(){
-	return this->landingTime;
-}
-Date Flight::getFlightDate(){
-	return this->flightDate;
-}
-double Flight::getPopTicketPrice(){
-	return this->popTicketPrice;
-}
-double Flight::getVipTicketPrice(){
-	return this->vipTicketPrice;
-}
-void Flight::setSitPos( int pos ){
-	sitPos[pos] = 1;
-}
-void Flight::setSitPosHuy( int pos ){
-	sitPos[pos] = 0;
-}
-string Flight::getId(){
-	return id;
-}
-int Flight::getSitNum(){
-	int count = 0;
-	for( int i = 0 ; i < 51 ; i++ ){
-		if( sitPos[i] == 1 )
-			count++;
-	}
-	return count;
-}
-void Flight::listVip(){
-	cout << endl << "Nhung vi tri ghe ngoi hang THUONG GIA con trong: \n{ ";
-	for( int i = 1 ; i <= 15 ; i++ ){
-		if( sitPos[i] != 0 )
-			continue;
-		cout << i << ", ";
-	}
-	cout << "}";
-}
-void Flight::listPopular(){
-	cout << endl << "Nhung vi tri ghe ngoi hang PHO THONG con trong: \n{ ";
-	for( int i = 16 ; i <= 50 ; i++ ){
-		if( sitPos[i] != 0 )
-			continue;
-		cout << i << ", ";
-	}
-	cout << "}";
-}
-int Flight::countVip(){
-	int cnt = 0;
-	for( int i = 1 ; i < 16 ; i++ ){
-		if( sitPos[i] == 0 )
-			cnt++;
-	}
-	return cnt;
-}
-int Flight::countPopular(){
-	int cnt = 0;
-	for( int i = 16 ; i < 51 ; i++ ){
-		if( sitPos[i] == 0 )
-			cnt++;
-	}
-	return cnt;
-}
-
-// Build class Voucher
-Voucher::Voucher(){
-	id = "";
-	reduceLevel = 0;
-}
-Voucher::Voucher( string id, double reduceLevel, Date fromDate, Date reduceDeadline ){
-	this->id = id;
-	this->reduceLevel = reduceLevel;
-	this->fromDate = fromDate;
-	this->reduceDeadline = reduceDeadline;
-}
-istream& operator >> ( istream& is, Voucher &voucher ){
-	cout << "Nhap ma giam gia:  ";
-	is >> voucher.id;
-	do {
-		cout << "\nNhap muc giam (%):  ";
-		is >> voucher.reduceLevel;
-		if( voucher.reduceLevel <= 0 || voucher.reduceLevel > 100 )
-			cout << "\nMuc giam gia chi nam trong khoang ( 0 -> 100 ). Vui long nhap lai\n";
-	}while( voucher.reduceLevel <= 0 || voucher.reduceLevel > 100 );
-	cout << "\nNhap ngay voucher co hieu luc:  \n";
-	is >> voucher.fromDate;
-	do {
-		cout << "\nNhap ngay voucher het hieu luc:  \n";
-		is >> voucher.reduceDeadline;
-		if( voucher.reduceDeadline < voucher.fromDate )
-			cout << "\nNgay voucher het hieu luc phai lon hon ngay bat dau co hieu luc. Vui long nhap lai\n";
-	}while( voucher.reduceDeadline < voucher.fromDate );
-	return is;
-}
-ostream& operator << ( ostream& os, const Voucher &voucher ){
-	os << "|  " << voucher.id;
-	if( voucher.reduceLevel - round(voucher.reduceLevel) != 0 )
-		os << "  |     " << voucher.reduceLevel << "     |  ";
-	else if( voucher.reduceLevel < 10 )
-		os << "  |     " << voucher.reduceLevel << "       |  ";
-	else
-		os << "  |     " << voucher.reduceLevel << "      |  ";
-	os << voucher.fromDate << "  |  " << voucher.reduceDeadline << "   |" << endl;
-	return os;
-}
-string Voucher::getID(){
-	return id;
-}
-double Voucher::getReduceLevel(){
-	return reduceLevel;
-}
-Date Voucher::getFromDate(){
-	return fromDate;
-}
-Date Voucher::getReduceDeadline(){
-	return reduceDeadline;
-}
-
 
 // build class setUpData
 Date stringToDate( string s ){
