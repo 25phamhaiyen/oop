@@ -1,5 +1,4 @@
 #include "date_time.h"
-#include <string>
 
 class Flight {
 	private:
