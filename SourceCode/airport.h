@@ -823,99 +823,116 @@ int stringToInt( string s ){
 }
 void readData( vector<pair<Plane, string>> &plane, vector<pair<Flight, string>> &flight, vector<pair<Passenger,string>> &passInfo, vector<Voucher> &voucher, vector<vector<pair<humanInPlane, string>>> &personal, vector<pair<Passenger,string>> &history ){
 	ifstream file;
-	file.open("C:\\Users\\Nguyen\\OneDrive\\Lap trinh\\C++\\OOP\\BTL\\Database\\PlaneData.txt");
+	file.open("Database\\PlaneData.txt");
 	string line;
-    while( getline(file, line) ) {
-        stringstream ss(line);
-        string name, num, type, status, id;
-        getline(ss, name, ',');
-        getline(ss, num, ',');
-        getline(ss, type, ',');
-        getline(ss, status, ',');
-        getline(ss, id, ',');
-        plane.push_back(make_pair(Plane(name, num, type, status),id));
-    }
-    file.close();
-    
-    file.open("C:\\Users\\Nguyen\\OneDrive\\Lap trinh\\C++\\OOP\\BTL\\Database\\FlightData.txt");
-    while( getline(file, line) ) {
-        stringstream ss(line);
-        string id, date, firstLocal, secondLocal, firstTime, secondTime, popPrice, vipPrice, planeName;
-        getline(ss, id, ',');
-        getline(ss, date, ',');
-        getline(ss, firstLocal, ',');
-        getline(ss, secondLocal, ',');
-        getline(ss, firstTime, ',');
-        getline(ss, secondTime, ',');
-        getline(ss, popPrice, ',');
-        getline(ss, vipPrice, ',');
-        getline(ss, planeName, ',');
-        flight.push_back(make_pair(Flight(id, stringToDate(date), firstLocal, secondLocal, stringToTime(firstTime), stringToTime(secondTime), stringToInt(popPrice), stringToInt(vipPrice)), planeName));
-    }
-    file.close();
-    
-    file.open("C:\\Users\\Nguyen\\OneDrive\\Lap trinh\\C++\\OOP\\BTL\\Database\\VoucherData.txt");
-    while( getline(file, line) ) {
-        stringstream ss(line);
-        string id, level, firstDate, lastDate;
-        getline(ss, id, ',');
-        getline(ss, level, ',');
-        getline(ss, firstDate, ',');
-        getline(ss, lastDate, ',');
-        voucher.push_back(Voucher(id, stod(level), stringToDate(firstDate), stringToDate(lastDate)));
-    }
-    file.close();
-    
-    file.open("C:\\Users\\Nguyen\\OneDrive\\Lap trinh\\C++\\OOP\\BTL\\Database\\PassengerData.txt");
-    while( getline(file, line) ) {
-        stringstream ss(line);
-        string name, date, sex, age, sdt, passport, cccd, rank, pos, status, id;
-        getline(ss, name, ',');
-        getline(ss, date, ',');
-        getline(ss, sex, ',');
-        getline(ss, sdt, ',');
-        getline(ss, passport, ',');
-        getline(ss, cccd, ',');
-        getline(ss, rank, ',');
-        getline(ss, pos, ',');
-        getline(ss, status, ',');
-        getline(ss, id, ',');
-        passInfo.push_back(make_pair(Passenger(Human(name, stringToDate(date), sex ), sdt, passport, cccd, rank, stringToInt(pos), status ),id));
-        history.push_back(make_pair(Passenger(Human(name, stringToDate(date), sex ), sdt, passport, cccd, rank, stringToInt(pos), status ),id));
-    }
-    file.close();
-    
-    file.open("C:\\Users\\Nguyen\\OneDrive\\Lap trinh\\C++\\OOP\\BTL\\Database\\HumanInPlaneData.txt");
-    int count = 0;
-    vector<pair<humanInPlane,string>> tmp;
-    while( getline(file, line) ) {
-        stringstream ss(line);
-        string name, date, sex, age, job, salary, aircraftNum;
-        getline(ss, name, ',');
-        getline(ss, date, ',');
-        getline(ss, sex, ',');
-        getline(ss, job, ',');
-        getline(ss, salary, ',');
-        getline(ss, aircraftNum, ',');
-        count++;
-        if( count == 3 && job != "Tiep vien" ){
-        	personal.push_back(tmp);
-        	tmp.clear();
-        	tmp.push_back(make_pair(humanInPlane(Human(name, stringToDate(date), sex ), job, stringToInt(salary) ), aircraftNum));
-        	count = 0;
+	while( getline(file, line) ) {
+		stringstream ss(line);
+	        string name, num, type, status, id;
+	        getline(ss, name, ',');
+	        getline(ss, num, ',');
+	        getline(ss, type, ',');
+	        getline(ss, status, ',');
+	        getline(ss, id, ',');
+	        plane.push_back(make_pair(Plane(name, num, type, status),id));
+	    }
+	file.close();
+	    
+	file.open("Database\\FlightData.txt");
+	while( getline(file, line) ) {
+	        stringstream ss(line);
+	        string id, date, firstLocal, secondLocal, firstTime, secondTime, popPrice, vipPrice, planeName;
+	        getline(ss, id, ',');
+	        getline(ss, date, ',');
+	        getline(ss, firstLocal, ',');
+	        getline(ss, secondLocal, ',');
+	        getline(ss, firstTime, ',');
+	        getline(ss, secondTime, ',');
+	        getline(ss, popPrice, ',');
+	        getline(ss, vipPrice, ',');
+	        getline(ss, planeName, ',');
+	        flight.push_back(make_pair(Flight(id, stringToDate(date), firstLocal, secondLocal, stringToTime(firstTime), stringToTime(secondTime), stringToInt(popPrice), stringToInt(vipPrice)), planeName));
+	    }
+	file.close();
+	    
+	file.open("Database\\VoucherData.txt");
+	while( getline(file, line) ) {
+	        stringstream ss(line);
+	        string id, level, firstDate, lastDate;
+	        getline(ss, id, ',');
+	        getline(ss, level, ',');
+	        getline(ss, firstDate, ',');
+	        getline(ss, lastDate, ',');
+	        voucher.push_back(Voucher(id, stod(level), stringToDate(firstDate), stringToDate(lastDate)));
+	    }
+	    file.close();
+	    
+	file.open("Database\\PassengerData.txt");
+	while( getline(file, line) ) {
+	        stringstream ss(line);
+	        string name, date, sex, age, sdt, passport, cccd, rank, pos, status, id;
+	        getline(ss, name, ',');
+	        getline(ss, date, ',');
+	        getline(ss, sex, ',');
+	        getline(ss, sdt, ',');
+	        getline(ss, passport, ',');
+	        getline(ss, cccd, ',');
+	        getline(ss, rank, ',');
+	        getline(ss, pos, ',');
+	        getline(ss, status, ',');
+	        getline(ss, id, ',');
+	        passInfo.push_back(make_pair(Passenger(Human(name, stringToDate(date), sex ), sdt, passport, cccd, rank, stringToInt(pos), status ),id));
+	    }
+	file.close();
+	    
+	file.open("Database\\HistoryData.txt");
+	while( getline(file, line) ) {
+	        stringstream ss(line);
+	        string name, date, sex, age, sdt, passport, cccd, rank, pos, status, id;
+	        getline(ss, name, ',');
+	        getline(ss, date, ',');
+	        getline(ss, sex, ',');
+	        getline(ss, sdt, ',');
+	        getline(ss, passport, ',');
+	        getline(ss, cccd, ',');
+	        getline(ss, rank, ',');
+	        getline(ss, pos, ',');
+	        getline(ss, status, ',');
+	        getline(ss, id, ',');
+	        history.push_back(make_pair(Passenger(Human(name, stringToDate(date), sex ), sdt, passport, cccd, rank, stringToInt(pos), status ),id));
+	    }
+	file.close();
+	    
+	file.open("Database\\HumanInPlaneData.txt");
+	int count = 0;
+	vector<pair<humanInPlane,string>> tmp;
+	    while( getline(file, line) ) {
+	        stringstream ss(line);
+	        string name, date, sex, age, job, salary, aircraftNum;
+	        getline(ss, name, ',');
+	        getline(ss, date, ',');
+	        getline(ss, sex, ',');
+	        getline(ss, job, ',');
+	        getline(ss, salary, ',');
+	        getline(ss, aircraftNum, ',');
+	        count++;
+	        if( count == 3 && job != "Tiep vien" ){
+	        	personal.push_back(tmp);
+	        	tmp.clear();
+	        	tmp.push_back(make_pair(humanInPlane(Human(name, stringToDate(date), sex ), job, stringToInt(salary) ), aircraftNum));
+	        	count = 0;
 		}
-        else if( count != 4 )
-        	tmp.push_back(make_pair(humanInPlane(Human(name, stringToDate(date), sex ), job, stringToInt(salary) ), aircraftNum));
-        else {
-        	tmp.push_back(make_pair(humanInPlane(Human(name, stringToDate(date), sex ), job, stringToInt(salary) ), aircraftNum));
-        	personal.push_back(tmp);
-        	tmp.clear();
-        	count = 0;
+	        else if( count != 4 )
+	        	tmp.push_back(make_pair(humanInPlane(Human(name, stringToDate(date), sex ), job, stringToInt(salary) ), aircraftNum));
+	        else {
+	        	tmp.push_back(make_pair(humanInPlane(Human(name, stringToDate(date), sex ), job, stringToInt(salary) ), aircraftNum));
+	        	personal.push_back(tmp);
+	        	tmp.clear();
+	        	count = 0;
 		}
-    }
-    if( !tmp.empty() ) 
-    	personal.push_back(tmp);
-    file.close();
+	    }
+	if( !tmp.empty() ) 
+	    personal.push_back(tmp);
+	file.close();
 }
 void writeFile( vector<pair<Plane, string>> &plane, vector<pair<Flight, string>> &flight, vector<pair<Passenger,string>> &passInfo, vector<Voucher> &voucher, vector<vector<pair<humanInPlane, string>>> &personal, vector<pair<Passenger,string>> &history ){
 	// ghi file du lieu cua Plane
