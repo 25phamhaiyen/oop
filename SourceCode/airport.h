@@ -969,7 +969,7 @@ void writeFile( vector<pair<Plane, string>> &plane, vector<pair<Flight, string>>
     file.close();
     
      // ghi file dư lieu cua personal
-    file.open("../Database/PersonalData.txt",ios::trunc);
+    file.open("../Database/HumanInPlaneData.txt.txt",ios::trunc);
     if( file.is_open() ) {
         for( auto &it : personal ){
         	for( auto i : it )
