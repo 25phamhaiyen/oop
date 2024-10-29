@@ -50,9 +50,10 @@ int main(int argc, char** argv) {
 			do {
 				cout << "\nNhap lua chon cua ban:  ";
 				cin >> choice;
-				if( choice < '1' || choice > '8' )
-					cout << "\nBan chi duoc nhap gia tri trong khoang tu 1 -> 9 hoac {t,T}. Vui long nhap lai.\n";
-			}while( choice < '1' || choice > '8' );
+				if ((choice < '1' || choice > '8') && choice != 't' && choice != 'T') {
+					cout << "\nBan chi duoc nhap gia tri trong khoang tu 1 -> 8 hoac {t, T} de thoat. Vui long nhap lai.\n";
+				}
+			}while ((choice < '1' || choice > '8') && choice != 't' && choice != 'T');
 			system("cls");
 			switch(choice){
 				case '1':

@@ -45,30 +45,32 @@ bool checkPass( string password ){
 
 void inputPass( string &password ){
 	char c;
-	while(1){
-		c = _getch(); 
-		// check enter
-        if( c == '\n' ) 
-            break; 
-    	// check backspace;
-		else if( c == ' ' ) { 
-            if( !password.empty() ) {
-                password.pop_back(); 
-                cout << "\b \b"; 
+    while (1) {
+        c = _getch();
+        // check Enter
+        if (c == '\r') {  // Enter trên Windows
+            break;
+        }
+        // check Backspace
+        else if (c == 8) {  // Backspace có mã ASCII là 8
+            if (!password.empty()) {
+                password.pop_back();
+                cout << "\b \b";  // Xóa ký tự cuối trên màn hình
             }
-        } 
-		else {
+        }
+        else {
             password += c;
-            cout << '*'; 
+            cout << '*';  // Hiển thị ký tự '*' để thay thế
         }
     }
+    cout << endl;
 }
 bool isValidAccount( string username, string password, char choice ){
 	ifstream file;
 	if( choice == '1')
-		file.open("C:\\Users\\Nguyen\\OneDrive\\Lap trinh\\C++\\OOP\\BTL\\Database\\managerAccount.txt");
+		file.open("../Database/managerAccount.txt");
 	else
-		file.open("C:\\Users\\Nguyen\\OneDrive\\Lap trinh\\C++\\OOP\\BTL\\Database\\passengerSignInAccount.txt");
+		file.open("../Database/passengerSignInAccount.txt");
     string line;
     while( getline(file, line) ) {
         stringstream ss(line);
@@ -81,7 +83,7 @@ bool isValidAccount( string username, string password, char choice ){
     return false;
 }
 bool isValidUserName( string username ){
-	ifstream file("C:\\Users\\Nguyen\\OneDrive\\Lap trinh\\C++\\OOP\\BTL\\Database\\passengerSignInAccount.txt");
+	ifstream file("../Database/passengerSignInAccount.txt");
     string line;
     while( getline(file, line) ) {
         stringstream ss(line);
@@ -98,8 +100,7 @@ bool isValidUserName( string username ){
 }
 void SignIn::sign_up(){
 	string userName, password = "", repeatPass = "";
-	
-	fflush(stdin);
+	cin.ignore();
 	do{
 		cout << "\nNhap ten tai khoan:  ";  getline(cin, userName);
 		if( isValidUserName( userName) )
@@ -114,15 +115,15 @@ void SignIn::sign_up(){
 			password = "";
 			continue;
 		}
-		if( checkPass(password) == false ){
+		else if( !checkPass(password) ){
 			cout << "\n\nMat khau phai bao gom chu HOA, chu THUONG, chu SO ). Vui long nhap lai\n\n";
 			password = "";
 		}
-	}while( checkPass(password) == false || password.size() < 8 );
+	}while( !checkPass(password) || password.size() < 8 );
 	
 	// Nhap lai pass;
 	do {
-		fflush(stdin);
+		cin.ignore();
 		cout << "\nNhap lai mat khau:  ";
 		inputPass(repeatPass);
 		if( repeatPass != password ){
@@ -133,7 +134,7 @@ void SignIn::sign_up(){
 	cout << "\nDang ky thanh cong!\n\n";
 	
 	// ghi file
-	ofstream fileSignIn("C:\\Users\\Nguyen\\OneDrive\\Lap trinh\\C++\\OOP\\BTL\\Database\\passengerSignInAccount.txt", ios::app);
+	ofstream fileSignIn("../Database/passengerSignInAccount.txt", ios::app);
 	fileSignIn << userName << ',' << password << endl;
 	fileSignIn.close();
 }
