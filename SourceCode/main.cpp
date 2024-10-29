@@ -4,7 +4,9 @@
 /* run this program using the console pauser or add your own getch, system("pause") or input loop */
 
 int main(int argc, char** argv) {
+	
 	// set up du lieu
+
 	vector<pair<Plane, string>> plane;
 	vector<pair<Flight,string>> flight;
 	vector<vector<pair<humanInPlane, string>>> personal;
@@ -22,7 +24,7 @@ int main(int argc, char** argv) {
 		checkid[it.getID()] = it.getReduceLevel();
 	}
 	
-	// chayj ct
+	// chay ct
 	SignIn si;
 	cout << "Ban dang nhap voi tu cach nao?" << endl;
 	cout << "1.Quan ly \n2.Khach hang" << endl << endl;

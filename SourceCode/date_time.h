@@ -11,8 +11,10 @@
 #include<iomanip>
 #include<ctime>
 using namespace std;
+
 #define PINK "\033[38;5;206m"
 #define RESET "\033[0m"
+
 class Date {
 	private:
 		int day, month, year;
@@ -48,6 +50,7 @@ class Time {
 		friend bool operator > ( const Time &time1, const Time &time2 );
 		friend bool operator >= ( const Time &time1, const Time &time2 );
 		friend bool operator <= ( const Time &time1, const Time &time2 );
+		friend bool operator == ( const Time &time1, const Time &time2 );
 		int getHour();
 		int getMin();
 };
@@ -56,7 +59,7 @@ class Time {
 // Build class Date
 Date::Date(){
 	day = month = 1;
-	year = 1900;
+	year = 1990;
 }
 Date::Date( int day, int month, int year ){
 	this->day = day;
@@ -72,7 +75,7 @@ void inputDay( int &day, int maxDay ){ // Ham check input day
 	do {
 		cout << "Nhap ngay:  ";
 		cin >> day;
-		if( day < 0 || day > maxDay )
+		if( day < 1 || day > maxDay )
 			cout << "\nNgay phai >= 1 va <= " << maxDay << ". Vui long nhap lai\n\n";
 	}while( day < 1 || day > maxDay );
 }
@@ -80,9 +83,9 @@ istream& operator >> ( istream& is, Date &date ){
 	do {
 		cout << "Nhap nam:  ";
 		is >> date.year;
-		if( date.year < 1900 )
-			cout << "\nNam phai >= 1900. Vui long nhap lai\n\n";
-	}while( date.year < 1900 );
+		if( date.year < 1990 )
+			cout << "\nNam phai >= 1990. Vui long nhap lai\n\n";
+	}while( date.year < 1990 );
 	do {
 		cout << "Nhap thang:  ";
 		is >> date.month;
@@ -253,6 +256,9 @@ bool operator >= ( const Time &time1, const Time &time2 ){
 }
 bool operator <= ( const Time &time1, const Time &time2 ){
 	return !( time1 > time2 );
+}
+bool operator == ( const Time &time1, const Time &time2 ){
+	return (time1.hour == time2.hour && time1.minute == time2.minute);
 }
 int Time::getHour(){
 	return hour;

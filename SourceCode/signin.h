@@ -42,15 +42,16 @@ bool checkPass( string password ){
     }
     return false;
 }
+
 void inputPass( string &password ){
 	char c;
 	while(1){
 		c = _getch(); 
 		// check enter
-        if( c == 13 ) 
+        if( c == '\n' ) 
             break; 
     	// check backspace;
-		else if( c == 8 ) { 
+		else if( c == ' ' ) { 
             if( !password.empty() ) {
                 password.pop_back(); 
                 cout << "\b \b"; 
@@ -100,7 +101,7 @@ void SignIn::sign_up(){
 	
 	fflush(stdin);
 	do{
-		cout << "\nNhap tai khoan:  ";  getline(cin, userName);
+		cout << "\nNhap ten tai khoan:  ";  getline(cin, userName);
 		if( isValidUserName( userName) )
 			cout << "\nTen tai khoan da ton tai. Vui long nhap lai.\n";
 	}while( isValidUserName( userName) );
@@ -109,12 +110,12 @@ void SignIn::sign_up(){
 	do {
 		cout << "Nhap mat khau:  ";  inputPass(password);
 		if( password.size() < 8 ){
-			cout << "\n\nMat khau phai co hon 8 ki tu. Vui long nhap lai.\n\n";
+			cout << "\n\nMat khau phai >= 8 ki tu. Vui long nhap lai.\n\n";
 			password = "";
 			continue;
 		}
 		if( checkPass(password) == false ){
-			cout << "\n\nMat khau phai co chu HOA, chu THUONG, chu SO ). Vui long nhap lai\n\n";
+			cout << "\n\nMat khau phai bao gom chu HOA, chu THUONG, chu SO ). Vui long nhap lai\n\n";
 			password = "";
 		}
 	}while( checkPass(password) == false || password.size() < 8 );
@@ -145,13 +146,13 @@ void SignIn::sign_in( char choice ){
 			cout << "\nDa nhap sai qua 3 lan. Vui long thoat ra dang nhap lai.\n";
 			return;
 		}	
-		cout << "\nNhap tai khoan:  ";  
+		cout << "\nNhap ten tai khoan:  ";  
 		getline(cin, this->userName);
 		cout << "\nNhap mat khau:  ";
 		this->password = "";
 		inputPass(this->password);
 		if( !isValidAccount(this->userName, this->password, choice) )
-			cout << "\nTai khoan hoac mat khau sai. Vui long nhap lai.\n";
+			cout << "\nTen tai khoan hoac mat khau sai. Vui long nhap lai.\n";
 	}while( !isValidAccount(this->userName, this->password, choice) );
 	cout << "\nDang nhap thanh cong!\n";	
 }
