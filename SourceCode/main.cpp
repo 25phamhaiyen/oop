@@ -40,7 +40,7 @@ int main(int argc, char** argv) {
 
 	if( choice == '1' ){
 		system("cls");
-		cout << "\n-----------------Sign In---------------------\n";
+		cout << "-----------------Sign In---------------------\n";
 		si.sign_in('1');
 		cout << "\n---------------------------------------------\n";
 		system("cls");
@@ -108,6 +108,7 @@ int main(int argc, char** argv) {
 	// dang nhap/ dang ky giao dien nguoi dung
 
 	else {
+        system("cls");
 		char signChoice;
 		cout << "\nBan da co tai khoan chua?" << endl;
 		cout << "1.Da co tai khoan \n2.Chua co tai khoan" << endl << endl;
@@ -120,16 +121,16 @@ int main(int argc, char** argv) {
 		system("cls");
 		if( signChoice == '1' ){
             cin.ignore();
-			cout << "\n-----------------Sign In---------------------\n";
+			cout << "-----------------Sign In---------------------\n";
 			si.sign_in('2');
 			cout << "\n---------------------------------------------\n";
 		}
 		else {
-			cout << "\n-----------------Sign Up---------------------\n";
+			cout << "-----------------Sign Up---------------------\n";
 			si.sign_up();
 			cout << "\n---------------------------------------------\n";
 			system("cls");
-			cout << "\n-----------------Sign In---------------------\n";
+			cout << "-----------------Sign In---------------------\n";
 			si.sign_in('2');
 			cout << "\n---------------------------------------------\n";
 		}
@@ -187,6 +188,7 @@ int main(int argc, char** argv) {
 							system("cls");
 							cin >> pas;
 							yourChoice = '0';
+							system("cls");
 							cout << "\nBan hay su dung cac tinh nang ben duoi de tim chuyen bay mong muon\n";
 							while( yourChoice != '8'){  // hiển thị menu đặt vé khi nhập thông tin xong thì sẽ hiện ra để người dùng dễ dàng chọn chuyến bay
 								cout << "\n+--------------------MENU--------------------+\n";
@@ -203,10 +205,10 @@ int main(int argc, char** argv) {
 								cout << "+--------------------------------------------+\n\n";
 								cin.ignore();
 								do {
-									cout << "Nhap lua chon cua ban:  ";
+									cout << "\nNhap lua chon cua ban:  ";
 									cin >> yourChoice;
 									if( yourChoice < '1' || yourChoice > '8' )
-										cout << "\nBan chi duoc nhap trong khoang tu 1 -> 8. Vui long nhap lai\n\n";
+										cout << "\nBan chi duoc nhap trong khoang tu 1 -> 8. Vui long nhap lai\n";
 								}while( yourChoice < '1' || yourChoice > '8' );
 								system("cls");
 								switch( yourChoice ){
@@ -448,7 +450,9 @@ int main(int argc, char** argv) {
 							break;
 						}
 						// list các chuyến bay đã đặt
-						cout << PINK << "|   Ho va ten\t  " << " |    Hang ghe    " << "| Vi tri ghe " <<  "| Ma chuyen bay |" << RESET << "\n\n";
+						cout << "+----------------------------------------------------------------------------------+" << endl;
+						cout << "|   Ho va ten\t  " << " |    Hang ghe    " << "| Vi tri ghe " <<  "| Ma chuyen bay |" << endl;
+						cout << "+----------------------------------------------------------------------------------+" << RESET << endl;
 						for( auto it : demoPass ){
 							cout << "|   " << it.first.getName() << "   |   " << it.first.getRank() << "   |     ";
 							if( it.first.getPos() < 10 )
