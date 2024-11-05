@@ -1,22 +1,22 @@
-VN001,25/10/2024,Sai Gon,Ha Noi   ,08:30,10:45,2500,4500,VietNam Airlines
-VN002,25/10/2024,Sai Gon,Da Nang  ,16:30,18:00,1500,3000,VietNam Airlines
-VN003,25/10/2024,Sai Gon,Binh Dinh,09:00,10:30,1250,2000,VietNam Airlines
-VN004,25/10/2024,Sai Gon,Phu Yen  ,16:00,17:30,1250,2000,VietNam Airlines
-VN005,25/10/2024,Sai Gon,Da lat   ,07:00,07:45,1000,1500,VietNam Airlines
-VN006,26/10/2024,Sai Gon,Nha Trang,14:30,15:45,1250,2000,VietNam Airlines
-VN007,26/10/2024,Sai Gon,Vung Tau ,16:00,16:45,1000,1500,VietNam Airlines
-VN008,26/10/2024,Sai Gon,Thanh Hoa,09:30,11:15,2000,4000,VietJet Air     
-VN009,27/10/2024,Sai Gon,Hoi An   ,16:30,17:45,1500,3000,VietJet Air     
-VN010,27/10/2024,Sai Gon,Bangkok  ,08:00,10:00,3500,7000,VietJet Air     
-VN011,27/10/2024,Sai Gon,Singapore,07:30,09:45,3250,6500,VietJet Air     
-VN012,27/10/2024,Sai Gon,Hai Phong,17:00,19:15,2600,5000,VietJet Air     
-VN013,28/10/2024,Sai Gon,Dai Loan ,15:00,19:15,7000,13000,VietJet Air     
-VN014,28/10/2024,Sai Gon,Maxcova  ,08:30,17:00,8000,15000,Bamboo Airways  
-VN015,29/10/2024,Sai Gon,Tokyo    ,12:30,18:30,5500,12000,Bamboo Airways  
-VN016,29/10/2024,Sai Gon,NewYork  ,05:30,21:30,9500,20000,Bamboo Airways  
-VN017,29/10/2024,Sai Gon,Hue      ,17:30,18:30,1700,3000,Bamboo Airways  
-VN018,29/10/2024,Sai Gon,Nghe An  ,09:45,11:00,2000,4000,Jetstar Pacific 
-VN019,29/10/2024,Sai Gon,Busan    ,15:00,20:10,4500,9000,Jetstar Pacific 
-VN020,30/10/2024,Sai Gon,Phu Quoc ,16:00,16:30,1000,2000,Jetstar Pacific 
-VN021,31/10/2024,Sai Gon,Ha Noi   ,17:00,19:15,0,0,VietJet Air     
-VN022,31/10/2024,Sai Gon,Da Nang  ,17:00,18:15,0,0,Bamboo Airways 
+VN001,25/10/2024,Sai Gon,Ha Noi   ,08:30,10:45,2500,4500,in ,VietNam Airlines
+VN002,25/10/2024,Sai Gon,Da Nang  ,16:30,18:00,1500,3000,in ,VietNam Airlines
+VN003,25/10/2024,Sai Gon,Binh Dinh,09:00,10:30,1250,2000,in ,VietNam Airlines
+VN004,25/10/2024,Sai Gon,Phu Yen  ,16:00,17:30,1250,2000,in ,VietNam Airlines
+VN005,25/10/2024,Sai Gon,Da lat   ,07:00,07:45,1000,1500,in ,VietNam Airlines
+VN006,26/10/2024,Sai Gon,Nha Trang,14:30,15:45,1250,2000,in ,VietNam Airlines
+VN007,26/10/2024,Sai Gon,Vung Tau ,16:00,16:45,1000,1500,in ,VietNam Airlines
+VN008,26/10/2024,Sai Gon,Thanh Hoa,09:30,11:15,2000,4000,in ,VietJet Air     
+VN009,27/10/2024,Sai Gon,Hoi An   ,16:30,17:45,1500,3000,in ,VietJet Air     
+VN010,27/10/2024,Sai Gon,Bangkok  ,08:00,10:00,3500,7000,out,VietJet Air     
+VN011,27/10/2024,Sai Gon,Singapore,07:30,09:45,3250,6500,out,VietJet Air     
+VN012,27/10/2024,Sai Gon,Hai Phong,17:00,19:15,2600,5000,in ,VietJet Air     
+VN013,28/10/2024,Sai Gon,Dai Loan ,15:00,19:15,7000,13000,out,VietJet Air     
+VN014,28/10/2024,Sai Gon,Maxcova  ,08:30,17:00,8000,15000,out,Bamboo Airways  
+VN015,29/10/2024,Sai Gon,Tokyo    ,12:30,18:30,5500,12000,out,Bamboo Airways  
+VN016,29/10/2024,Sai Gon,NewYork  ,05:30,21:30,9500,20000,out,Bamboo Airways  
+VN017,29/10/2024,Sai Gon,Hue      ,17:30,18:30,1700,3000,in ,Bamboo Airways  
+VN018,29/10/2024,Sai Gon,Nghe An  ,09:45,11:00,2000,4000,in ,Jetstar Pacific 
+VN019,29/10/2024,Sai Gon,Busan    ,15:00,20:10,4500,9000,out,Jetstar Pacific 
+VN020,30/10/2024,Sai Gon,Phu Quoc ,16:00,16:30,1000,2000,in ,Jetstar Pacific 
+VN021,31/10/2024,Sai Gon,Ha Noi   ,17:00,19:15,0,0,in ,VietJet Air     
+VN022,31/10/2024,Sai Gon,Da Nang  ,17:00,18:15,0,0,in ,Bamboo Airways 

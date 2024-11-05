@@ -1,5 +1,5 @@
+#pragma once
 #include "date_time.h"
-
 class Plane {
 	private:
 		string planeName; // tên hãng bay
