@@ -110,7 +110,7 @@ int main(int argc, char** argv) {
 	else {
         system("cls");
 		char signChoice;
-		cout << "\nBan da co tai khoan chua?" << endl;
+		cout << "Ban da co tai khoan chua?" << endl;
 		cout << "1.Da co tai khoan \n2.Chua co tai khoan" << endl << endl;
 		do {
 			cout << "Nhap lua chon cua ban:  ";
@@ -144,6 +144,7 @@ int main(int argc, char** argv) {
 		while( choice != '6' ){
 			int ticketNum;
 			displayMenuUser();
+			cout << endl;
 			do {
 				cout << "Nhap lua chon cua ban:  ";
 				cin >> choice;
@@ -283,7 +284,6 @@ int main(int argc, char** argv) {
 											}
 											destination += space;
 											findWithDestination(flight, destination, area);
-											cout << endl;
 											break;
 										}
 									case '6':
@@ -298,7 +298,6 @@ int main(int argc, char** argv) {
 													cout << "\nThoi gian sau phai lon hon thoi gian truoc. Vui long nhap lai\n";
 											}while( eTime <= sTime );
 											findWithTime(flight, sTime, eTime, area);
-											cout << endl;
 											break;
 										}
 									case '7':
@@ -306,7 +305,6 @@ int main(int argc, char** argv) {
 											cout << endl;
 											sortIncreaseTicketPrice(flight);
 											displayFlightUser(flight, area);
-											cout << endl;
 											break;
 										}
 									case '8':
@@ -315,7 +313,7 @@ int main(int argc, char** argv) {
 								}
 								// hỏi người dùng đã tìm được chuyến bay mong muốn chưa
 								char ch;
-								cout << "\n Ban da tim duoc chuyen bay mong muon chua?\n";
+								cout << "\nBan da tim duoc chuyen bay mong muon chua?\n";
 								cout << "1. Da tim duoc.\n";
 								cout << "2. Chua tim duoc.\n";
 								do {
@@ -386,6 +384,8 @@ int main(int argc, char** argv) {
 									yourChoice = '8';
 									system("cls");
 								}
+								else
+                                    system("cls");
 							}
 						}
 						// hỏi khách hàng về voucher
@@ -421,6 +421,7 @@ int main(int argc, char** argv) {
 							if( acept != '1' && acept != '2' )
 								cout << "\nBan chi duoc chon 1 hoac 2. Vui long chon lai.\n";
 						}while( acept != '1' && acept != '2' );
+						system("cls");
 						if( acept == '1' ){
 							cout << endl;
 							displayBill(ticketNum, passfly, demoPass, checkid[idVoucher], idmap);
@@ -450,9 +451,9 @@ int main(int argc, char** argv) {
 							break;
 						}
 						// list các chuyến bay đã đặt
-						cout << "+----------------------------------------------------------------------------------+" << endl;
+						cout << PINK << "+----------------------------------------------------------------+" << endl;
 						cout << "|   Ho va ten\t  " << " |    Hang ghe    " << "| Vi tri ghe " <<  "| Ma chuyen bay |" << endl;
-						cout << "+----------------------------------------------------------------------------------+" << RESET << endl;
+						cout << "+----------------------------------------------------------------+" << RESET << endl;
 						for( auto it : demoPass ){
 							cout << "|   " << it.first.getName() << "   |   " << it.first.getRank() << "   |     ";
 							if( it.first.getPos() < 10 )
@@ -461,6 +462,7 @@ int main(int argc, char** argv) {
 								cout << it.first.getPos() << "     |     ";
 							cout << it.second << "     |" << endl;
 						}
+						cout << "+----------------------------------------------------------------+\n";
 						// cho người dùng nhập id và vị trí ngồi
 						string id;
 						int position;
@@ -493,7 +495,7 @@ int main(int argc, char** argv) {
 								break;
 							}
 						}
-						cout << "\nDa huy ve thanh cong\n";
+						cout << "\nDa huy ve thanh cong\n\n";
 						break;
 					}
 				case '4':
