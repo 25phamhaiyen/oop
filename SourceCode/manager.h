@@ -285,7 +285,7 @@ void displayBill( int ticketNum, vector<pair<Flight, string>> passfly, vector<pa
 	cout << "-----------------------------------------------------------------------------------------------\n";
 }
 void displayMenuManager(){
-	cout << "+--------------------MENU-----------------------+\n";
+	cout << PINK << "+--------------------MENU-----------------------+\n" << RESET ;
 	cout << "|                                               |\n";
 	cout << "| 1. Hien thi danh sach may bay.                |\n";
 	cout << "| 2. Hien thi danh sach chuyen bay.             |\n";
@@ -300,7 +300,7 @@ void displayMenuManager(){
 	cout << "+-----------------------------------------------+\n";
 }
 void displayMenuUser(){
-	cout << "+----------------------MENU--------------------------+\n";
+	cout << PINK << "+--------------------MENU-----------------------+\n" << RESET ;
 	cout << "|                                                    |\n";
 	cout << "| 1. Dat ve.                                         |\n";
 	cout << "| 2. Hien thi danh sach chuyen bay.                  |\n";
