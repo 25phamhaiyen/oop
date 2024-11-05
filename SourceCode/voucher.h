@@ -1,3 +1,4 @@
+#pragma once
 #include "date_time.h"
 
 class Voucher {
@@ -15,6 +16,7 @@ class Voucher {
 		double getReduceLevel();
 		Date getFromDate();
 		Date getReduceDeadline();
+		void setId( string newId );
 };
 
 // Build class Voucher
@@ -29,6 +31,9 @@ Voucher::Voucher( string id, double reduceLevel, Date fromDate, Date reduceDeadl
 	this->reduceDeadline = reduceDeadline;
 }
 istream& operator >> ( istream& is, Voucher &voucher ){
+	time_t t = time(nullptr); // Lấy thời gian hiện tại
+    tm* now = localtime(&t); 
+    Date nowDate(now->tm_mday, now->tm_mon+1, now->tm_year+1900);
 	cout << "Nhap ma giam gia:  ";
 	is >> voucher.id;
 	do {
@@ -37,8 +42,12 @@ istream& operator >> ( istream& is, Voucher &voucher ){
 		if( voucher.reduceLevel <= 0 || voucher.reduceLevel > 100 )
 			cout << "\nMuc giam gia chi nam trong khoang ( 0 -> 100 ). Vui long nhap lai\n";
 	}while( voucher.reduceLevel <= 0 || voucher.reduceLevel > 100 );
-	cout << "\nNhap ngay voucher co hieu luc:  \n";
-	is >> voucher.fromDate;
+	do {
+		cout << "\nNhap ngay voucher co hieu luc:  \n";
+		is >> voucher.fromDate;
+		if( voucher.fromDate < nowDate )
+			cout << "\nNgay bat dau khuyen mai phai >= ngay hom nay. Vui long nhap lai.\n";
+	}while( voucher.fromDate < nowDate );
 	do {
 		cout << "\nNhap ngay voucher het hieu luc:  \n";
 		is >> voucher.reduceDeadline;
@@ -69,4 +78,7 @@ Date Voucher::getFromDate(){
 }
 Date Voucher::getReduceDeadline(){
 	return reduceDeadline;
+}
+void Voucher::setId( string newId ){
+	this->id = newId;
 }
