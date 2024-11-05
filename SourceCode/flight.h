@@ -1,3 +1,4 @@
+#pragma once
 #include "date_time.h"
 
 class Flight {
@@ -11,10 +12,10 @@ class Flight {
 		double popTicketPrice; // giá vé hạng thường
 		double vipTicketPrice; // giá vé hạng thương gia
 		unordered_map<int,int> sitPos; // vi tri ngoi
+		string area;
 	public:
 		Flight();
-		Flight( string id, Date flightDate, string departureLocation, string destination, Time departureTime, Time landingTime, double popTicketPrice, double vipTicketPrice );
-		friend istream& operator >> ( istream& is, Flight &fly );
+		Flight( string id, Date flightDate, string departureLocation, string destination, Time departureTime, Time landingTime, double popTicketPrice, double vipTicketPrice, string area );
 		friend ostream& operator << ( ostream& os, const Flight &fly );
 		Flight operator = ( const Flight &fly2 );
 		string getId();
@@ -25,13 +26,11 @@ class Flight {
 		Date getFlightDate();
 		double getPopTicketPrice();
 		double getVipTicketPrice();
+		string getArea();
 		void setSitPos( int pos );
 		void setSitPosHuy( int pos );
+		bool checkSitPos( int pos );
 		int getSitNum();
-		void listVip();
-		void listPopular();
-		int countVip();
-		int countPopular();
 		
 };
 
@@ -43,7 +42,7 @@ Flight::Flight(){
     landingTime = Time(); 
     flightDate = Date();
 }
-Flight::Flight( string id, Date flightDate, string departureLocation, string destination, Time departureTime, Time landingTime, double popTicketPrice, double vipTicketPrice ){
+Flight::Flight( string id, Date flightDate, string departureLocation, string destination, Time departureTime, Time landingTime, double popTicketPrice, double vipTicketPrice, string area ){
 	this->id = id;
 	this->departureLocation = departureLocation;
 	this->destination = destination;
@@ -52,42 +51,7 @@ Flight::Flight( string id, Date flightDate, string departureLocation, string des
 	this->flightDate = flightDate;
 	this->popTicketPrice = popTicketPrice;
 	this->vipTicketPrice = vipTicketPrice;
-}
-istream& operator >> ( istream& is, Flight &fly ){
-	fly.departureLocation = "Sai Gon";
-	cin.ignore();
-	cout << "\nNhap ID chuyen bay: ";
-	is >> fly.id;
-	cin.ignore();
-	cout << "\nNhap noi den ( Tinh hoac TP ):  ";
-	getline(is, fly.destination);
-	cout << "\nNhap ngay bay ( year/month/day ):  \n";
-	is >> fly.flightDate;
-	cout << "\nNhap thoi gian khoi hanh ( hour:minute ):  \n";
-	is >> fly.departureTime;
-	do {
-		cout << "\nNhap thoi gian ha canh ( hour:minute ):  \n";
-		is >> fly.landingTime;
-		if( fly.landingTime < fly.departureTime )
-			cout << "\nThoi gian ha canh phai lon hon thoi gian khoi hanh. Vui long nhap lai\n";
-	}while( fly.landingTime < fly.departureTime );
-	do {
-		cout << "\nNhap gia ve hang thuong (.000 VND):  ";
-		is >> fly.popTicketPrice;
-		if( fly.popTicketPrice <= 0 )
-			cout << "\nGia ve phai lon hon 0. Vui long nhap lai\n";
-	}while( fly.popTicketPrice <= 0 );
-	do {
-		cout << "\nNhap gia ve hang thuong gia (.000 VND):  ";
-		is >> fly.vipTicketPrice;
-		if( fly.vipTicketPrice <= 0 ){
-			cout << "\nGia ve phai lon hon 0. Vui long nhap lai\n";
-			continue;
-		}
-		if( fly.vipTicketPrice <= fly.popTicketPrice )
-			cout << "\nGia ve hang thuong gia phai lon hon gia ve hang thuong. Vui long nhap lai\n";
-	}while( fly.vipTicketPrice <= 0 || fly.vipTicketPrice <= fly.popTicketPrice );
-	return is;
+	this->area = area;
 }
 ostream& operator << ( ostream& os, const Flight &fly ){
 	os << fly.id << "   |   " << fly.flightDate << "   |   from " << fly.departureLocation << " to " << fly.destination << "   |    " << fly.departureTime << "    |    " << fly.landingTime << "    |     " << fly.popTicketPrice  << "      |    ";
@@ -106,8 +70,8 @@ Flight Flight::operator = ( const Flight &fly2 ){
 	this->landingTime = fly2.landingTime;
 	this->popTicketPrice = fly2.popTicketPrice;
 	this->vipTicketPrice = fly2.vipTicketPrice;
+	this->area = fly2.area;
 	return *this;
-	
 }
 string Flight::getDepartureLocation(){
 	return this->departureLocation;
@@ -130,6 +94,9 @@ double Flight::getPopTicketPrice(){
 double Flight::getVipTicketPrice(){
 	return this->vipTicketPrice;
 }
+string Flight::getArea(){
+	return this->area;
+}
 void Flight::setSitPos( int pos ){
 	sitPos[pos] = 1;
 }
@@ -147,37 +114,8 @@ int Flight::getSitNum(){
 	}
 	return count;
 }
-void Flight::listVip(){
-	cout << endl << "Nhung vi tri ghe ngoi hang THUONG GIA con trong: \n{ ";
-	for( int i = 1 ; i <= 15 ; i++ ){
-		if( sitPos[i] != 0 )
-			continue;
-		cout << i << ", ";
-	}
-	cout << "}";
-}
-void Flight::listPopular(){
-	cout << endl << "Nhung vi tri ghe ngoi hang PHO THONG con trong: \n{ ";
-	for( int i = 16 ; i <= 50 ; i++ ){
-		if( sitPos[i] != 0 )
-			continue;
-		cout << i << ", ";
-	}
-	cout << "}";
-}
-int Flight::countVip(){
-	int cnt = 0;
-	for( int i = 1 ; i < 16 ; i++ ){
-		if( sitPos[i] == 0 )
-			cnt++;
-	}
-	return cnt;
-}
-int Flight::countPopular(){
-	int cnt = 0;
-	for( int i = 16 ; i < 51 ; i++ ){
-		if( sitPos[i] == 0 )
-			cnt++;
-	}
-	return cnt;
+bool Flight::checkSitPos( int pos ){
+	if( this->sitPos[pos] == 1 )
+		return false;
+	return true;
 }
