@@ -16,7 +16,10 @@ class Voucher {
 		double getReduceLevel();
 		Date getFromDate();
 		Date getReduceDeadline();
-		void setId( string newId );
+		void setID( string newId );
+		void setReduceLevel( double level );
+		void setFromDate( Date fDate );
+		void setReduceDeadline( Date rDate );
 };
 
 // Build class Voucher
@@ -32,7 +35,7 @@ Voucher::Voucher( string id, double reduceLevel, Date fromDate, Date reduceDeadl
 }
 istream& operator >> ( istream& is, Voucher &voucher ){
 	time_t t = time(nullptr); // Lấy thời gian hiện tại
-    tm* now = localtime(&t); 
+    tm* now = localtime(&t);
     Date nowDate(now->tm_mday, now->tm_mon+1, now->tm_year+1900);
 	cout << "Nhap ma giam gia:  ";
 	is >> voucher.id;
@@ -79,6 +82,15 @@ Date Voucher::getFromDate(){
 Date Voucher::getReduceDeadline(){
 	return reduceDeadline;
 }
-void Voucher::setId( string newId ){
+void Voucher::setID( string newId ){
 	this->id = newId;
+}
+void Voucher::setReduceLevel( double level ){
+    this->reduceLevel = level;
+}
+void Voucher::setFromDate( Date fDate ){
+    this->fromDate = fDate;
+}
+void Voucher::setReduceDeadline( Date rDate ){
+    this->reduceDeadline = rDate;
 }
