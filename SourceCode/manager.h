@@ -300,7 +300,7 @@ void displayMenuManager(){
 	cout << "+-----------------------------------------------+\n";
 }
 void displayMenuUser(){
-	cout << PINK << "+--------------------MENU-----------------------+\n" << RESET ;
+	cout << PINK << "+-----------------------MENU-------------------------+\n" << RESET ;
 	cout << "|                                                    |\n";
 	cout << "| 1. Dat ve.                                         |\n";
 	cout << "| 2. Hien thi danh sach chuyen bay.                  |\n";
