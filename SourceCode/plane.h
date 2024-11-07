@@ -7,16 +7,23 @@ class Plane {
 		string type;  // loại máy bay ( dân dung, chở hàng )
 		string status;  // tình trạng ( bảo trì, hoạt động )
 	public:
+		// hàm khởi tạo
 		Plane();
 		Plane( string planeName, string aircraftNumber, string type, string status );
+		// hàm nhập xuất
 		friend istream& operator >> ( istream& is, Plane &plane );
 		friend ostream& operator << ( ostream& os, const Plane &plane );
+		// toán tử gán
 		Plane operator = ( const Plane &plane );
+		// các hàm lấy và gán giá trị
 		string getPlaneName();
 		string getStatus();
 		string getType();
 		string getAircraftNumber();
 		void setAircraftNumber( string s );
+		void setPlaneName( string s );
+		void setType( string s );
+		void setStatus( string s );
 };
 
 // Build class Plane
@@ -52,8 +59,6 @@ istream& operator >> ( istream& is, Plane &plane ){
 			plane.planeName = "Jetstar Pacific ";
 			break;
 	}
-	cout << "\nNhap so hieu may bay:  ";
-	is >> plane.aircraftNumber;
 	cout << "\nChon loai may bay: \n1.May bay dan dung \n2.May bay cho hang" << endl;
 	do {
 		cout << "\nNhap lua chon cua ban:  ";
@@ -62,7 +67,7 @@ istream& operator >> ( istream& is, Plane &plane ){
 			cout << "\nBan chi duoc chon 1 hoac 2. Vui long nhap lai.\n\n";
 	}while( choice != '2' && choice != '1' );
 	plane.type = ( choice == '1' )?"Dan dung":"Cho hang";
-	cout << "\nTinh trang: \n1.Dang hoat dong \n2.Dang bao tri" << endl;
+	cout << "\nTinh trang: \n1.Hoat dong \n2.Bao tri" << endl;
 	do {
 		cout << "\nNhap lua chon cua ban:  ";
 		is >> choice;
@@ -89,9 +94,18 @@ string Plane::getAircraftNumber(){
 	return aircraftNumber;
 }
 Plane Plane::operator = ( const Plane &plane ){
-	Plane::operator=(plane); 
+	Plane::operator=(plane);
 	return *this;
 }
 void Plane::setAircraftNumber( string s ){
 	this->aircraftNumber = s;
+}
+void Plane::setPlaneName( string s ){
+    this->planeName = s;
+}
+void Plane::setType( string s ){
+    this->type = s;
+}
+void Plane::setStatus( string s ){
+    this->status = s;
 }
