@@ -14,10 +14,15 @@ class Flight {
 		unordered_map<int,int> sitPos; // vi tri ngoi
 		string area;
 	public:
+		// hàm khởi tạo
 		Flight();
-		Flight( string id, Date flightDate, string departureLocation, string destination, Time departureTime, Time landingTime, double popTicketPrice, double vipTicketPrice, string area );
+		Flight( string id, Date flightDate, string departureLocation, string destination, 
+			Time departureTime, Time landingTime, double popTicketPrice, double vipTicketPrice, string area );
+		// hàm xuất
 		friend ostream& operator << ( ostream& os, const Flight &fly );
+		// toán tử gán
 		Flight operator = ( const Flight &fly2 );
+		// các hàm lấy giá trị
 		string getId();
 		string getDepartureLocation();
 		string getDestination();
@@ -27,19 +32,27 @@ class Flight {
 		double getPopTicketPrice();
 		double getVipTicketPrice();
 		string getArea();
+		// các hàm thiết lập gái trị
 		void setSitPos( int pos );
 		void setSitPosHuy( int pos );
+		void setId( string id );
+		void setFlyDate( Date flyDate );
+		void setDestination( string destination );
+		void setTime( Time firstTime, Time secondTime );
+		void setPrice( double pop, double vip );
+		// hàm kiểm tra vị trí ngồi
 		bool checkSitPos( int pos );
+		// hàm lấy tổng các vị trí ngồi đã đặt
 		int getSitNum();
-		
+
 };
 
-// Build class Flight 
+// Build class Flight
 Flight::Flight(){
 	id = departureLocation = destination = "";
 	vipTicketPrice = popTicketPrice = 0;
-	departureTime = Time(); 
-    landingTime = Time(); 
+	departureTime = Time();
+    landingTime = Time();
     flightDate = Date();
 }
 Flight::Flight( string id, Date flightDate, string departureLocation, string destination, Time departureTime, Time landingTime, double popTicketPrice, double vipTicketPrice, string area ){
@@ -118,4 +131,21 @@ bool Flight::checkSitPos( int pos ){
 	if( this->sitPos[pos] == 1 )
 		return false;
 	return true;
+}
+void Flight::setId( string id ){
+    this->id = id;
+}
+void Flight::setFlyDate( Date flyDate ){
+    this->flightDate = flyDate;
+}
+void Flight::setDestination( string destination ){
+    this->destination = destination;
+}
+void Flight::setTime( Time firstTime, Time secondTime ){
+    this->departureTime = firstTime;
+    this->landingTime = secondTime;
+}
+void Flight::setPrice( double pop, double vip ){
+    this->popTicketPrice = pop;
+    this->vipTicketPrice = vip;
 }
