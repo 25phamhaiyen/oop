@@ -184,6 +184,46 @@ int main(int argc, char** argv) {
                     system("cls");
                 }
             }
+            else if (mchoice == "12"){
+                char a = '1';
+                while( a != '2' ){
+                    char t;
+                    cout << "Ban muon xoa nhan su o vi tri nao? \n1. Co truong \n2. Co pho \n3. Tiep vien \n";
+                    do {
+                        cout << "\nNhap lua chon cua ban:  ";
+                        cin >> t;
+                        if( t < '1' || t > '3' )
+                            cout << "\nBan chi dươc nhap 1 hoac 2 hoac 3. Vui long nhap lai.\n";
+                    }while( t < '1' || t > '3' );
+                    string pos = (t == '1')?"Co truong":((t == '2')?"Co pho   ":"Tiep vien");
+                    system("cls");
+                    displayHumanInPlaneWithPosition(employ, pos);
+                    string id;
+                    bool isValidId = false;
+                    do {
+                        cout << "\nNhap id nhan su muon xoa:  ";
+                        cin >> id;
+                        for( auto it = employ[pos].begin() ; it != employ[pos].end() ; it++ ){
+                            if( it->first.getId() == id ){
+                                isValidId = true;
+                                employ[pos].erase(it);
+                                break;
+                            }
+                        }
+                        if( !isValidId )
+                            cout << "\nId khong dung. Vui long nhap lai.\n";
+                    }while( !isValidId );
+                    cout << "\nXoa nhan su " << id << " thanh cong!\n\n";
+                    cout << "Ban co muon tiep tuc xoa? \n1. Co \n2. Khong\n";
+                    do{
+                        cout << "\nNhap lua chon cua ban:  ";
+                        cin >> a;
+                        if( a != '1' && a != '2' )
+                            cout << "\nBan chi duoc chon 1 hoac 2. Vui long chon lai\n";
+                    }while( a != '1' && a != '2' );
+                    system("cls");
+                }
+            }
             else if (mchoice == "13"){
                 char a = '1';
                 while( a != '2' ){
