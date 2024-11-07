@@ -4,6 +4,7 @@
 #include<string>
 #include<vector>
 #include<map>
+#include<set>
 #include<unordered_map>
 #include<conio.h>
 #include<fstream>
@@ -11,46 +12,56 @@
 #include<iomanip>
 #include<ctime>
 using namespace std;
-
 #define PINK "\033[38;5;206m"
 #define RESET "\033[0m"
-
 class Date {
 	private:
-		int day, month, year;
+		int day, month, year;  // ngày tháng năm
+		// mảng lưu các ngày trong tháng
 		int dayOfMonth[12] = {31,28,31,30,31,30,31,31,30,31,30,31};
 	public:
+		// hàm khởi tạo
 		Date();
 		Date( int day, int month, int year );
 		Date( const Date &date );
+		// hàm nhập ngày
 		friend void inputDay( int &day, int maxDay );
+		// hàm nhập ngày, tháng, năm
 		friend istream& operator >> ( istream& is, Date &date );
+		// hàm xuất ngày tháng năm
 		friend ostream& operator << ( ostream& os, const Date &date );
+		// nạp chồng toán tử gán
 		Date operator = ( const Date &date );
+		// nạp chồng toán tử so sánh
 		friend bool operator < ( const Date &date1, const Date &date2 );
 		friend bool operator > ( const Date &date1, const Date &date2 );
 		friend bool operator >= ( const Date &date1, const Date &date2 );
 		friend bool operator <= ( const Date &date1, const Date &date2 );
 		friend bool operator == ( const Date &date1, const Date &date2 );
+		// hàm lấy giá trị ngay, tháng , năm
 		int getDay();
 		int getMonth();
 		int getYear();
 };
+
 class Time {
 	private:
-		int minute, hour;
+		int minute, hour; // giờ, phút
 	public:
+		// hàm khởi tạo
 		Time();
 		Time( int hour, int minute );
 		Time( const Time &time );
+		// hàm nhập xuất thời gian
 		friend istream& operator >> ( istream& is, Time &time );
 		friend ostream& operator << ( ostream& os, const Time &time );
+		// toán tử gán
 		Time operator = ( const Time &time );
+		// toán tử so sánh
 		friend bool operator < ( const Time &time1, const Time &time2 );
 		friend bool operator > ( const Time &time1, const Time &time2 );
 		friend bool operator >= ( const Time &time1, const Time &time2 );
 		friend bool operator <= ( const Time &time1, const Time &time2 );
-		friend bool operator == ( const Time &time1, const Time &time2 );
 		int getHour();
 		int getMin();
 };
@@ -59,7 +70,7 @@ class Time {
 // Build class Date
 Date::Date(){
 	day = month = 1;
-	year = 1990;
+	year = 1900;
 }
 Date::Date( int day, int month, int year ){
 	this->day = day;
@@ -75,7 +86,7 @@ void inputDay( int &day, int maxDay ){ // Ham check input day
 	do {
 		cout << "Nhap ngay:  ";
 		cin >> day;
-		if( day < 1 || day > maxDay )
+		if( day < 0 || day > maxDay )
 			cout << "\nNgay phai >= 1 va <= " << maxDay << ". Vui long nhap lai\n\n";
 	}while( day < 1 || day > maxDay );
 }
@@ -83,9 +94,9 @@ istream& operator >> ( istream& is, Date &date ){
 	do {
 		cout << "Nhap nam:  ";
 		is >> date.year;
-		if( date.year < 1990 )
-			cout << "\nNam phai >= 1990. Vui long nhap lai\n\n";
-	}while( date.year < 1990 );
+		if( date.year < 1900 )
+			cout << "\nNam phai >= 1900. Vui long nhap lai\n\n";
+	}while( date.year < 1900 );
 	do {
 		cout << "Nhap thang:  ";
 		is >> date.month;
@@ -100,8 +111,8 @@ istream& operator >> ( istream& is, Date &date ){
 		if( date.year % 400 == 0 || ( date.year % 4 == 0 && date.year % 100 != 0 ) ){
 			inputDay(date.day,29);
 			date.dayOfMonth[1] = 29;
-		}	
-		else 
+		}
+		else
 			inputDay(date.day,28);
 	}
 	return is;
@@ -109,17 +120,17 @@ istream& operator >> ( istream& is, Date &date ){
 ostream& operator << ( ostream& os, const Date &date ){
 	if( date.day > 9 )
 		os << date.day << "/";
-	else 
+	else
 		os << "0" << date.day << "/";
 	if( date.month > 9 )
 		os << date.month << "/";
-	else 
+	else
 		os << "0" << date.month << "/";
 	os << date.year;
 	return os;
 }
 Date Date::operator = ( const Date &date ){
-	if( this != &date ) { 
+	if( this != &date ) {
         day = date.day;
         month = date.month;
         year = date.year;
@@ -135,13 +146,13 @@ bool operator < ( const Date &date1, const Date &date2 ){
 		else if( date1.month == date2.month ){
 			if( date1.day < date2.day)
 				return true;
-			else 
+			else
 				return false;
 		}
 		else
 			return false;
 	}
-	else 
+	else
 		return false;
 }
 bool operator > ( const Date &date1, const Date &date2 ){
@@ -153,13 +164,13 @@ bool operator > ( const Date &date1, const Date &date2 ){
 		else if( date1.month == date2.month ){
 			if( date1.day > date2.day)
 				return true;
-			else 
+			else
 				return false;
 		}
 		else
 			return false;
 	}
-	else 
+	else
 		return false;
 }
 bool operator >= ( const Date &date1, const Date &date2 ){
@@ -212,21 +223,21 @@ istream& operator >> ( istream& is, Time &time ){
 ostream& operator << ( ostream& os, const Time &time ){
 	if( time.hour > 9 )
 		os << time.hour << ":";
-	else 
+	else
 		os << "0" << time.hour << ":";
 	if( time.minute > 9 )
 		os << time.minute;
-	else 
+	else
 		os << "0" << time.minute;
 	return os;
 }
 Time Time::operator = ( const Time &time ){
-	if( this != &time ) { 
+	if( this != &time ) {
         hour = time.hour;
         minute = time.minute;
     }
     return *this;
-} 
+}
 bool operator < ( const Time &time1, const Time &time2 ){
 	if( time1.hour < time2.hour )
 		return true;
@@ -256,9 +267,6 @@ bool operator >= ( const Time &time1, const Time &time2 ){
 }
 bool operator <= ( const Time &time1, const Time &time2 ){
 	return !( time1 > time2 );
-}
-bool operator == ( const Time &time1, const Time &time2 ){
-	return (time1.hour == time2.hour && time1.minute == time2.minute);
 }
 int Time::getHour(){
 	return hour;
