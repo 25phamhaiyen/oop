@@ -16,24 +16,28 @@ class Human {
 		friend istream& operator >> ( istream& is, Human &human );
 		friend ostream& operator << ( ostream& os, const Human &human );
 		Human operator = ( const Human &human );
-		string getName();
-		Date getDate();
-		string getSex();
-		int getAge();
+		string getName() const;
+		Date getDate() const;
+		string getSex() const;
+		int getAge() const;
 
 };
 class humanInPlane : public Human {
 	private:
+	    string id;
 		string position;  // chức vụ trên máy bay( cơ trưởng, tiếp viên, cơ phó )
 		double salary;
 	public:
 		humanInPlane();
-		humanInPlane( const Human &human, string position, double salary );
+		humanInPlane( const Human &human, string id, string position, double salary );
 		friend istream& operator >> ( istream& is, humanInPlane &hip );
 		friend ostream& operator << ( ostream& os, const humanInPlane &hip );
+		void setId( string id );
 		void setSalary( string position );
-		string getPosition();
-		double getSalary();
+		string getPosition() const;
+		double getSalary() const;
+		string getId() const;
+		bool operator<(const humanInPlane& other) const;
 };
 class Passenger : public Human {
 	private:
@@ -134,23 +138,23 @@ Human Human::operator = ( const Human &human ){
 	}
 	return *this;
 }
-string Human::getName(){
+string Human::getName() const{
 	return name;
 }
-Date Human::getDate(){
+Date Human::getDate() const{
 	return date;
 }
-string Human::getSex(){
+string Human::getSex() const{
 	return sex;
 }
-int Human::getAge(){
+int Human::getAge() const{
 	return age;
 }
 
 
 // Build class humanInPlane
 humanInPlane::humanInPlane(){
-	position = "";
+	id = position = "";
 	salary = 0;
 }
 void humanInPlane::setSalary( string position ){
@@ -161,7 +165,8 @@ void humanInPlane::setSalary( string position ){
 	else
 		this->salary = 25000;
 }
-humanInPlane::humanInPlane( const Human &human, string position, double salary ) : Human(human){
+humanInPlane::humanInPlane( const Human &human, string id, string position, double salary ) : Human(human){
+    this->id = id;
 	this->position = position;
 	this->salary = salary;
 }
@@ -186,16 +191,24 @@ istream& operator >> ( istream& is, humanInPlane &hip ){
 	return is;
 }
 ostream& operator << ( ostream& os, const humanInPlane &hip ){
-	os << static_cast<const Human&>(hip) << hip.position << "\t" << hip.salary << endl;
+	os << hip.id << "\t" << static_cast<const Human&>(hip) << hip.position << "\t" << hip.salary << endl;
 	return os;
 }
-string humanInPlane::getPosition(){
+string humanInPlane::getPosition() const{
 	return position;
 }
-double humanInPlane::getSalary(){
+string humanInPlane::getId() const{
+    return id;
+}
+double humanInPlane::getSalary() const{
 	return salary;
 }
-
+void humanInPlane::setId( string id ){
+    this->id = id;
+}
+bool humanInPlane::operator < (const humanInPlane& other) const {
+    return this->id < other.id;
+}
 
 // Build class Passeger
 Passenger::Passenger(){
