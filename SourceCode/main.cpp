@@ -13,6 +13,7 @@ int main(int argc, char** argv) {
 	vector<Voucher> voucher;
 	vector<pair<Passenger,string>> history;
 	unordered_map<string, int> checkid;
+	unordered_map<string, set<pair<humanInPlane, string>>> employ;
 	readData(plane, flight, passInfo, voucher, personal, history);
 	updateSitPos(flight, passInfo);
 	for( auto it : plane ){
@@ -21,6 +22,11 @@ int main(int argc, char** argv) {
 	}
 	for( auto it : voucher ){
 		checkid[it.getID()] = it.getReduceLevel();
+	}
+	for( auto it : personal ){
+        for( auto i : it ){
+            employ[i.first.getPosition()].insert( i );
+        }
 	}
 
 	// chayj ct
@@ -44,64 +50,587 @@ int main(int argc, char** argv) {
 		si.sign_in('1');
 		cout << "\n---------------------------------------------\n";
 		system("cls");
-		char choice;
-		while( choice != 't' && choice != 'T' ){
+		string mchoice;
+		while( mchoice != "t" && mchoice != "T" ){
 			displayMenuManager();
 			do {
 				cout << "\nNhap lua chon cua ban:  ";
-				cin >> choice;
-				if( ( choice < '1' || choice > '8' ) && ( choice != 't' && choice != 'T' ) )
-					cout << "\nBan chi duoc nhap gia tri trong khoang tu 1 -> 8 hoac {t,T}. Vui long nhap lai.\n";
-			}while( ( choice < '1' || choice > '8' ) && ( choice != 't' && choice != 'T' ) );
+				cin >> mchoice;
+				if( ( stoi(mchoice) < 1 || stoi(mchoice) > 16 ) && ( mchoice != "t" && mchoice != "T" ) )
+					cout << "\nBan chi duoc nhap gia tri trong khoang tu 1 -> 16 hoac {t,T}. Vui long nhap lai.\n";
+			}while( ( stoi(mchoice) < 1 || stoi(mchoice) > 16 ) && ( mchoice != "t" && mchoice != "T" ) );
 			system("cls");
-			switch(choice){
-				case '1':
-					cout << endl;
-					displayPlane(plane);
-					cout << endl;
-					break;
-				case '2':
-					cout << endl;
-					displayFlight(flight);
-					cout << endl;
-					break;
-				case '3':
-					cout << endl;
-					displayPassenger(passInfo);
-					cout << endl;
-					break;
-				case '4':
-					cout << endl;
-					displayHistory(history);
-					cout << endl;
-					break;
-				case '5':
-					cout << endl;
-					displayHumanInPlane(personal);
-					cout << endl;
-					break;
-				case '6':
-					cout << endl;
-					displayVoucher(voucher);
-					cout << endl;
-					break;
-				case '7':
-					cout << endl;
-					addFlight(plane, flight, personal, checkid);
-					cout << endl;
-					break;
-				case '8':
-					cout << endl;
-					addVoucher(voucher, checkid);
-					cout << endl;
-					break;
-				case 't':
-					cout << endl << "KET THUC\n";
-					break;
-				case 'T':
-					cout << endl << "KET THUC\n";
-					break;
-			}
+			if (mchoice == "1") {
+                cout << endl;
+                displayPlane(plane);
+                cout << endl;
+            }
+            else if (mchoice == "2") {
+                cout << endl;
+                displayFlight(flight);
+                cout << endl;
+            }
+            else if (mchoice == "3") {
+                cout << endl;
+                displayPassenger(passInfo);
+                cout << endl;
+            }
+            else if (mchoice == "4") {
+                cout << endl;
+                displayHistory(history);
+                cout << endl;
+            }
+            else if (mchoice == "5") {
+                cout << endl;
+                displayHumanInPlane(personal);
+                cout << endl;
+            }
+            else if (mchoice == "6") {
+                cout << endl;
+                displayVoucher(voucher);
+                cout << endl;
+            }
+            else if (mchoice == "7") {
+                addFlight(plane, flight, personal, checkid, employ);
+                cout << endl;
+            }
+            else if (mchoice == "8") {
+                cout << endl;
+                addVoucher(voucher, checkid);
+                cout << endl;
+            }
+            else if (mchoice == "9") {
+                cout << endl;
+                vector<pair<humanInPlane, string>> v;
+                int n;
+                do {
+                    cout << "\nNhap so luong nhap su muon them:  ";
+                    cin >> n;
+                    if( n <= 0 )
+                        cout << "\nSo luong nhan su muon them phai > 0. Vui long nhap lai.\n";
+                }while( n <= 0 );
+                humanInPlane hip;
+                system("cls");
+                while( n-- ){
+                    cin >> hip;
+                    v.push_back(make_pair(hip, "     "));
+                    system("cls");
+                }
+                personal.push_back(v);
+            }
+            else if (mchoice == "10") {
+                char a = '1';
+                while( a != '2' ){
+                    displayFlight(flight);
+                    cout << endl;
+                    string idToDelete;
+                    do {
+                        cout << "\nNhap id chuyen bay can xoa:  ";
+                        cin >> idToDelete;
+                        if (!checkid[idToDelete]) {
+                            cout << "\nID chuyen bay khong hop le. Vui long nhap lai.\n";
+                        }
+                    } while (!checkid[idToDelete]);
+
+                    // xoa chuyen bay
+                    for (auto it = flight.begin(); it != flight.end(); ++it) {
+                        if (it->first.getId() == idToDelete) {
+                            flight.erase(it);
+                            checkid[idToDelete]--;
+                            break;
+                        }
+                    }
+                    cout << "\nXoa chuyen bay thanh cong!\n\n";
+                    cout << "Ban co muon tiep tuc xoa? \n1. Co \n2. Khong\n";
+                    do{
+                        cout << "\nNhap lua chon cua ban:  ";
+                        cin >> a;
+                        if( a != '1' && a != '2' )
+                            cout << "\nBan chi duoc chon 1 hoac 2. Vui long chon lai\n";
+                    }while( a != '1' && a != '2' );
+                    system("cls");
+                }
+            }
+            else if (mchoice == "11") {
+                char a = '1';
+                while( a != '2' ){
+                    displayPlane(plane);
+                    cout << endl;
+                    string aircraft;
+                    do {
+                        cout << "\nNhap so hieu may bay can xoa:  ";
+                        cin >> aircraft;
+                        if (!checkid[aircraft]) {
+                            cout << "\nSo hieu may bay khong hop le. Vui long nhap lai.\n";
+                        }
+                    } while (!checkid[aircraft]);
+
+                    // xoa may bay
+                    for (auto it = plane.begin(); it != plane.end(); ++it) {
+                        if (it->first.getAircraftNumber() == aircraft) {
+                            plane.erase(it);
+                            checkid[aircraft]--;
+                            break;
+                        }
+                    }
+                    cout << "\nXoa may bay thanh cong!\n\n";
+                    cout << "Ban co muon tiep tuc xoa? \n1. Co \n2. Khong\n";
+                    do{
+                        cout << "\nNhap lua chon cua ban:  ";
+                        cin >> a;
+                        if( a != '1' && a != '2' )
+                            cout << "\nBan chi duoc chon 1 hoac 2. Vui long chon lai\n";
+                    }while( a != '1' && a != '2' );
+                    system("cls");
+                }
+            }
+            else if (mchoice == "13"){
+                char a = '1';
+                while( a != '2' ){
+                    displayVoucher(voucher);
+                    cout << endl;
+                    string id;
+                    do {
+                        cout << "\nNhap ma khuyen mai can xoa:  ";
+                        cin >> id;
+                        if (!checkid[id]) {
+                            cout << "\nMa khuyen mai khong hop le. Vui long nhap lai.\n";
+                        }
+                    } while (!checkid[id]);
+
+                    // xoa may bay
+                    for (auto it = voucher.begin(); it != voucher.end(); ++it) {
+                        if (it->getID() == id) {
+                            voucher.erase(it);
+                            checkid[id]--;
+                            break;
+                        }
+                    }
+                    cout << "\nXoa Voucher thanh cong!\n\n";
+                    cout << "Ban co muon tiep tuc xoa? \n1. Co \n2. Khong\n";
+                    do{
+                        cout << "\nNhap lua chon cua ban:  ";
+                        cin >> a;
+                        if( a != '1' && a != '2' )
+                            cout << "\nBan chi duoc chon 1 hoac 2. Vui long chon lai\n";
+                    }while( a != '1' && a != '2' );
+                    system("cls");
+                }
+            }
+            else if( mchoice == "14" ){
+                char a = '1';
+                while( a != '2' ){
+                    displayFlight(flight);
+                    cout << endl;
+                    string idToDelete;
+                    do {
+                        cout << "\nNhap id chuyen bay can sua:  ";
+                        cin >> idToDelete;
+                        if (!checkid[idToDelete]) {
+                            cout << "\nID chuyen bay khong hop le. Vui long nhap lai.\n";
+                        }
+                    } while (!checkid[idToDelete]);
+                    char ychoice = '7';
+                    while( ychoice != '6' ){
+                        system("cls");
+                        displayChinhsuaChuyenbay();
+                        cout << endl;
+                        do {
+                            cout << "Nhap lua chon cua ban:  ";
+                            cin >> ychoice;
+                            if( ychoice < '1' || ychoice > '6' )
+                                cout << "\bBan chi duoc chon gia tri trong khoang 1 -> 6. Vui long nhap lai.\n\n";
+                        }while( ychoice < '1' || ychoice > '6' );
+                        system("cls");
+                        switch( ychoice ){
+                            case '1':
+                                {
+                                    string idToReplace;
+                                    do{
+                                        cout << "Nhap ID ban muon chinh sua:  ";
+                                        cin >> idToReplace;
+                                        if( checkid[idToReplace] )
+                                            cout << "\nID ban nhap da ton tai. Vui long nhap lai.\n\n";
+                                    }while( checkid[idToReplace] );
+                                    for (auto it = flight.begin(); it != flight.end(); ++it) {
+                                        if (it->first.getId() == idToDelete) {
+                                            it->first.setId(idToReplace);
+                                            break;
+                                        }
+                                    }
+                                    cout << "\nChinh sua ID thanh cong!\n\n";
+                                    break;
+                                }
+                            case '2':
+                                {
+                                    string desToReplace;
+                                    cout << "Nhap noi den ban muon chinh sua:  ";
+                                    cin >> desToReplace;
+                                    for( int i = 0 ; i < 9-desToReplace.size() ; i++ )
+                                            desToReplace += ' ';
+                                    for (auto it = flight.begin(); it != flight.end(); ++it) {
+                                        if (it->first.getId() == idToDelete) {
+                                            it->first.setDestination(desToReplace);
+                                            break;
+                                        }
+                                    }
+                                    cout << "\nChinh sua noi den thanh cong!\n\n";
+                                    break;
+                                }
+                            case '3':
+                                {
+                                    time_t t = time(nullptr); // L?y th?i gian hi?n t?i
+                                    tm* now = localtime(&t);
+                                    Date nowDate(now->tm_mday, now->tm_mon+1, now->tm_year+1900);
+                                    Date d;
+                                    do {
+                                        cout << "Nhap ngay ban muon chinh sua:  \n\n";
+                                        cin >> d;
+                                        if( d < nowDate )
+                                            cout << "\nNgay bay phai lon hon ngay hom nay. Vui long nhap lai.\n";
+                                    }while( d < nowDate );
+                                    for (auto it = flight.begin(); it != flight.end(); ++it) {
+                                        if (it->first.getId() == idToDelete) {
+                                            it->first.setFlyDate(d);
+                                            break;
+                                        }
+                                    }
+                                    cout << "\nChinh sua ngay bay thanh cong!\n\n";
+                                    break;
+                                }
+                            case '4':
+                                {
+                                    cout << endl;
+                                    Time sTime, eTime;
+                                    cout << "Nhap khoang thoi gian can sua: \n\n";
+                                    cout << "Thoi gian khoi hanh:  \n"; cin >> sTime;
+                                    do {
+                                        cout << "\nThoi gian ha canh:  \n"; cin >> eTime;
+                                        if( eTime <= sTime )
+                                            cout << "\nThoi gian sau phai lon hon thoi gian truoc. Vui long nhap lai\n";
+                                    }while( eTime <= sTime );
+                                    for (auto it = flight.begin(); it != flight.end(); ++it) {
+                                        if (it->first.getId() == idToDelete) {
+                                            it->first.setTime(sTime, eTime);
+                                            break;
+                                        }
+                                    }
+                                    cout << "\nChinh sua gio bay thanh cong!\n\n";
+                                    break;
+                                }
+                            case '5':
+                                {
+                                    cout << endl;
+                                    double minTic, maxTic;
+                                    cout << "Nhap khoang gia ve muon chinh sua: \n\n";
+                                    do {
+                                        cout << "Tu:  "; cin >> minTic;
+                                        if( minTic <= 0 )
+                                            cout << "\nGia ve phai > 0. Vui long nhap lai.\n\n";
+                                    }while( minTic <= 0 );
+                                    do {
+                                        cout << "Den:  "; cin >> maxTic;
+                                        if( maxTic < minTic )
+                                            cout << "\nGia ve sau phai lon hon gia ve truoc. Vui long nhap lai.\n\n";
+                                    }while( maxTic < minTic );
+                                    for (auto it = flight.begin(); it != flight.end(); ++it) {
+                                        if (it->first.getId() == idToDelete) {
+                                            it->first.setPrice(minTic, maxTic);
+                                            break;
+                                        }
+                                    }
+                                    cout << "\nChinh sua gia ve thanh cong!\n\n";
+                                    break;
+                                }
+                            case '6':
+                                break;
+                        }
+                    }
+                    system("cls");
+                    cout << "Ban co muon tiep tuc chinh sua cac chuyen bay khac?\n1. Co \n2. Khong\n";
+                    do{
+                        cout << "\nNhap lua chon cua ban:  ";
+                        cin >> a;
+                        if( a != '1' && a != '2' )
+                            cout << "\nBan chi duoc chon 1 hoac 2. Vui long chon lai.\n";
+                    }while( a != '1' && a != '2' );
+                    system("cls");
+                }
+            }
+            else if( mchoice == "15" ){
+                char a = '1';
+                while( a != '2' ){
+                    displayPlane(plane);
+                    cout << endl;
+                    string idToDelete;
+                    do {
+                        cout << "\nNhap so hieu may bay can sua:  ";
+                        cin >> idToDelete;
+                        if (!checkid[idToDelete]) {
+                            cout << "\nSo hieu may bay khong hop le. Vui long nhap lai.\n";
+                        }
+                    } while (!checkid[idToDelete]);
+                    char ychoice = '7';
+                    while( ychoice != '5' ){
+                        system("cls");
+                        displayChinhsuaMaybay();
+                        cout << endl;
+                        do {
+                            cout << "Nhap lua chon cua ban:  ";
+                            cin >> ychoice;
+                            if( ychoice < '1' || ychoice > '5' )
+                                cout << "\bBan chi duoc chon gia tri trong khoang 1 -> 5. Vui long nhap lai.\n\n";
+                        }while( ychoice < '1' || ychoice > '5' );
+                        system("cls");
+                        switch( ychoice ){
+                            case '1':
+                                {
+                                    cout << endl;
+                                    char c;
+                                    string planeName;
+                                    cout << "Chon 1 trong cac hang bay:\n\n";
+                                    cout << "1. VietNam Airlines\n";
+                                    cout << "2. VietJet Air\n";
+                                    cout << "3. Bamboo Airways\n";
+                                    cout << "4. Jetstar Pacific\n\n";
+                                    do {
+                                        cout << "Nhap lua chon cua ban:  "; cin >> c;
+                                        if( c < '1' || c > '4' )
+                                            cout << "\nBan chi duoc nhap gia tri trong khaong 1 -> 4. Vui long nhap lai\n";
+                                    }while( c < '1' || c > '4' );
+                                    switch( c ){
+                                        case '1':
+                                            planeName = "VietNam Airlines";
+                                            break;
+                                        case '2':
+                                            planeName = "VietJet Air     ";
+                                            break;
+                                        case '3':
+                                            planeName = "Bamboo Airways  ";
+                                            break;
+                                        case '4':
+                                            planeName = "Jetstar Pacific ";
+                                            break;
+                                    }
+                                    for (auto it = plane.begin(); it != plane.end(); ++it) {
+                                        if (it->first.getAircraftNumber() == idToDelete) {
+                                            it->first.setPlaneName(planeName);
+                                            break;
+                                        }
+                                    }
+                                    cout << "\nChinh sua ten hang bay thanh cong!\n\n";
+                                    break;
+                                }
+                            case '2':
+                                {
+                                    string idToReplace;
+                                    do{
+                                        cout << "Nhap so hieu may bay ban muon thay the:  ";
+                                        cin >> idToReplace;
+                                        if( checkid[idToReplace] )
+                                            cout << "\nSo hieu may bay ban nhap da ton tai. Vui long nhap lai.\n\n";
+                                    }while( checkid[idToReplace] );
+                                    for (auto it = plane.begin(); it != plane.end(); ++it) {
+                                        if (it->first.getAircraftNumber() == idToDelete) {
+                                            it->first.setAircraftNumber(idToReplace);
+                                            break;
+                                        }
+                                    }
+                                    cout << "\nChinh sua so hieu may bay thanh cong!\n\n";
+                                    break;
+                                }
+                            case '3':
+                                {
+                                    char b;
+                                    cout << "Chon loai may bay de thay the:\n1. Dan dung \n2. Cho hang\n";
+                                    do{
+                                        cout << "\nNhap lua chon cua ban:  ";
+                                        cin >> b;
+                                        if( b != '1' && b != '2' )
+                                            cout << "\nBan chi duoc chon 1 hoac 2. Vui long chon lai.\n";
+                                    }while( b != '1' && b != '2' );
+                                    string type = (b == '1')?"Dan dung":"Cho hang";
+                                    for (auto it = plane.begin(); it != plane.end(); ++it) {
+                                        if (it->first.getAircraftNumber() == idToDelete) {
+                                            it->first.setType(type);
+                                            break;
+                                        }
+                                    }
+                                    cout << "\nChinh sua loai may bay thanh cong!\n\n";
+                                    break;
+                                }
+                            case '4':
+                                {
+                                    char b;
+                                    cout << "Chon trang thai de thay the:\n1. Hoat dong \n2. Bao tri\n";
+                                    do{
+                                        cout << "\nNhap lua chon cua ban:  ";
+                                        cin >> b;
+                                        if( b != '1' && b != '2' )
+                                            cout << "\nBan chi duoc chon 1 hoac 2. Vui long chon lai.\n";
+                                    }while( b != '1' && b != '2' );
+                                    string status = (b == '1')?"Hoat dong":"Bao tri  ";
+                                    for (auto it = plane.begin(); it != plane.end(); ++it) {
+                                        if (it->first.getAircraftNumber() == idToDelete) {
+                                            it->first.setStatus(status);
+                                            break;
+                                        }
+                                    }
+                                    cout << "\nChinh sua loai may bay thanh cong!\n\n";
+                                    break;
+                                }
+                            case '5':
+                                break;
+                        }
+                    }
+                    system("cls");
+                    cout << "Ban co muon tiep tuc chinh sua cac may bay khac?\n1. Co \n2. Khong\n";
+                    do{
+                        cout << "\nNhap lua chon cua ban:  ";
+                        cin >> a;
+                        if( a != '1' && a != '2' )
+                            cout << "\nBan chi duoc chon 1 hoac 2. Vui long chon lai.\n";
+                    }while( a != '1' && a != '2' );
+                    system("cls");
+                }
+            }
+            else if (mchoice == "16"){
+                char a = '1';
+                while( a != '2' ){
+                    displayVoucher(voucher);
+                    cout << endl;
+                    string idToDelete;
+                    do {
+                        cout << "\nNhap ma khuyen mai can sua:  ";
+                        cin >> idToDelete;
+                        if (!checkid[idToDelete]) {
+                            cout << "\nMa khuyen mai khong hop le. Vui long nhap lai.\n";
+                        }
+                    } while (!checkid[idToDelete]);
+                    char ychoice = '7';
+                    while( ychoice != '5' ){
+                        system("cls");
+                        displayChinhsuaVoucher();
+                        cout << endl;
+                        do {
+                            cout << "Nhap lua chon cua ban:  ";
+                            cin >> ychoice;
+                            if( ychoice < '1' || ychoice > '5' )
+                                cout << "\bBan chi duoc chon gia tri trong khoang 1 -> 5. Vui long nhap lai.\n\n";
+                        }while( ychoice < '1' || ychoice > '5' );
+                        system("cls");
+                        switch( ychoice ){
+                            case '1':
+                                {
+                                    string idToReplace;
+                                    do{
+                                        cout << "Nhap ma khuyen mai ban muon thay the:  ";
+                                        cin >> idToReplace;
+                                        if( checkid[idToReplace] )
+                                            cout << "\nMa khuyen mai ban nhap da ton tai. Vui long nhap lai.\n\n";
+                                    }while( checkid[idToReplace] );
+                                    for (auto it = voucher.begin(); it != voucher.end(); ++it) {
+                                        if (it->getID() == idToDelete) {
+                                            checkid[idToDelete]--;
+                                            idToDelete = idToReplace;
+                                            it->setID(idToReplace);
+                                            checkid[idToDelete]++;
+                                            break;
+                                        }
+                                    }
+                                    cout << "\nChinh sua ma khuyen mai thanh cong!\n\n";
+                                    break;
+                                }
+                            case '2':
+                                {
+                                    double level;
+                                    do{
+                                        cout << "Nhap muc giam ban muon thay the:  ";
+                                        cin >> level;
+                                        if( level <= 0 )
+                                            cout << "\nMuc giam phai > 0. Vui long nhap lai.\n\n";
+                                    }while( level <= 0 );
+                                    for (auto it = voucher.begin(); it != voucher.end(); ++it) {
+                                        if (it->getID() == idToDelete) {
+                                            it->setReduceLevel(level);
+                                            break;
+                                        }
+                                    }
+                                    cout << "\nChinh sua muc giam thanh cong!\n\n";
+                                    break;
+                                }
+                            case '3':
+                                {
+                                    Date t;
+                                    for (auto it = voucher.begin(); it != voucher.end(); ++it) {
+                                        if (it->getID() == idToDelete) {
+                                            t = it->getReduceDeadline();
+                                            break;
+                                        }
+                                    }
+                                    Date d;
+                                    do {
+                                        cout << "Nhap ngay bat dau khuyen mai:  \n\n";
+                                        cin >> d;
+                                        if( d > t ){
+                                            cout << "\nNgay bat dau khuyen mai phai nho hon ngay ket thuc khuyen mai.\n";
+                                            cout << "Vui long nhap ngay bat dau khuyen mai nho hon ngay:  " << t << "\n\n";
+                                        }
+                                    }while( d > t );
+                                    for (auto it = voucher.begin(); it != voucher.end(); ++it) {
+                                        if (it->getID() == idToDelete) {
+                                            it->setFromDate(d);
+                                            break;
+                                        }
+                                    }
+                                    cout << "\nChinh sua ngay bat dau khuyen mai thanh cong!\n\n";
+                                    break;
+                                }
+                            case '4':
+                                {
+                                    Date t;
+                                    for (auto it = voucher.begin(); it != voucher.end(); ++it) {
+                                        if (it->getID() == idToDelete) {
+                                            t = it->getFromDate();
+                                            break;
+                                        }
+                                    }
+                                    Date d;
+                                    do {
+                                        cout << "Nhap ngay bat dau khuyen mai:  \n\n";
+                                        cin >> d;
+                                        if( d < t ){
+                                            cout << "\nNgay ket thuc khuyen mai phai lon hon ngay bat dau khuyen mai.\n";
+                                            cout << "Vui long nhap ngay ket thuc khuyen mai lon hon ngay:  " << t << "\n\n";
+                                        }
+                                    }while( d < t );
+                                    for (auto it = voucher.begin(); it != voucher.end(); ++it) {
+                                        if (it->getID() == idToDelete) {
+                                            it->setReduceDeadline(d);
+                                            break;
+                                        }
+                                    }
+                                    cout << "\nChinh sua ngay ket thuc khuyen mai thanh cong!\n\n";
+                                    break;
+                                }
+                            case '5':
+                                break;
+                        }
+                    }
+                    system("cls");
+                    cout << "Ban co muon tiep tuc chinh sua cac Voucher khac?\n1. Co \n2. Khong\n";
+                    do{
+                        cout << "\nNhap lua chon cua ban:  ";
+                        cin >> a;
+                        if( a != '1' && a != '2' )
+                            cout << "\nBan chi duoc chon 1 hoac 2. Vui long chon lai.\n";
+                    }while( a != '1' && a != '2' );
+                    system("cls");
+                }
+            }
+            else if (mchoice == "t" || mchoice == "T") {
+                cout << endl << "KET THUC\n";
+            }
 		}
 	}
 
@@ -233,8 +762,17 @@ int main(int argc, char** argv) {
 											cout << endl;
 											double minTic, maxTic;
 											cout << "Nhap khoang gia ve muon tim: \n\n";
-											cout << "Tu:  "; cin >> minTic;
-											cout << "Den:  "; cin >> maxTic;
+											do {
+                                                cout << "Tu:  "; cin >> minTic;
+                                                if( minTic <= 0 )
+                                                    cout << "\nGia ve phai > 0. Vui long nhap lai.\n\n";
+											}while( minTic <= 0 );
+											do {
+                                                cout << "Den:  "; cin >> maxTic;
+                                                if( maxTic < minTic )
+                                                    cout << "\nGia ve sau phai lon hon gia ve truoc. Vui long nhap lai.\n\n";
+											}while( maxTic < minTic );
+
 											findWithTicketPrice(flight, minTic, maxTic, pas.getRank(), area);
 											cout << endl;
 											break;
@@ -450,6 +988,16 @@ int main(int argc, char** argv) {
 							cout << "\nKhong the huy chuyen bay vi quy khach chua dat chuyen bay nao.\n\n";
 							break;
 						}
+						char b;
+						cout << "Ban co chac chan muon huy? \n1. Co \n2. Khong\n";
+						do {
+                            cout << "\nNhap lua chon cua ban:  ";
+                            cin >> b;
+                            if( b != '1' && b != '2' )
+                                cout << "\nBan chi duoc chon 1 hoac 2. Vui long chon lai.\n";
+						}while( b != '1' && b != '2' );
+						if( b == '2' )
+                            break;
 						// list các chuyến bay đã đặt
 						cout << PINK << "+----------------------------------------------------------------+" << endl;
 						cout << "|   Ho va ten\t  " << " |    Hang ghe    " << "| Vi tri ghe " <<  "| Ma chuyen bay |" << endl;
