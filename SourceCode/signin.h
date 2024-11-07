@@ -6,15 +6,22 @@
 using namespace std;
 class SignIn {
 	private:
-	    string userName, password;
+	    string userName, password;  // tên tài khoản và mật khẩu
 	public:
-	    SignIn();
+	    SignIn();  // hàm khởi tạo
+	    // hàm kiểm tra thông tin đăng nhập có hợp lệ
 	    friend bool isValidAccount( string username, string password, char choice );
+	    // hàm kiểm tra tên tài khoản có bị trùng không
 	    friend bool isValidUserName( string username);
+	    // hàm kiểm tra mật khẩu
 	    friend bool checkPass(string password);
+	    // hàm nhập mật khẩu
 	    friend void inputPass(string &password);
+	    // hàm đăng nhập
 	    void sign_in(char choice);
+	    // hàm đăng ký
 	    void sign_up();
+	    // hàm lấy giá trị username và pass
 	    string getUserName();
 	    string getPassword();
 };
@@ -42,32 +49,50 @@ bool checkPass( string password ){
     }
     return false;
 }
-void inputPass( string &password ){
-	char c;
-	while(1){
-		c = _getch();
-		// check enter
+void inputPass(string &password) {
+    char c;
+    bool isMasked = true; // Biến trạng thái để theo dõi việc ẩn/hiện mật khẩu
+    while (true) {
+        c = _getch();
+        // enter
         if( c == 13 )
             break;
-    	// check backspace;
-		else if( c == 8 ) {
-            if( !password.empty() ) {
-                password.pop_back();
-                cout << "\b \b";
+        // tab
+        else if( c == 9 ) {
+            isMasked = !isMasked;
+            // Xóa toàn bộ dòng trước khi in lại
+            cout << "\rNhap mat khau: ";  // Quay về đầu dòng
+            for( size_t i = 0 ; i < password.size() ; i++ ) {
+                // In lại mật khẩu với dấu * hoặc ký tự thực tế tùy theo trạng thái
+                if( isMasked )
+                    cout << '*';
+                else
+                    cout << password[i];
             }
         }
-		else {
+        // Khi nhấn Backspace (phím ASCII 8)
+        else if( c == 8 ) {
+            if( !password.empty() ) {
+                password.pop_back();
+                cout << "\b \b";  // Xóa ký tự cuối cùng
+            }
+        }
+        // Các ký tự khác
+        else {
             password += c;
-            cout << '*';
+            if( isMasked )
+                cout << '*';
+            else
+                cout << c;
         }
     }
 }
 bool isValidAccount( string username, string password, char choice ){
 	ifstream file;
 	if( choice == '1')
-		file.open("../Database/managerAccount.txt");
+		file.open("Database\\managerAccount.txt");
 	else
-		file.open("../Database/passengerSignInAccount.txt");
+		file.open("Database\\passengerSignInAccount.txt");
     string line;
     while( getline(file, line) ) {
         stringstream ss(line);
@@ -80,7 +105,7 @@ bool isValidAccount( string username, string password, char choice ){
     return false;
 }
 bool isValidUserName( string username ){
-	ifstream file("../Database/passengerSignInAccount.txt");
+	ifstream file("Database\\passengerSignInAccount.txt");
     string line;
     while( getline(file, line) ) {
         stringstream ss(line);
@@ -136,7 +161,7 @@ void SignIn::sign_up(){
 	cout << "\nDang ky thanh cong!\n\n";
 
 	// ghi file
-	ofstream fileSignIn("../Database/passengerSignInAccount.txt", ios::app);
+	ofstream fileSignIn("Database\\passengerSignInAccount.txt", ios::app);
 	fileSignIn << userName << ',' << password << endl;
 	fileSignIn.close();
 }
