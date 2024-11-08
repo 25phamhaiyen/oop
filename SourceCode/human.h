@@ -15,7 +15,11 @@ class Human {
 		friend void standarName( string &name );
 		friend istream& operator >> ( istream& is, Human &human );
 		friend ostream& operator << ( ostream& os, const Human &human );
-		Human operator = ( const Human &human );	
+		Human operator = ( const Human &human );
+		string getName() const;
+		Date getDate() const;
+		string getSex() const;
+		int getAge() const;
 };
 
 
