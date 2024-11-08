@@ -44,9 +44,16 @@ int main(int argc, char **argv)
     {
         cout << "Nhap lua chon cua ban:  ";
         cin >> choice;
-        if (choice != '1' && choice != '2')
+        // Kiểm tra nếu nhập liệu không hợp lệ (ví dụ: nhập ký tự không phải số)
+        if (ccin.fail() || (choice != '1' && choice != '2')){
+            cin.clear(); // Xóa trạng thái lỗi của cin
+            cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Bỏ qua các ký tự còn lại trong bộ đệm
             cout << "\nBan chi co the chon 1 hoac 2. Vui long chon lai\n\n";
-    } while (choice != '1' && choice != '2');
+            }
+        } else {
+        break; // Thoát khỏi vòng lặp nếu nhập đúng
+    }
+    } while (true);
     cin.ignore();
 
     // dang nhap giao dien quan ly

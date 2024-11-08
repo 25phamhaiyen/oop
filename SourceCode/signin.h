@@ -51,17 +51,24 @@ bool checkPass( string password ){
 }
 void inputPass(string &password) {
     char c;
+	password = ""; // Đặt lại mật khẩu
     bool isMasked = true; // Biến trạng thái để theo dõi việc ẩn/hiện mật khẩu
+
+	cout << "\n(Nhan Tab de an/hien mat khau)" << endl;
+	
     while (true) {
         c = _getch();
+
         // enter
         if( c == 13 )
             break;
+
         // tab
         else if( c == 9 ) {
             isMasked = !isMasked;
             // Xóa toàn bộ dòng trước khi in lại
             cout << "\rNhap mat khau: ";  // Quay về đầu dòng
+
             for( size_t i = 0 ; i < password.size() ; i++ ) {
                 // In lại mật khẩu với dấu * hoặc ký tự thực tế tùy theo trạng thái
                 if( isMasked )
@@ -70,6 +77,7 @@ void inputPass(string &password) {
                     cout << password[i];
             }
         }
+
         // Khi nhấn Backspace (phím ASCII 8)
         else if( c == 8 ) {
             if( !password.empty() ) {
@@ -77,6 +85,7 @@ void inputPass(string &password) {
                 cout << "\b \b";  // Xóa ký tự cuối cùng
             }
         }
+
         // Các ký tự khác
         else {
             password += c;

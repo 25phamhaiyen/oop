@@ -109,7 +109,15 @@ string Plane::getAircraftNumber()
 }
 Plane Plane::operator=(const Plane &plane)
 {
-	Plane::operator=(plane);
+	// Plane::operator=(plane);
+
+	if (this != &plane) { // kiểm tra tự gán
+        planeName = plane.planeName;
+        aircraftNumber = plane.aircraftNumber;
+        type = plane.type;
+        status = plane.status;
+    }
+	
 	return *this;
 }
 void Plane::setAircraftNumber(string s)
