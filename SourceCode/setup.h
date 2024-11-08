@@ -49,6 +49,7 @@ int stringToInt(string s)
     }
     return ans;
 }
+<<<<<<< HEAD
 void readData(vector<pair<Plane, string>> &plane, vector<pair<Flight, string>> &flight, vector<pair<Passenger, string>> &passInfo, vector<Voucher> &voucher, vector<vector<pair<humanInPlane, string>>> &personal, vector<pair<Passenger, string>> &history)
 {
     ifstream file;
@@ -56,6 +57,13 @@ void readData(vector<pair<Plane, string>> &plane, vector<pair<Flight, string>> &
     string line;
     while (getline(file, line))
     {
+=======
+void readData( vector<pair<Plane, string>> &plane, vector<pair<Flight, string>> &flight, vector<pair<Passenger,string>> &passInfo, vector<Voucher> &voucher, vector<vector<pair<humanInPlane, string>>> &personal, vector<pair<Passenger,string>> &history ){
+	ifstream file;
+	file.open("./Database/PlaneData.txt");
+	string line;
+    while( getline(file, line) ) {
+>>>>>>> a1655c5b1b482ec0c3ad19c474f3763db9294dc9
         stringstream ss(line);
         string name, num, type, status, id;
         getline(ss, name, ',');
@@ -67,9 +75,14 @@ void readData(vector<pair<Plane, string>> &plane, vector<pair<Flight, string>> &
     }
     file.close();
 
+<<<<<<< HEAD
     file.open("Database\\FlightData.txt");
     while (getline(file, line))
     {
+=======
+    file.open("./Database/FlightData.txt");
+    while( getline(file, line) ) {
+>>>>>>> a1655c5b1b482ec0c3ad19c474f3763db9294dc9
         stringstream ss(line);
         string id, date, firstLocal, secondLocal, firstTime, secondTime, popPrice, vipPrice, area, planeName;
         getline(ss, id, ',');
@@ -86,9 +99,14 @@ void readData(vector<pair<Plane, string>> &plane, vector<pair<Flight, string>> &
     }
     file.close();
 
+<<<<<<< HEAD
     file.open("Database\\VoucherData.txt");
     while (getline(file, line))
     {
+=======
+    file.open("./Database/VoucherData.txt");
+    while( getline(file, line) ) {
+>>>>>>> a1655c5b1b482ec0c3ad19c474f3763db9294dc9
         stringstream ss(line);
         string id, level, firstDate, lastDate;
         getline(ss, id, ',');
@@ -99,9 +117,14 @@ void readData(vector<pair<Plane, string>> &plane, vector<pair<Flight, string>> &
     }
     file.close();
 
+<<<<<<< HEAD
     file.open("Database\\PassengerData.txt");
     while (getline(file, line))
     {
+=======
+    file.open("./Database/PassengerData.txt");
+    while( getline(file, line) ) {
+>>>>>>> a1655c5b1b482ec0c3ad19c474f3763db9294dc9
         stringstream ss(line);
         string name, date, sex, age, sdt, passport, cccd, rank, pos, status, id;
         getline(ss, name, ',');
@@ -118,9 +141,14 @@ void readData(vector<pair<Plane, string>> &plane, vector<pair<Flight, string>> &
     }
     file.close();
 
+<<<<<<< HEAD
     file.open("Database\\HistoryData.txt");
     while (getline(file, line))
     {
+=======
+    file.open("./Database/HistoryData.txt");
+    while( getline(file, line) ) {
+>>>>>>> a1655c5b1b482ec0c3ad19c474f3763db9294dc9
         stringstream ss(line);
         string name, date, sex, age, sdt, passport, cccd, rank, pos, status, id;
         getline(ss, name, ',');
@@ -137,7 +165,7 @@ void readData(vector<pair<Plane, string>> &plane, vector<pair<Flight, string>> &
     }
     file.close();
 
-    file.open("Database\\HumanInPlaneData.txt");
+    file.open("./Database/HumanInPlaneData.txt");
     int count = 0;
     vector<pair<humanInPlane, string>> tmp;
     while (getline(file, line))
@@ -173,6 +201,7 @@ void readData(vector<pair<Plane, string>> &plane, vector<pair<Flight, string>> &
         personal.push_back(tmp);
     file.close();
 }
+<<<<<<< HEAD
 void writeFile(vector<pair<Plane, string>> &plane, vector<pair<Flight, string>> &flight, vector<pair<Passenger, string>> &passInfo, vector<Voucher> &voucher, vector<vector<pair<humanInPlane, string>>> &personal, vector<pair<Passenger, string>> &history)
 {
     // ghi file du lieu cua Plane
@@ -187,10 +216,24 @@ void writeFile(vector<pair<Plane, string>> &plane, vector<pair<Flight, string>> 
             file << str << endl;
             str = "";
         }
+=======
+void writeFile( vector<pair<Plane, string>> &plane, vector<pair<Flight, string>> &flight, vector<pair<Passenger,string>> &passInfo, vector<Voucher> &voucher, vector<vector<pair<humanInPlane, string>>> &personal, vector<pair<Passenger,string>> &history ){
+	// ghi file du lieu cua Plane
+	ofstream file;
+	file.open("./Database/PlaneData.txt",ios::trunc);
+	string str = "";
+    if( file.is_open() ) {
+        for( auto &it : plane ){
+        	str = it.first.getPlaneName() + "," + it.first.getAircraftNumber() + "," + it.first.getType() + "," + it.first.getStatus()+ "," + it.second;
+	        file << str << endl;
+	        str = "";
+	    }
+>>>>>>> a1655c5b1b482ec0c3ad19c474f3763db9294dc9
     }
     file.close();
 
     // ghi file du lieu cua Flight
+<<<<<<< HEAD
     file.open("Database\\FlightData.txt", ios::trunc);
     if (file.is_open())
     {
@@ -199,10 +242,19 @@ void writeFile(vector<pair<Plane, string>> &plane, vector<pair<Flight, string>> 
             file << it.first.getId() << "," << it.first.getFlightDate() << "," << it.first.getDepartureLocation() << "," << it.first.getDestination() << "," << it.first.getDepartureTime() << ","
                  << it.first.getLandingTime() << "," << it.first.getPopTicketPrice() << "," << it.first.getVipTicketPrice() << "," << it.second << endl;
         }
+=======
+    file.open("./Database/FlightData.txt",ios::trunc);
+    if( file.is_open() ) {
+        for( auto &it : flight ){
+	        file << it.first.getId() << "," << it.first.getFlightDate() << "," << it.first.getDepartureLocation() << "," << it.first.getDestination() << "," << it.first.getDepartureTime() << ","
+				<< it.first.getLandingTime() << ","<< it.first.getPopTicketPrice() << "," << it.first.getVipTicketPrice() << "," << it.second << endl;
+	    }
+>>>>>>> a1655c5b1b482ec0c3ad19c474f3763db9294dc9
     }
     file.close();
 
     // ghi file du lieu cua Passenger
+<<<<<<< HEAD
     file.open("Database\\PassengerData.txt", ios::trunc);
     if (file.is_open())
     {
@@ -211,10 +263,29 @@ void writeFile(vector<pair<Plane, string>> &plane, vector<pair<Flight, string>> 
             file << it.first.getName() << "," << it.first.getDate() << "," << it.first.getSex() << "," << it.first.getPhoneNum() << "," << it.first.getPassportNum() << ","
                  << it.first.getCidNum() << "," << it.first.getRank() << "," << it.first.getPos() << "," << it.second << endl;
         }
+=======
+    file.open("./Database/PassengerData.txt",ios::trunc);
+    if( file.is_open() ) {
+        for( auto &it : passInfo ){
+	        file << it.first.getName() << "," << it.first.getDate() << "," << it.first.getSex() << "," << it.first.getPhoneNum() << "," << it.first.getPassportNum() << ","
+				<< it.first.getCidNum() << ","<< it.first.getRank() << "," << it.first.getPos() << "," << it.second << endl;
+	    }
+    }
+    file.close();
+
+     // ghi file du lieu cua personal
+    file.open("./Database/HumanInPlane.txt",ios::trunc);
+    if( file.is_open() ) {
+        for( auto &it : personal ){
+        	for( auto i : it )
+		        file << i.first.getId() << "," << i.first.getName() << "," << i.first.getDate() << "," << i.first.getSex() << "," << i.first.getPosition() << "," << i.first.getSalary() << "," << i.second << endl;
+	    }
+>>>>>>> a1655c5b1b482ec0c3ad19c474f3763db9294dc9
     }
     file.close();
 
     // ghi file du lieu cua personal
+<<<<<<< HEAD
     file.open("Database\\HumanInPlane.txt", ios::trunc);
     if (file.is_open())
     {
@@ -223,6 +294,14 @@ void writeFile(vector<pair<Plane, string>> &plane, vector<pair<Flight, string>> 
             for (auto i : it)
                 file << i.first.getId() << "," << i.first.getName() << "," << i.first.getDate() << "," << i.first.getSex() << "," << i.first.getPosition() << "," << i.first.getSalary() << "," << i.second << endl;
         }
+=======
+    file.open("./Database/HistoryData.txt",ios::trunc);
+    if( file.is_open() ) {
+        for( auto &it : personal ){
+        	for( auto i : it )
+		        file << i.first.getName() << "," << i.first.getDate() << "," << i.first.getSex() << "," << i.first.getPosition() << "," << i.first.getSalary() << "," << i.second << endl;
+	    }
+>>>>>>> a1655c5b1b482ec0c3ad19c474f3763db9294dc9
     }
     file.close();
 

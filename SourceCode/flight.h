@@ -1,6 +1,7 @@
 #pragma once
 #include "date_time.h"
 
+<<<<<<< HEAD
 class Flight
 {
 private:
@@ -14,6 +15,52 @@ private:
 	double vipTicketPrice;			// giá vé hạng thương gia
 	unordered_map<int, int> sitPos; // vi tri ngoi
 	string area;
+=======
+class Flight {
+	private:
+		string id; //  mã chuyến bay
+		string departureLocation;  // nơi xuất phát
+		string destination; // nơi đến
+		Time departureTime; // giờ khởi hành
+		Time landingTime; // giờ hạ cánh
+		Date flightDate; // ngày bay
+		double popTicketPrice; // giá vé hạng thường
+		double vipTicketPrice; // giá vé hạng thương gia
+		set<int> sitPos; // vi tri ngoi
+		string area;
+	public:
+		// hàm khởi tạo
+		Flight();
+		Flight( string id, Date flightDate, string departureLocation, string destination,
+			Time departureTime, Time landingTime, double popTicketPrice, double vipTicketPrice, string area );
+		// hàm xuất
+		friend ostream& operator << ( ostream& os, const Flight &fly );
+		// toán tử gán
+		Flight operator = ( const Flight &fly2 );
+		// các hàm lấy giá trị
+		string getId();
+		string getDepartureLocation();
+		string getDestination();
+		Time getDepartureTime();
+		Time getLandingTime();
+		Date getFlightDate();
+		double getPopTicketPrice();
+		double getVipTicketPrice();
+		string getArea();
+		// các hàm thiết lập gái trị
+		void setSitPos( int pos );
+		void setSitPosHuy( int pos );
+		void setId( string id );
+		void setFlyDate( Date flyDate );
+		void setDestination( string destination );
+		void setTime( Time firstTime, Time secondTime );
+		void setPrice( double pop, double vip );
+		// hàm kiểm tra vị trí ngồi
+		bool findSitPos( int pos );
+		// hàm lấy tổng các vị trí ngồi đã đặt
+		int getSitNum();
+		friend void displayChoNgoiThuonggia( vector<pair<Flight, string>> flight, string id );
+>>>>>>> a1655c5b1b482ec0c3ad19c474f3763db9294dc9
 
 public:
 	// hàm khởi tạo
@@ -123,6 +170,7 @@ string Flight::getArea()
 {
 	return this->area;
 }
+<<<<<<< HEAD
 void Flight::setSitPos(int pos)
 {
 	sitPos[pos] = 1;
@@ -130,11 +178,19 @@ void Flight::setSitPos(int pos)
 void Flight::setSitPosHuy(int pos)
 {
 	sitPos[pos] = 0;
+=======
+void Flight::setSitPos( int pos ){
+	sitPos.insert(pos);
+}
+void Flight::setSitPosHuy( int pos ){
+	sitPos.erase(pos);
+>>>>>>> a1655c5b1b482ec0c3ad19c474f3763db9294dc9
 }
 string Flight::getId()
 {
 	return id;
 }
+<<<<<<< HEAD
 int Flight::getSitNum()
 {
 	int count = 0;
@@ -150,6 +206,13 @@ bool Flight::checkSitPos(int pos)
 	if (this->sitPos[pos] == 1)
 		return false;
 	return true;
+=======
+bool Flight::findSitPos( int i ){
+    return (sitPos.find(i) != sitPos.end());
+}
+int Flight::getSitNum(){
+	return sitPos.size();
+>>>>>>> a1655c5b1b482ec0c3ad19c474f3763db9294dc9
 }
 void Flight::setId(string id)
 {
@@ -173,3 +236,32 @@ void Flight::setPrice(double pop, double vip)
 	this->popTicketPrice = pop;
 	this->vipTicketPrice = vip;
 }
+void displayChoNgoiThuonggia( vector<pair<Flight, string>> flight, string id, int start, int end){
+    for( auto it : flight ){
+        if( it.first.getId() == id ){
+            for( int i = start ; i <= end ; i++ ){
+                if( i%4 == 1 && i != 1 )
+                    cout << endl << endl;
+                if( it.first.findSitPos(i) ){
+                    cout << PINK << "|  " << i;
+                    if( i < 10 )
+                        cout << "   |" << RESET;
+                    else
+                        cout << "  |" << RESET;
+                }
+                else {
+                    cout << "|  " << i;
+                    if( i < 10 )
+                        cout << "   |";
+                    else
+                        cout << "  |";
+                }
+                if( i%2 == 0 )
+                    cout << "      ";
+                else
+                    cout << "  ";
+            }
+        }
+    }
+}
+
