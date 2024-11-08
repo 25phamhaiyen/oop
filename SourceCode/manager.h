@@ -17,6 +17,10 @@ class Manager {
 		friend void displayBill( int ticketNum, vector<pair<Flight, string>> passfly, vector<pair<Passenger, string>> passenger, int voucherLevel );
 		friend void displayMenuManager();
 		friend void displayMenuUser();
+		friend void displayMenuDatve();
+		friend void displayChinhsuaChuyenbay();
+		friend void displayChinhsuaMaybay();
+		friend void displayChinhsuaVoucher();
 };
 
 // build class Manager
@@ -164,36 +168,29 @@ void inputFlight( Flight &fly, unordered_map<string,int> &checkid, vector<pair<F
 	for( int i = 0 ; i < 9-destination.size() ; i++ ){
 		destination += ' ';
 	}
-	do {
-		cout << "\nNhap ngay bay ( year/month/day ):  \n";
-		cin >> date;
-		if( date < nowDate )
-			cout << "\nNgay bay phai lon hon ngay hom nay. Vui long nhap lai.\n";
-	}while( date < nowDate );
+	date.inputDate();
 	cout << "\nNhap thoi gian khoi hanh ( hour:minute ):  \n";
 	cin >> dpTime;
 	do {
 		cout << "\nNhap thoi gian ha canh ( hour:minute ):  \n";
 		cin >> ldTime;
-		if( ldTime <= dpTime )
-			cout << "\nThoi gian ha canh phai lon hon thoi gian khoi hanh. Vui long nhap lai\n";
-	}while( ldTime <= dpTime );
+		if( ldTime - dpTime <= 20 )
+			cout << "\nThoi gian ha canh phai lon hon thoi gian khoi hanh 20 phut tro len. Vui long nhap lai\n";
+	}while( ldTime - dpTime <= 20 );
 	do {
 		cout << "\nNhap gia ve hang thuong (.000 VND):  ";
 		cin >> pop;
-		if( pop <= 0 )
-			cout << "\nGia ve phai lon hon 0. Vui long nhap lai\n";
-	}while( pop <= 0 );
+		if( pop <= 900  )
+			cout << "\nGia ve pho thong phai lon hon 900 nghin VND. Vui long nhap lai\n";
+	}while( pop <= 900 );
 	do {
 		cout << "\nNhap gia ve hang thuong gia (.000 VND):  ";
 		cin >> vip;
-		if( vip <= 0 ){
-			cout << "\nGia ve phai lon hon 0. Vui long nhap lai\n";
+		if( vip-pop < 500 ){
+			cout << "\nGia ve vip phai lon hon gia ve pho thong it nhat 500 nghin VND. Vui long nhap lai\n";
 			continue;
 		}
-		if( vip <= pop )
-			cout << "\nGia ve hang thuong gia phai lon hon gia ve hang thuong. Vui long nhap lai\n";
-	}while( vip <= 0 || vip <= pop );
+	}while( vip-pop < 500 );
 	char c;
 	cout << "\nChon pham vi chuyen bay: \n1. Trong nuoc \n2. Nuoc ngoai\n";
 	do {
@@ -309,8 +306,8 @@ void displayBill( int ticketNum, vector<pair<Flight, string>> passfly, vector<pa
 		if( it.first.getPos() < 10 )
 			cout << it.first.getPos() << "      |     ";
 		else
-			cout << it.first.getPos() << "     |    ";
-		cout << it.second << "      |    ";
+			cout << it.first.getPos() << "     |     ";
+		cout << it.second << "     |    ";
 		for( auto i : passfly ){
             if( i.first.getId() == it.second ){
                 if( it.first.getRank() == "Thuong gia" ){
@@ -330,20 +327,20 @@ void displayBill( int ticketNum, vector<pair<Flight, string>> passfly, vector<pa
 	cout << "+---------------------------------------------------------------------------------------------+\n";
 	cout << "| Thong tin chuyen bay:                                                                       |\n";
 	cout << "| " << PINK << "+----------------------------------------------------------------------------------------+" << RESET << "  |\n";
-	cout << "| " << PINK << "|    ID" << "     |    Ngay bay    " << "|   Lich trinh bay\t     " << "| TG cat canh " << "| TG ha canh  |" << RESET << "  |\n";
+	cout << "| " << PINK << "|    ID" << "     |    Ngay bay    " << "|   Lich trinh bay\t       " << "| TG cat canh " << "| TG ha canh  |" << RESET << "  |\n";
 	cout << "| " << PINK << "+----------------------------------------------------------------------------------------+" << RESET << "  |\n";
 	for( auto &it : passfly ){
 		if( idmap[it.first.getId()] != 0 )
 			cout << "| |   " << it.first.getId() << "   |   " << it.first.getFlightDate() << "   |   from " << it.first.getDepartureLocation() << " to " << it.first.getDestination() << "   |    "
 				<< it.first.getDepartureTime() << "    |    " << it.first.getLandingTime() << "    |  |\n";
 	}
-	cout << "| +--------------------------------------------------------------------------------------+  |\n";
-	cout << "|                                                                                              |\n";
-	cout << "+----------------------------------------------------------------------------------------------+\n";
-	cout << " Tong tien ve:  " << total << " (Nghin VND)" << endl;
-	cout << " Khuyen mai:  " << total*voucherLevel/100 << " (Nghin VND)" << endl;
-	cout << " So tien phai thanh toan:  " << real << " (Nghin VND)" << endl;
-	cout << "-----------------------------------------------------------------------------------------------\n";
+	cout << "| +----------------------------------------------------------------------------------------+  |\n";
+	cout << "|                                                                                             |\n";
+	cout << "+---------------------------------------------------------------------------------------------+\n";
+	cout << "| Tong tien ve:  " << total << " (Nghin VND)" << endl;
+	cout << "| Khuyen mai:  " << total*voucherLevel/100 << " (Nghin VND)" << endl;
+	cout << "| So tien phai thanh toan:  " << real << " (Nghin VND)" << endl;
+	cout << "+------------------------------------------------+\n";
 }
 void displayMenuManager(){
 	cout << "+--------------------MENU-----------------------+\n";
@@ -373,44 +370,58 @@ void displayMenuUser(){
 	cout << "|                                                    |\n";
 	cout << "| 1. Dat ve.                                         |\n";
 	cout << "| 2. Hien thi danh sach chuyen bay.                  |\n";
-	cout << "| 3. Huy chuyen bay.                                 |\n";
-	cout << "| 4. Xem lich su dat ve.                             |\n";
-	cout << "| 5. Xuat Bill dat ve.                               |\n";
-	cout << "| 6. Thoat.                                          |\n";
-	cout << "|                                                    |\n";
-	cout << "+----------------------------------------------------+\n";
+    cout << "| 3. Huy chuyen bay.                                 |\n";
+    cout << "| 4. Xem lich su dat ve.                             |\n";
+    cout << "| 5. Xuat Bill dat ve.                               |\n";
+    cout << "| 6. Thoat.                                          |\n";
+    cout << "|                                                    |\n";
+    cout << "+----------------------------------------------------+\n";
+}
+void displayMenuDatve(){
+	cout << "\n+--------------------MENU--------------------+\n";
+    cout << "|                                            |\n";
+    cout << "| 1. Hien thi danh sach chuyen bay.          |\n";
+    cout << "| 2. Tim kiem theo ngay bay.                 |\n";
+    cout << "| 3. Tim kiem theo gia ve.                   |\n";
+    cout << "| 4. Tim kiem theo hang bay.                 |\n";
+    cout << "| 5. Tim kiem theo noi den.                  |\n";
+    cout << "| 6. Tim kiem theo thoi gian.                |\n";
+    cout << "| 7. Sap xep tang dan gia ve.                |\n";
+    cout << "| 8. Thoat.                                  |\n";
+    cout << "|                                            |\n";
+    cout << "+--------------------------------------------+\n\n";
 }
 void displayChinhsuaChuyenbay(){
-    	cout << "+--------------BAN MUON SUA THUOC TINH NAO-----------+\n";
+    cout << "+--------------BAN MUON SUA THUOC TINH NAO-----------+\n";
 	cout << "|                                                    |\n";
 	cout << "| 1. ID                                              |\n";
 	cout << "| 2. Diem den                                        |\n";
-    	cout << "| 3. Ngay bay                                        |\n";
-    	cout << "| 4. Gio bay                                         |\n";
-    	cout << "| 5. Gia ve                                          |\n";
-    	cout << "| 6. Thoat                                           |\n";
-    	cout << "|                                                    |\n";
-    	cout << "+----------------------------------------------------+\n";
+    cout << "| 3. Ngay bay                                        |\n";
+    cout << "| 4. Gio bay                                         |\n";
+    cout << "| 5. Gia ve                                          |\n";
+    cout << "| 6. Thoat                                           |\n";
+    cout << "|                                                    |\n";
+    cout << "+----------------------------------------------------+\n";
 }
 void displayChinhsuaMaybay(){
-    	cout << "+--------------BAN MUON SUA THUOC TINH NAO-----------+\n";
+    cout << "+--------------BAN MUON SUA THUOC TINH NAO-----------+\n";
 	cout << "|                                                    |\n";
 	cout << "| 1. Ten hang bay                                    |\n";
 	cout << "| 2. So hieu may bay                                 |\n";
-    	cout << "| 3. Loai may bay                                    |\n";
-    	cout << "| 4. Tinh trang                                      |\n";
-    	cout << "| 5. Thoat                                           |\n";
-    	cout << "|                                                    |\n";
-    	cout << "+----------------------------------------------------+\n";
+    cout << "| 3. Loai may bay                                    |\n";
+    cout << "| 4. Tinh trang                                      |\n";
+    cout << "| 5. Thoat                                           |\n";
+    cout << "|                                                    |\n";
+    cout << "+----------------------------------------------------+\n";
 }
 void displayChinhsuaVoucher(){
-    	cout << "+--------------BAN MUON SUA THUOC TINH NAO-----------+\n";
+    cout << "+--------------BAN MUON SUA THUOC TINH NAO-----------+\n";
 	cout << "|                                                    |\n";
 	cout << "| 1. Ma khuyen mai                                   |\n";
 	cout << "| 2. Muc giam                                        |\n";
-    	cout << "| 3. Ngay bat dau khuyen mai                         |\n";
-    	cout << "| 4. Ngay ket thuc khuyen mai                        |\n";
-    	cout << "| 5. Thoat                                           |\n";
-    	cout << "|                                                    |\n";
-    	cout << "+----------------------------------------------------+\n";
+    cout << "| 3. Ngay bat dau khuyen mai                         |\n";
+    cout << "| 4. Ngay ket thuc khuyen mai                        |\n";
+    cout << "| 5. Thoat                                           |\n";
+    cout << "|                                                    |\n";
+    cout << "+----------------------------------------------------+\n";
 }
