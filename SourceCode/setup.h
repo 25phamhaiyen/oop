@@ -42,8 +42,11 @@ int stringToInt( string s ){
 	return ans;
 }
 void readData( vector<pair<Plane, string>> &plane, vector<pair<Flight, string>> &flight, vector<pair<Passenger,string>> &passInfo, vector<Voucher> &voucher, vector<vector<pair<humanInPlane, string>>> &personal, vector<pair<Passenger,string>> &history ){
-	ifstream file;
-	file.open("Database\\PlaneData.txt");
+	ifstream file("Database\\PlaneData.txt");
+    if (!file.is_open()) {
+        cerr << "Loi khi mo tep PlaneData.txt" << endl;
+        return;
+    }
 	string line;
     while( getline(file, line) ) {
         stringstream ss(line);
@@ -57,7 +60,11 @@ void readData( vector<pair<Plane, string>> &plane, vector<pair<Flight, string>> 
     }
     file.close();
 
-    file.open("Database\\FlightData.txt");
+    ifstream file("Database\\FlightData.txt");
+    if (!file.is_open()) {
+        cerr << "Loi khi mo tep FlightData.txt" << endl;
+        return;
+    }
     while( getline(file, line) ) {
         stringstream ss(line);
         string id, date, firstLocal, secondLocal, firstTime, secondTime, popPrice, vipPrice, area, planeName;
@@ -75,7 +82,11 @@ void readData( vector<pair<Plane, string>> &plane, vector<pair<Flight, string>> 
     }
     file.close();
 
-    file.open("Database\\VoucherData.txt");
+    ifstream file("Database\\VoucherData.txt");
+    if (!file.is_open()) {
+        cerr << "Loi khi mo tep VoucherData.txt" << endl;
+        return;
+    }
     while( getline(file, line) ) {
         stringstream ss(line);
         string id, level, firstDate, lastDate;
@@ -87,7 +98,11 @@ void readData( vector<pair<Plane, string>> &plane, vector<pair<Flight, string>> 
     }
     file.close();
 
-    file.open("Database\\PassengerData.txt");
+    ifstream file("Database\\PassengerData.txt");
+    if (!file.is_open()) {
+        cerr << "Loi khi mo tep PassengerData.txt" << endl;
+        return;
+    }
     while( getline(file, line) ) {
         stringstream ss(line);
         string name, date, sex, age, sdt, passport, cccd, rank, pos, status, id;
@@ -105,7 +120,11 @@ void readData( vector<pair<Plane, string>> &plane, vector<pair<Flight, string>> 
     }
     file.close();
 
-    file.open("Database\\HistoryData.txt");
+    ifstream file("Database\\HistoryData.txt");
+    if (!file.is_open()) {
+        cerr << "Loi khi mo tep HistoryData.txt" << endl;
+        return;
+    }
     while( getline(file, line) ) {
         stringstream ss(line);
         string name, date, sex, age, sdt, passport, cccd, rank, pos, status, id;
@@ -123,7 +142,11 @@ void readData( vector<pair<Plane, string>> &plane, vector<pair<Flight, string>> 
     }
     file.close();
 
-    file.open("Database\\HumanInPlaneData.txt");
+    ifstream file("Database\\HumanInPlaneData.txt");
+    if (!file.is_open()) {
+        cerr << "Loi khi mo tep HumanInPlanData.txt" << endl;
+        return;
+    }
     int count = 0;
     vector<pair<humanInPlane,string>> tmp;
     while( getline(file, line) ) {
@@ -212,11 +235,23 @@ void writeFile( vector<pair<Plane, string>> &plane, vector<pair<Flight, string>>
 
 }
 void updateSitPos( vector<pair<Flight, string>> &flight, vector<pair<Passenger,string>> passInfo ){
-	for( auto &it : passInfo ){
-		for( auto &fly : flight ){
-			if( fly.first.getId() == it.second ){
-				fly.first.setSitPos( it.first.getPos() );
-			}
-		}
-	}
+    // Tạo một bản đồ cho việc tra cứu nhanh
+    unordered_map<string, int> passengerSeatMap;
+    for (auto& p : passInfo) {
+        passengerSeatMap[p.second] = p.first.getPos();
+    }
+
+    for (auto& fly : flight) {
+        if (passengerSeatMap.find(fly.first.getId()) != passengerSeatMap.end()) {
+            fly.first.setSitPos(passengerSeatMap[fly.first.getId()]);
+        }
+    }
+
+	// for( auto &it : passInfo ){
+	// 	for( auto &fly : flight ){
+	// 		if( fly.first.getId() == it.second ){
+	// 			fly.first.setSitPos( it.first.getPos() );
+	// 		}
+	// 	}
+	// }
 }

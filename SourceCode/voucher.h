@@ -28,6 +28,8 @@ Voucher::Voucher()
 {
 	id = "";
 	reduceLevel = 0;
+	fromDate=Date();
+	 reduceDeadline=Date();
 }
 Voucher::Voucher(string id, double reduceLevel, Date fromDate, Date reduceDeadline)
 {
@@ -47,15 +49,21 @@ istream &operator>>(istream &is, Voucher &voucher)
 	{
 		cout << "\nNhap muc giam (%):  ";
 		is >> voucher.reduceLevel;
-		if (voucher.reduceLevel <= 0 || voucher.reduceLevel > 100)
+		if (is.fail() || voucher.reduceLevel <= 0 || voucher.reduceLevel > 100){
 			cout << "\nMuc giam gia chi nam trong khoang ( 0 -> 100 ). Vui long nhap lai\n";
+			is.clear(); // xóa trạng thái lỗi
+        	is.ignore(numeric_limits<streamsize>::max(), '\n'); // loại bỏ đầu vào không hợp lệ
+			}
 	} while (voucher.reduceLevel <= 0 || voucher.reduceLevel > 100);
 	do
 	{
 		cout << "\nNhap ngay voucher co hieu luc:  \n";
 		is >> voucher.fromDate;
-		if (voucher.fromDate < nowDate)
+		if (is.fail() || voucher.fromDate < nowDate){
 			cout << "\nNgay bat dau khuyen mai phai >= ngay hom nay. Vui long nhap lai.\n";
+			is.clear();
+        	is.ignore(numeric_limits<streamsize>::max(), '\n');
+		}
 	} while (voucher.fromDate < nowDate);
 	do
 	{

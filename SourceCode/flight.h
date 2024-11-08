@@ -90,6 +90,7 @@ Flight Flight::operator=(const Flight &fly2)
 	this->popTicketPrice = fly2.popTicketPrice;
 	this->vipTicketPrice = fly2.vipTicketPrice;
 	this->area = fly2.area;
+	this->sitPos = fly2.sitPos;
 	return *this;
 }
 string Flight::getDepartureLocation()
@@ -130,7 +131,16 @@ void Flight::setSitPos(int pos)
 }
 void Flight::setSitPosHuy(int pos)
 {
-	sitPos.erase(pos);
+	// Xóa vị trí ngồi khỏi set
+	if (sitPos.find(pos) != sitPos.end())
+    {
+		sitPos.erase(pos);
+		cout << "Vị trí ngồi " << pos << " đã được hủy." << endl;
+	}
+    else
+    {
+        cout << "Vị trí ngồi " << pos << " không tồn tại!" << endl;
+    }
 }
 string Flight::getId()
 {
@@ -172,12 +182,16 @@ void displayChoNgoiThuonggia(vector<pair<Flight, string>> flight, string id, int
 	{
 		if (it.first.getId() == id)
 		{
+			cout << "Vị trí ngồi cho chuyến bay " << id << ":\n";
+            cout << "-----------------------------------------------------\n";
+
 			for (int i = start; i <= end; i++)
 			{
 				if (i % 4 == 1 && i != 1)
-					cout << endl
-						 << endl;
-				if (it.first.findSitPos(i))
+				// Thêm dòng mới sau mỗi 4 vị trí
+					cout << endl;
+
+				if (it.first.findSitPos(i)) // Kiểm tra vị trí đã đặt
 				{
 					cout << PINK << "|  " << i;
 					if (i < 10)
@@ -193,6 +207,8 @@ void displayChoNgoiThuonggia(vector<pair<Flight, string>> flight, string id, int
 					else
 						cout << "  |";
 				}
+
+				// Thêm khoảng cách giữa các cột cho rõ ràng
 				if (i % 2 == 0)
 					cout << "      ";
 				else

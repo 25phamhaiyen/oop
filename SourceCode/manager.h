@@ -253,7 +253,7 @@ void addFlight( vector<pair<Plane, string>> &plane, vector<pair<Flight,string>> 
                     break;
                 }
             }
-            cout << "\nId khong dung. Vui long nhap lai.\n";
+            cout << "\nId khong dung hoac nhan su da duoc chon cho vi tri khac. Vui long nhap lai.\n";
 		}while( !isValidId );
 		cout << endl;
 		human.push_back(make_pair(hip,p.getAircraftNumber()));
