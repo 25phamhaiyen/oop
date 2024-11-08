@@ -42,11 +42,8 @@ int stringToInt( string s ){
 	return ans;
 }
 void readData( vector<pair<Plane, string>> &plane, vector<pair<Flight, string>> &flight, vector<pair<Passenger,string>> &passInfo, vector<Voucher> &voucher, vector<vector<pair<humanInPlane, string>>> &personal, vector<pair<Passenger,string>> &history ){
-	ifstream file("Database\\PlaneData.txt");
-    if (!file.is_open()) {
-        cerr << "Loi khi mo tep PlaneData.txt" << endl;
-        return;
-    }
+	ifstream file;
+    file.open("../Database/PlaneData.txt");
 	string line;
     while( getline(file, line) ) {
         stringstream ss(line);
@@ -60,11 +57,7 @@ void readData( vector<pair<Plane, string>> &plane, vector<pair<Flight, string>> 
     }
     file.close();
 
-    ifstream file("Database\\FlightData.txt");
-    if (!file.is_open()) {
-        cerr << "Loi khi mo tep FlightData.txt" << endl;
-        return;
-    }
+    file.open("../Database/FlightData.txt");
     while( getline(file, line) ) {
         stringstream ss(line);
         string id, date, firstLocal, secondLocal, firstTime, secondTime, popPrice, vipPrice, area, planeName;
@@ -82,11 +75,7 @@ void readData( vector<pair<Plane, string>> &plane, vector<pair<Flight, string>> 
     }
     file.close();
 
-    ifstream file("Database\\VoucherData.txt");
-    if (!file.is_open()) {
-        cerr << "Loi khi mo tep VoucherData.txt" << endl;
-        return;
-    }
+    file.open("../Database/VoucherData.txt");
     while( getline(file, line) ) {
         stringstream ss(line);
         string id, level, firstDate, lastDate;
@@ -98,11 +87,7 @@ void readData( vector<pair<Plane, string>> &plane, vector<pair<Flight, string>> 
     }
     file.close();
 
-    ifstream file("Database\\PassengerData.txt");
-    if (!file.is_open()) {
-        cerr << "Loi khi mo tep PassengerData.txt" << endl;
-        return;
-    }
+    file.open("../Database/PassengerData.txt");
     while( getline(file, line) ) {
         stringstream ss(line);
         string name, date, sex, age, sdt, passport, cccd, rank, pos, status, id;
@@ -120,11 +105,7 @@ void readData( vector<pair<Plane, string>> &plane, vector<pair<Flight, string>> 
     }
     file.close();
 
-    ifstream file("Database\\HistoryData.txt");
-    if (!file.is_open()) {
-        cerr << "Loi khi mo tep HistoryData.txt" << endl;
-        return;
-    }
+    file.open("../Database/HistoryData.txt");
     while( getline(file, line) ) {
         stringstream ss(line);
         string name, date, sex, age, sdt, passport, cccd, rank, pos, status, id;
@@ -142,11 +123,7 @@ void readData( vector<pair<Plane, string>> &plane, vector<pair<Flight, string>> 
     }
     file.close();
 
-    ifstream file("Database\\HumanInPlaneData.txt");
-    if (!file.is_open()) {
-        cerr << "Loi khi mo tep HumanInPlanData.txt" << endl;
-        return;
-    }
+    file.open("../Database/HumanInPlaneData.txt");
     int count = 0;
     vector<pair<humanInPlane,string>> tmp;
     while( getline(file, line) ) {
@@ -182,7 +159,7 @@ void readData( vector<pair<Plane, string>> &plane, vector<pair<Flight, string>> 
 void writeFile( vector<pair<Plane, string>> &plane, vector<pair<Flight, string>> &flight, vector<pair<Passenger,string>> &passInfo, vector<Voucher> &voucher, vector<vector<pair<humanInPlane, string>>> &personal, vector<pair<Passenger,string>> &history ){
 	// ghi file du lieu cua Plane
 	ofstream file;
-	file.open("Database\\PlaneData.txt",ios::trunc);
+	file.open("../Database/PlaneData.txt",ios::trunc);
 	string str = "";
     if( file.is_open() ) {
         for( auto &it : plane ){
@@ -194,7 +171,7 @@ void writeFile( vector<pair<Plane, string>> &plane, vector<pair<Flight, string>>
     file.close();
 
     // ghi file du lieu cua Flight
-    file.open("Database\\FlightData.txt",ios::trunc);
+    file.open("../Database/FlightData.txt",ios::trunc);
     if( file.is_open() ) {
         for( auto &it : flight ){
 	        file << it.first.getId() << "," << it.first.getFlightDate() << "," << it.first.getDepartureLocation() << "," << it.first.getDestination() << "," << it.first.getDepartureTime() << ","
@@ -204,7 +181,7 @@ void writeFile( vector<pair<Plane, string>> &plane, vector<pair<Flight, string>>
     file.close();
 
     // ghi file du lieu cua Passenger
-    file.open("Database\\PassengerData.txt",ios::trunc);
+    file.open("../Database/PassengerData.txt",ios::trunc);
     if( file.is_open() ) {
         for( auto &it : passInfo ){
 	        file << it.first.getName() << "," << it.first.getDate() << "," << it.first.getSex() << "," << it.first.getPhoneNum() << "," << it.first.getPassportNum() << ","
@@ -214,7 +191,7 @@ void writeFile( vector<pair<Plane, string>> &plane, vector<pair<Flight, string>>
     file.close();
 
      // ghi file du lieu cua personal
-    file.open("Database\\HumanInPlane.txt",ios::trunc);
+    file.open("../Database/HumanInPlane.txt",ios::trunc);
     if( file.is_open() ) {
         for( auto &it : personal ){
         	for( auto i : it )
@@ -224,7 +201,7 @@ void writeFile( vector<pair<Plane, string>> &plane, vector<pair<Flight, string>>
     file.close();
 
     // ghi file du lieu cua personal
-    file.open("Database\\HistoryData.txt",ios::trunc);
+    file.open("../Database/HistoryData.txt",ios::trunc);
     if( file.is_open() ) {
         for( auto &it : personal ){
         	for( auto i : it )

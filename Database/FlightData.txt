@@ -20,9 +20,3 @@ VN019,29/11/2024,Sai Gon,Busan    ,15:00,20:10,4500,9000,out,Jetstar Pacific
 VN020,30/11/2024,Sai Gon,Phu Quoc ,16:00,16:30,1000,2000,in ,Jetstar Pacific 
 VN021,31/11/2024,Sai Gon,Ha Noi   ,17:00,19:15,0,0,in ,VietJet Air     
 VN022,31/11/2024,Sai Gon,Da Nang  ,17:00,18:15,0,0,in ,Bamboo Airways 
-VN023,29/11/2024,Sai Gon,Quang Binh     ,17:30,18:30,1700,3000,in ,Bamboo Airways  
-VN024,29/11/2024,Sai Gon,Nha Trang  ,09:45,11:00,2000,4000,in ,Jetstar Pacific 
-VN025,29/11/2024,Sai Gon,Ca Mau   ,15:00,20:10,4500,9000,out,Jetstar Pacific 
-VN026,30/11/2024,Sai Gon,Quang Ninh ,16:00,16:30,1000,2000,in ,Jetstar Pacific 
-VN027,31/11/2024,Sai Gon,Soc Trang   ,17:00,19:15,0,0,in ,VietJet Air     
-VN028,31/11/2024,Sai Gon,Ha Noi  ,17:00,18:15,0,0,in ,Bamboo Airways 
