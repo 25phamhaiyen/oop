@@ -9,7 +9,13 @@ class Human {
 		string sex; // giới tính
 		int age;
 	public:
-		
+		Human();
+		Human( string name, Date date, string sex );
+		Human( const Human &human );
+		friend void standarName( string &name );
+		friend istream& operator >> ( istream& is, Human &human );
+		friend ostream& operator << ( ostream& os, const Human &human );
+		Human operator = ( const Human &human );	
 };
 
 
