@@ -175,9 +175,9 @@ void inputFlight( Flight &fly, unordered_map<string,int> &checkid, vector<pair<F
 	do {
 		cout << "\nNhap thoi gian ha canh ( hour:minute ):  \n";
 		cin >> ldTime;
-		if( ldTime < dpTime )
+		if( ldTime <= dpTime )
 			cout << "\nThoi gian ha canh phai lon hon thoi gian khoi hanh. Vui long nhap lai\n";
-	}while( ldTime < dpTime );
+	}while( ldTime <= dpTime );
 	do {
 		cout << "\nNhap gia ve hang thuong (.000 VND):  ";
 		cin >> pop;
@@ -290,7 +290,7 @@ void displayBill( int ticketNum, vector<pair<Flight, string>> passfly, vector<pa
 	}
 	double real = total - total*voucherLevel/100;
 	time_t t = time(nullptr); // L?y th?i gian hi?n t?i
-    	tm* now = localtime(&t);
+    tm* now = localtime(&t);
 	cout << "+--------------------------------------BILL THANH TOAN----------------------------------------+\n";
 	cout << "| So luong ve da dat:  " << ticketNum << setw(72) << "|\n";
 	cout << "+---------------------------------------------------------------------------------------------+\n";
@@ -369,7 +369,7 @@ void displayMenuManager(){
 	cout << "+-----------------------------------------------+\n";
 }
 void displayMenuUser(){
-	cout << PINK << "+--------------------MENU-----------------------+\n" << RESET ;
+	cout << "+----------------------MENU--------------------------+\n";
 	cout << "|                                                    |\n";
 	cout << "| 1. Dat ve.                                         |\n";
 	cout << "| 2. Hien thi danh sach chuyen bay.                  |\n";
