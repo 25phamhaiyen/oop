@@ -11,12 +11,12 @@ class Flight {
 		Date flightDate; // ngày bay
 		double popTicketPrice; // giá vé hạng thường
 		double vipTicketPrice; // giá vé hạng thương gia
-		unordered_map<int,int> sitPos; // vi tri ngoi
+		set<int> sitPos; // vi tri ngoi
 		string area;
 	public:
 		// hàm khởi tạo
 		Flight();
-		Flight( string id, Date flightDate, string departureLocation, string destination, 
+		Flight( string id, Date flightDate, string departureLocation, string destination,
 			Time departureTime, Time landingTime, double popTicketPrice, double vipTicketPrice, string area );
 		// hàm xuất
 		friend ostream& operator << ( ostream& os, const Flight &fly );
@@ -41,9 +41,10 @@ class Flight {
 		void setTime( Time firstTime, Time secondTime );
 		void setPrice( double pop, double vip );
 		// hàm kiểm tra vị trí ngồi
-		bool checkSitPos( int pos );
+		bool findSitPos( int pos );
 		// hàm lấy tổng các vị trí ngồi đã đặt
 		int getSitNum();
+		friend void displayChoNgoiThuonggia( vector<pair<Flight, string>> flight, string id );
 
 };
 
@@ -111,26 +112,19 @@ string Flight::getArea(){
 	return this->area;
 }
 void Flight::setSitPos( int pos ){
-	sitPos[pos] = 1;
+	sitPos.insert(pos);
 }
 void Flight::setSitPosHuy( int pos ){
-	sitPos[pos] = 0;
+	sitPos.erase(pos);
 }
 string Flight::getId(){
 	return id;
 }
-int Flight::getSitNum(){
-	int count = 0;
-	for( int i = 0 ; i < 51 ; i++ ){
-		if( sitPos[i] == 1 )
-			count++;
-	}
-	return count;
+bool Flight::findSitPos( int i ){
+    return (sitPos.find(i) != sitPos.end());
 }
-bool Flight::checkSitPos( int pos ){
-	if( this->sitPos[pos] == 1 )
-		return false;
-	return true;
+int Flight::getSitNum(){
+	return sitPos.size();
 }
 void Flight::setId( string id ){
     this->id = id;
@@ -149,3 +143,32 @@ void Flight::setPrice( double pop, double vip ){
     this->popTicketPrice = pop;
     this->vipTicketPrice = vip;
 }
+void displayChoNgoiThuonggia( vector<pair<Flight, string>> flight, string id, int start, int end){
+    for( auto it : flight ){
+        if( it.first.getId() == id ){
+            for( int i = start ; i <= end ; i++ ){
+                if( i%4 == 1 && i != 1 )
+                    cout << endl << endl;
+                if( it.first.findSitPos(i) ){
+                    cout << PINK << "|  " << i;
+                    if( i < 10 )
+                        cout << "   |" << RESET;
+                    else
+                        cout << "  |" << RESET;
+                }
+                else {
+                    cout << "|  " << i;
+                    if( i < 10 )
+                        cout << "   |";
+                    else
+                        cout << "  |";
+                }
+                if( i%2 == 0 )
+                    cout << "      ";
+                else
+                    cout << "  ";
+            }
+        }
+    }
+}
+
