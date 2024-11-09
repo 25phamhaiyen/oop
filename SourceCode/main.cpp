@@ -15,7 +15,7 @@ int main(int argc, char **argv)
     vector<pair<Passenger, string>> history;  // lich su dat ve
     vector<pair<Plane, string>> emptyId;  // vector chua thong tin may bay da bi xoa chuyen bay
     unordered_map<string, string> planeName;  // get plane name tu id chuyen bay
-    unordered_map<string, int> checkid;  // luu thong tin id chuyen bay, shmb, ma khuyen mai
+    unordered_map<string, int> checkid;  // luu thong tin id chuyen bay, shmb, ma khuyen mai, ma nhan su
     unordered_map<string, set<pair<humanInPlane, string>>> employ;  // luu vi tri cua nhan su
     readData(plane, flight, passInfo, voucher, personal, history);
     updateSitPos(flight, passInfo);
@@ -34,6 +34,7 @@ int main(int argc, char **argv)
         for (auto i : it)
         {
             employ[i.first.getPosition()].insert(i);
+            checkid[i.first.getId()]++;
         }
     }
 
@@ -76,9 +77,9 @@ int main(int argc, char **argv)
             {
                 cout << "\nNhap lua chon cua ban:  ";
                 cin >> mchoice;
-                if ((stoi(mchoice) < 1 || stoi(mchoice) > 16) && (mchoice != "t" && mchoice != "T"))
-                    cout << "\nBan chi duoc nhap gia tri trong khoang tu 1 -> 16 hoac {t,T}. Vui long nhap lai.\n";
-            } while ((stoi(mchoice) < 1 || stoi(mchoice) > 16) && (mchoice != "t" && mchoice != "T"));
+                if ((stoi(mchoice) < 1 || stoi(mchoice) > 17) && (mchoice != "t" && mchoice != "T"))
+                    cout << "\nBan chi duoc nhap gia tri trong khoang tu 1 -> 17 hoac {t,T}. Vui long nhap lai.\n";
+            } while ((stoi(mchoice) < 1 || stoi(mchoice) > 17) && (mchoice != "t" && mchoice != "T"));
             system("cls");
             if (mchoice == "1")
             {
@@ -110,17 +111,27 @@ int main(int argc, char **argv)
                 displayHumanInPlane(personal);
                 cout << endl;
             }
-            else if (mchoice == "6")
+            else if (mchoice == "6"){
+                cout << "Danh sach cac Co truong:  \n\n";
+                displayHumanInPlaneWithPosition(employ, "Co truong");
+                cout << "\nDanh sach cac Co pho:  \n\n";
+                displayHumanInPlaneWithPosition(employ, "Co pho   ");
+                cout << "\nDanh sach cac Tiep vien:  \n\n";
+                displayHumanInPlaneWithPosition(employ, "Tiep vien");
+                cout << endl;
+
+            }
+            else if (mchoice == "7")
             {
                 cout << endl;
                 displayVoucher(voucher);
                 cout << endl;
             }
-            else if (mchoice == "7")
+            else if (mchoice == "8")
             {
                 // check xem mảng chưa máy bay đã bị xóa chuyến bay có phần tử nào không
                 if( emptyId.empty() )
-                    addFlight(plane, flight, personal, checkid, employ);
+                    addFlight(plane, flight, personal, checkid, employ, planeName);
                 else {
                     char ch;
                     cout << "Hien tai may bay " << emptyId[0].first.getAircraftNumber() << " chua co chuyen bay nao. Ban co muon them thong tin chuyen bay cho may bay " << emptyId[0].first.getAircraftNumber();
@@ -133,7 +144,7 @@ int main(int argc, char **argv)
                     }while( ch != '1' && ch != '2' );
                     system("cls");
                     if( ch == '2' ){
-                        addFlight(plane, flight, personal, checkid, employ);
+                        addFlight(plane, flight, personal, checkid, employ, planeName);
                     }
                     else {
                         cout << "Nhap thong tin chuyen bay:  \n\n";
@@ -150,16 +161,15 @@ int main(int argc, char **argv)
                 }
                 cout << endl;
             }
-            else if (mchoice == "8")
+            else if (mchoice == "9")
             {
                 cout << endl;
                 addVoucher(voucher, checkid);
                 cout << endl;
             }
-            else if (mchoice == "9")
+            else if (mchoice == "10")
             {
                 cout << endl;
-                vector<pair<humanInPlane, string>> v;
                 int n;
                 do
                 {
@@ -173,12 +183,22 @@ int main(int argc, char **argv)
                 while (n--)
                 {
                     cin >> hip;
-                    v.push_back(make_pair(hip, "     "));
+                    string first = "AP0";
+                    int size = employ["Co truong"].size()+employ["Co pho   "].size()+employ["Tiep vien"].size();
+                    if( size >= 100 )
+                        first.pop_back();
+                    string realId = first + to_string(size);
+                    while( checkid[first] ){
+                        size++;
+                        realId = first + to_string(size);
+                    }
+                    hip.setId(realId);
+                    checkid[realId]++;
+                    employ[hip.getPosition()].insert(make_pair(hip, "     "));
                     system("cls");
                 }
-                personal.push_back(v);
             }
-            else if (mchoice == "10")
+            else if (mchoice == "11")
             {
                 char a = '1';
                 while (a != '2')
@@ -236,7 +256,7 @@ int main(int argc, char **argv)
                     system("cls");
                 }
             }
-            else if (mchoice == "11")
+            else if (mchoice == "12")
             {
                 char a = '1';
                 while (a != '2')
@@ -344,7 +364,7 @@ int main(int argc, char **argv)
                     system("cls");
                 }
             }
-            else if (mchoice == "12")
+            else if (mchoice == "13")
             {
                 char a = '1';
                 while (a != '2')
@@ -373,7 +393,34 @@ int main(int argc, char **argv)
                             {
                                 isValidId = true;
                                 employ[pos].erase(it);
+                                checkid[id]--;
                                 break;
+                            }
+                        }
+                        for( auto &it : personal ){
+                            for( auto &i : it ){
+                                if( i.first.getId() == id ){ // thay the nhan su vua xoa bang 1 nhan su khac
+                                    system("cls");
+                                    displayHumanInPlaneWithPosition(employ, i.first.getPosition());
+                                    cout << "Chon 1 " << i.first.getPosition() << " de thay the " << i.first.getPosition() << " vua xoa\n";
+                                    bool isValidId = false;
+                                    string idToReplace;
+                                    humanInPlane hip;
+                                    do {
+                                        cout << "\nNhap id nhan su muon them:  ";
+                                        cin >> idToReplace;
+                                        for( auto itor : employ[pos] ){
+                                            if( itor.first.getId() == idToReplace ){
+                                                isValidId = true;
+                                                hip = itor.first;
+                                                break;
+                                            }
+                                        }
+                                        if( !isValidId )
+                                            cout << "\nId khong dung. Vui long nhap lai.\n";
+                                    }while( !isValidId );
+                                    i.first = hip;
+                                }
                             }
                         }
                         if (!isValidId)
@@ -391,7 +438,7 @@ int main(int argc, char **argv)
                     system("cls");
                 }
             }
-            else if (mchoice == "13")
+            else if (mchoice == "14")
             {
                 char a = '1';
                 while (a != '2')
@@ -431,7 +478,7 @@ int main(int argc, char **argv)
                     system("cls");
                 }
             }
-            else if (mchoice == "14")
+            else if (mchoice == "15")
             {
                 char a = '1';
                 while (a != '2')
@@ -598,7 +645,7 @@ int main(int argc, char **argv)
                     system("cls");
                 }
             }
-            else if (mchoice == "15")
+            else if (mchoice == "16")
             {
                 char a = '1';
                 while (a != '2')
@@ -757,7 +804,7 @@ int main(int argc, char **argv)
                     system("cls");
                 }
             }
-            else if (mchoice == "16")
+            else if (mchoice == "17")
             {
                 char a = '1';
                 while (a != '2')
