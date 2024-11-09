@@ -135,11 +135,11 @@ void Flight::setSitPosHuy(int pos)
 	if (sitPos.find(pos) != sitPos.end())
     {
 		sitPos.erase(pos);
-		cout << "Vị trí ngồi " << pos << " đã được hủy." << endl;
+		cout << "Vi tri ngoi " << pos << " da duoc huy." << endl;
 	}
     else
     {
-        cout << "Vị trí ngồi " << pos << " không tồn tại!" << endl;
+        cout << "Vi tri ngoi " << pos << " khong ton tai!" << endl;
     }
 }
 string Flight::getId()
@@ -182,7 +182,7 @@ void displayChoNgoiThuonggia(vector<pair<Flight, string>> flight, string id, int
 	{
 		if (it.first.getId() == id)
 		{
-			cout << "Vị trí ngồi cho chuyến bay " << id << ":\n";
+			cout << "Vi tri ngoi cho chuyen bay " << id << ":\n";
             cout << "-----------------------------------------------------\n";
 
 			for (int i = start; i <= end; i++)

@@ -99,9 +99,9 @@ void inputPass(string &password) {
 bool isValidAccount( string username, string password, char choice ){
 	ifstream file;
 	if( choice == '1')
-		file.open("./Database/managerAccount.txt");
+		file.open("../Database/managerAccount.txt");
 	else
-		file.open("./Database/passengerSignInAccount.txt");
+		file.open("../Database/passengerSignInAccount.txt");
     string line;
     while( getline(file, line) ) {
         stringstream ss(line);
@@ -114,7 +114,7 @@ bool isValidAccount( string username, string password, char choice ){
     return false;
 }
 bool isValidUserName( string username ){
-	ifstream file("./Database/passengerSignInAccount.txt");
+	ifstream file("../Database/passengerSignInAccount.txt");
     string line;
     while( getline(file, line) ) {
         stringstream ss(line);
@@ -169,7 +169,7 @@ void SignIn::sign_up(){
 	cout << "\nDang ky thanh cong!\n\n";
 
 	// ghi file
-	ofstream fileSignIn("./Database/passengerSignInAccount.txt", ios::app);
+	ofstream fileSignIn("../Database/passengerSignInAccount.txt", ios::app);
 	fileSignIn << userName << ',' << password << endl;
 	fileSignIn.close();
 }

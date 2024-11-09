@@ -213,22 +213,22 @@ void writeFile( vector<pair<Plane, string>> &plane, vector<pair<Flight, string>>
 }
 void updateSitPos( vector<pair<Flight, string>> &flight, vector<pair<Passenger,string>> passInfo ){
     // Tạo một bản đồ cho việc tra cứu nhanh
-    unordered_map<string, int> passengerSeatMap;
-    for (auto& p : passInfo) {
-        passengerSeatMap[p.second] = p.first.getPos();
-    }
+    // unordered_map<string, int> passengerSeatMap;
+    // for (auto& p : passInfo) {
+    //     passengerSeatMap[p.second] = p.first.getPos();
+    // }
 
-    for (auto& fly : flight) {
-        if (passengerSeatMap.find(fly.first.getId()) != passengerSeatMap.end()) {
-            fly.first.setSitPos(passengerSeatMap[fly.first.getId()]);
-        }
-    }
+    // for (auto& fly : flight) {
+    //     if (passengerSeatMap.find(fly.first.getId()) != passengerSeatMap.end()) {
+    //         fly.first.setSitPos(passengerSeatMap[fly.first.getId()]);
+    //     }
+    // }
 
-	// for( auto &it : passInfo ){
-	// 	for( auto &fly : flight ){
-	// 		if( fly.first.getId() == it.second ){
-	// 			fly.first.setSitPos( it.first.getPos() );
-	// 		}
-	// 	}
-	// }
+	for( auto &it : passInfo ){
+		for( auto &fly : flight ){
+			if( fly.first.getId() == it.second ){
+				fly.first.setSitPos( it.first.getPos() );
+			}
+		}
+	}
 }
