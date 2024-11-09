@@ -47,4 +47,6 @@ class Passenger : public Human {
 		string rank; // háº¡ng gháº¿ ngá»“i
 		int position; // vá»‹ trĂ­ gháº¿ ngá»“i
 		string status; // tinh trang( DAT or HUY )
+	public:
+		humanInPlane();
 };
