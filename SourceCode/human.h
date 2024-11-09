@@ -23,7 +23,7 @@ class Human {
 };
 class humanInPlane : public Human {
 	private:
-	    string id;
+		string id;
 		string position;  // chức vụ trên máy bay( cơ trưởng, tiếp viên, cơ phó )
 		double salary;
 	public:
@@ -38,9 +38,13 @@ class humanInPlane : public Human {
 		string getId() const;
 		bool operator<(const humanInPlane& other) const;
 };
-class humanInPlane : public Human {
+class Passenger : public Human {
 	private:
-	    string id;
-		string position;  // chá»©c vá»¥ trĂªn mĂ¡y bay( cÆ¡ trÆ°á»Ÿng, tiáº¿p viĂªn, cÆ¡ phĂ³ )
-		double salary;
+		string phoneNum; // sá»‘ Ä‘t
+		bool isInCountry; // biáº¿n check xem lĂ  bay trong nÆ°á»›c hay bay ra nÆ°á»›c ngoĂ i
+		string passportNum; // sá»‘ há»™ chiáº¿u
+		string cidNum; // sá»‘ cÄƒn cÆ°á»›c
+		string rank; // háº¡ng gháº¿ ngá»“i
+		int position; // vá»‹ trĂ­ gháº¿ ngá»“i
+		string status; // tinh trang( DAT or HUY )
 };
