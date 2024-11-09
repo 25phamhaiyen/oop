@@ -51,4 +51,5 @@ class Passenger : public Human {
 		humanInPlane();
 		humanInPlane( const Human &human, string id, string position, double salary );
 		friend istream& operator >> ( istream& is, humanInPlane &hip );
+		friend ostream& operator << ( ostream& os, const humanInPlane &hip );
 };
