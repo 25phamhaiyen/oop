@@ -38,3 +38,9 @@ class humanInPlane : public Human {
 		string getId() const;
 		bool operator<(const humanInPlane& other) const;
 };
+class humanInPlane : public Human {
+	private:
+	    string id;
+		string position;  // chá»©c vá»¥ trĂªn mĂ¡y bay( cÆ¡ trÆ°á»Ÿng, tiáº¿p viĂªn, cÆ¡ phĂ³ )
+		double salary;
+};
