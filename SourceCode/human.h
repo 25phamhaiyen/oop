@@ -48,8 +48,8 @@ class Passenger : public Human {
 		int position; // vá»‹ trĂ­ gháº¿ ngá»“i
 		string status; // tinh trang( DAT or HUY )
 	public:
-		humanInPlane();
-		humanInPlane( const Human &human, string id, string position, double salary );
-		friend istream& operator >> ( istream& is, humanInPlane &hip );
-		friend ostream& operator << ( ostream& os, const humanInPlane &hip );
+		Passenger();
+		Passenger( const Human &human, string sdt, string passport, string cccd, string rank, int pos, string status );
+		friend istream& operator >> ( istream& is, Passenger &pas );
+		friend ostream& operator << ( ostream& os, const Passenger &pas );
 };
