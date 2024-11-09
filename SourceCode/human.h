@@ -49,4 +49,6 @@ class Passenger : public Human {
 		string status; // tinh trang( DAT or HUY )
 	public:
 		humanInPlane();
+		humanInPlane( const Human &human, string id, string position, double salary );
+		friend istream& operator >> ( istream& is, humanInPlane &hip );
 };
