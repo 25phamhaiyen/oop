@@ -361,7 +361,7 @@ void displayMenuManager(){
 	cout << "| 7. Hien thi danh sach Voucher.                  |\n";
 	cout << "| 8. Them thong tin chuyen bay.                   |\n";
 	cout << "| 9. Them Voucher.                                |\n";
-	cout << "| 10. Them nhan su.                                |\n";
+	cout << "| 10. Them nhan su.                               |\n";
 	cout << "| 11. Xoa chuyen bay.                             |\n";
 	cout << "| 12. Xoa may bay.                                |\n";
 	cout << "| 13. Xoa nhan su.                                |\n";
