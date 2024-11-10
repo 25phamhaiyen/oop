@@ -2,29 +2,29 @@
 #include "date_time.h"
 class Plane
 {
-private:
-	string planeName;	   // tên hãng bay
-	string aircraftNumber; // số hiệu máy bay
-	string type;		   // loại máy bay ( dân dung, chở hàng )
-	string status;		   // tình trạng ( bảo trì, hoạt động )
-public:
-	// hàm khởi tạo
-	Plane();
-	Plane(string planeName, string aircraftNumber, string type, string status);
-	// hàm nhập xuất
-	friend istream &operator>>(istream &is, Plane &plane);
-	friend ostream &operator<<(ostream &os, const Plane &plane);
-	// toán tử gán
-	Plane operator=(const Plane &plane);
-	// các hàm lấy và gán giá trị
-	string getPlaneName();
-	string getStatus();
-	string getType();
-	string getAircraftNumber();
-	void setAircraftNumber(string s);
-	void setPlaneName(string s);
-	void setType(string s);
-	void setStatus(string s);
+    private:
+        string planeName;	   // tên hãng bay
+        string aircraftNumber; // số hiệu máy bay
+        string type;		   // loại máy bay ( dân dung, chở hàng )
+        string status;		   // tình trạng ( bảo trì, hoạt động )
+    public:
+        // hàm khởi tạo
+        Plane();
+        Plane(string planeName, string aircraftNumber, string type, string status);
+        // hàm nhập xuất
+        friend istream &operator>>(istream &is, Plane &plane);
+        friend ostream &operator<<(ostream &os, const Plane &plane);
+        // toán tử gán
+        Plane operator=(const Plane &plane);
+        // các hàm lấy và gán giá trị
+        string getPlaneName();
+        string getStatus();
+        string getType();
+        string getAircraftNumber();
+        void setAircraftNumber(string s);
+        void setPlaneName(string s);
+        void setType(string s);
+        void setStatus(string s);
 };
 
 // Build class Plane
@@ -117,7 +117,7 @@ Plane Plane::operator=(const Plane &plane)
         type = plane.type;
         status = plane.status;
     }
-	
+
 	return *this;
 }
 void Plane::setAircraftNumber(string s)
