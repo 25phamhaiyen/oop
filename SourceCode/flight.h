@@ -70,3 +70,12 @@ Flight::Flight(string id, Date flightDate, string departureLocation, string dest
 	this->vipTicketPrice = vipTicketPrice;
 	this->area = area;
 }
+ostream &operator<<(ostream &os, const Flight &fly)
+{
+	os << fly.id << "   |   " << fly.flightDate << "   |   from " << fly.departureLocation << " to " << fly.destination << "   |    " << fly.departureTime << "    |    " << fly.landingTime << "    |     " << fly.popTicketPrice << "      |    ";
+	if (fly.vipTicketPrice >= 10000)
+		cout << fly.vipTicketPrice << "   |";
+	else
+		cout << fly.vipTicketPrice << "    |";
+	return os;
+}
