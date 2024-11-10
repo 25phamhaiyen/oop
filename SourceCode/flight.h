@@ -46,7 +46,7 @@ public:
 	bool findSitPos(int pos);
 	// hàm lấy tổng các vị trí ngồi đã đặt
 	int getSitNum();
-	friend void displayChoNgoiThuonggia(vector<pair<Flight, string>> flight, string id);
+	friend void displayChoNgoi(vector<pair<Flight, string>> flight, string id, int start, int end);
 };
 
 // Build class Flight
@@ -142,22 +142,23 @@ void Flight::setSitPosHuy(int pos)
         cout << "Vi tri ngoi " << pos << " khong ton tai!" << endl;
     }
 }
-void displayChoNgoiThuonggia(vector<pair<Flight, string>> flight, string id, int start, int end)
+void displayChoNgoi(vector<pair<Flight, string>> flight, string id, int start, int end);
 {
 	for (auto it : flight)
 	{
 		if (it.first.getId() == id)
 		{
-			cout << "Vi tri ngoi cho chuyen bay " << id << ":\n";
-            cout << "-----------------------------------------------------\n";
+			cout << "Danh sach vi tri ngoi cua chuyen bay " << id << ":\n\n";
+            		cout << "--------------------------------------------\n\n";
 
 			for (int i = start; i <= end; i++)
 			{
 				if (i % 4 == 1 && i != 1)
-				// Thêm d?ng m?i sau m?i 4 v? trí
+				// Thêm dòng mới sau mỗi 4 vị trí
 					cout << endl;
-
-				if (it.first.findSitPos(i)) // Ki?m tra v? trí đ? đ?t
+		                if( i == 16 )
+		                    cout << "   \t\t\t\t  ";
+				if (it.first.findSitPos(i)) // Kiểm tra vị trí đã đặt
 				{
 					cout << PINK << "|  " << i;
 					if (i < 10)
