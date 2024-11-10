@@ -290,3 +290,4 @@ void updateSitPos( vector<pair<Flight, string>> &flight, vector<pair<Passenger,s
 		}
 	}
 }
+
