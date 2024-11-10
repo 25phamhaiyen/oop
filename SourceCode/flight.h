@@ -125,3 +125,20 @@ string Flight::getArea()
 {
 	return this->area;
 }
+void Flight::setSitPos(int pos)
+{
+	sitPos.insert(pos);
+}
+void Flight::setSitPosHuy(int pos)
+{
+	// Xóa vị trí ngồi khỏkhỏi set
+	if (sitPos.find(pos) != sitPos.end())
+    {
+		sitPos.erase(pos);
+		cout << "Vi tri ngoi " << pos << " da duoc huy." << endl;
+	}
+    else
+    {
+        cout << "Vi tri ngoi " << pos << " khong ton tai!" << endl;
+    }
+}
