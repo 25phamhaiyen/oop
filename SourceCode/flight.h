@@ -58,3 +58,15 @@ Flight::Flight()
 	landingTime = Time();
 	flightDate = Date();
 }
+Flight::Flight(string id, Date flightDate, string departureLocation, string destination, Time departureTime, Time landingTime, double popTicketPrice, double vipTicketPrice, string area)
+{
+	this->id = id;
+	this->departureLocation = departureLocation;
+	this->destination = destination;
+	this->departureTime = departureTime;
+	this->landingTime = landingTime;
+	this->flightDate = flightDate;
+	this->popTicketPrice = popTicketPrice;
+	this->vipTicketPrice = vipTicketPrice;
+	this->area = area;
+}
