@@ -117,3 +117,11 @@ double Flight::getPopTicketPrice()
 {
 	return this->popTicketPrice;
 }
+double Flight::getVipTicketPrice()
+{
+	return this->vipTicketPrice;
+}
+string Flight::getArea()
+{
+	return this->area;
+}
