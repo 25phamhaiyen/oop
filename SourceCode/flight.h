@@ -79,3 +79,17 @@ ostream &operator<<(ostream &os, const Flight &fly)
 		cout << fly.vipTicketPrice << "    |";
 	return os;
 }
+Flight Flight::operator=(const Flight &fly2)
+{
+	this->id = fly2.id;
+	this->flightDate = fly2.flightDate;
+	this->departureLocation = fly2.departureLocation;
+	this->destination = fly2.destination;
+	this->departureTime = fly2.departureTime;
+	this->landingTime = fly2.landingTime;
+	this->popTicketPrice = fly2.popTicketPrice;
+	this->vipTicketPrice = fly2.vipTicketPrice;
+	this->area = fly2.area;
+	this->sitPos = fly2.sitPos;
+	return *this;
+}
