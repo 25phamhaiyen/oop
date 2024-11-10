@@ -271,16 +271,42 @@ void addFlight( vector<pair<Plane, string>> &plane, vector<pair<Flight,string>> 
 	plane.push_back(make_pair(p,fly.getId()));
 }
 void addVoucher( vector<Voucher> &voucher, unordered_map<string,int> &checkid ){
-	Voucher vou;
-	cin >> vou;
-	string newId = vou.getID();
-	while( checkid[newId] ){
-		cout << "\nMa khuyen mai da ton tai. Vui long nhap ma khac\n";
+	time_t t = time(nullptr); // L?y th?i gian hi?n t?i
+    tm* now = localtime(&t);
+    Date nowDate(now->tm_mday, now->tm_mon+1, now->tm_year+1900);
+	string newId;
+	double level;
+	Date fdate, edate;
+	cout << "Nhap ma khuyen mai (Bao gom: KM + 2 CHU SO):  ";
+	cin >> newId;
+	while( checkid[newId] || newId.size() != 4 ){
+        if( checkid[newId] )
+            cout << "\nMa khuyen mai da ton tai. Vui long nhap ma khac\n";
+        else if( newId.size() != 4 )
+            cout << "\nMa khuyen mai chi gom 4 ky tu. Vui long nhap lai\n";
+		cout << "\nNhap ma khuyen mai:  ";
 		cin >> newId;
 	}
 	checkid[newId]++;
-	vou.setID(newId);
-	voucher.push_back(vou);
+	do {
+        cout << "\nNhap muc giam gia (%):  ";
+        cin >> level;
+        if( level <= 0 || level > 100 )
+            cout << "\nMuc giam gia phai > 0 va <= 100. Vui long nhap lai.\n";
+	}while( level <= 0 || level > 100 );
+	do {
+        cout << "\nNhap ngay bat dau khuyen mai:  \n";
+        fdate.inputDate();
+        if( fdate < nowDate )
+            cout << "\nNgay bat dau khuyen mai phai >= ngay hom nay. Vui long nhap lai.\n";
+	}while( fdate < nowDate );
+	do {
+        cout << "\nNhap ngay ket thuc khuyen mai:  \n";
+        edate.inputDate();
+        if( edate < fdate )
+            cout << "\nNgay ket thuc khuyen mai phai >= ngay bat dau khuyen mai. Vui long nhap lai.\n";
+	}while( fdate < fdate );
+	voucher.push_back(Voucher(newId, level, fdate, edate));
 }
 void displayBill( int ticketNum, vector<pair<Flight, string>> passfly, vector<pair<Passenger, string>> passenger, int voucherLevel, unordered_map<string, int> &idmap){
 	double total = 0;
