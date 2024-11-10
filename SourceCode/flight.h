@@ -109,3 +109,11 @@ Time Flight::getLandingTime()
 {
 	return this->landingTime;
 }
+Date Flight::getFlightDate()
+{
+	return this->flightDate;
+}
+double Flight::getPopTicketPrice()
+{
+	return this->popTicketPrice;
+}
