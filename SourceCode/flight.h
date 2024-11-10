@@ -142,3 +142,44 @@ void Flight::setSitPosHuy(int pos)
         cout << "Vi tri ngoi " << pos << " khong ton tai!" << endl;
     }
 }
+void displayChoNgoiThuonggia(vector<pair<Flight, string>> flight, string id, int start, int end)
+{
+	for (auto it : flight)
+	{
+		if (it.first.getId() == id)
+		{
+			cout << "Vi tri ngoi cho chuyen bay " << id << ":\n";
+            cout << "-----------------------------------------------------\n";
+
+			for (int i = start; i <= end; i++)
+			{
+				if (i % 4 == 1 && i != 1)
+				// Thêm d?ng m?i sau m?i 4 v? trí
+					cout << endl;
+
+				if (it.first.findSitPos(i)) // Ki?m tra v? trí đ? đ?t
+				{
+					cout << PINK << "|  " << i;
+					if (i < 10)
+						cout << "   |" << RESET;
+					else
+						cout << "  |" << RESET;
+				}
+				else
+				{
+					cout << "|  " << i;
+					if (i < 10)
+						cout << "   |";
+					else
+						cout << "  |";
+				}
+
+				// Thêm khoảng cách giữa các cột cho rõ ràng
+				if (i % 2 == 0)
+					cout << "      ";
+				else
+					cout << "  ";
+			}
+		}
+	}
+}
