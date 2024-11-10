@@ -93,3 +93,11 @@ Flight Flight::operator=(const Flight &fly2)
 	this->sitPos = fly2.sitPos;
 	return *this;
 }
+string Flight::getDepartureLocation()
+{
+	return this->departureLocation;
+}
+string Flight::getDestination()
+{
+	return this->destination;
+}
