@@ -1483,7 +1483,6 @@ int main(int argc, char **argv)
         }
         writeDataUser(demoPass, passfly, hisPass, namefile);
     }
-    // writeFile(plane, flight, passInfo, voucher, personal, history);
-    //  sau khi chạy xong thì ghi thông tin người dùng, lịch sử đặt vé vào các file gốc để khi đăng nhập với tư cách quản lý thì sẽ thấy các thông tin vừa đặt
+    writeFile(plane, flight, passInfo, voucher, personal, history);
     return 0;
 }
