@@ -50,3 +50,11 @@ public:
 };
 
 // Build class Flight
+Flight::Flight()
+{
+	id = departureLocation = destination = "";
+	vipTicketPrice = popTicketPrice = 0;
+	departureTime = Time();
+	landingTime = Time();
+	flightDate = Date();
+}
