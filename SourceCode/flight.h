@@ -101,3 +101,11 @@ string Flight::getDestination()
 {
 	return this->destination;
 }
+Time Flight::getDepartureTime()
+{
+	return this->departureTime;
+}
+Time Flight::getLandingTime()
+{
+	return this->landingTime;
+}
