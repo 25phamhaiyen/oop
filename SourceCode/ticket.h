@@ -37,3 +37,11 @@ double Ticket::calculatePrice() {
 double Ticket::getPrice() const {
     return price;
 }
+void Ticket::displayTicketInfo() const {
+    cout << "Ticket ID: " << ticketID << endl;
+    cout << "Flight Number: " << flightNumber << endl;
+    cout << "Passenger Passport: " << passengerPassport << endl;
+    cout << "Seat Number: " << seatNumber << endl;
+    cout << "Seat Class: " << seatClass << endl;
+    cout << "Price: $" << price << endl;
+}
