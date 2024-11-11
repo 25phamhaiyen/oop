@@ -15,3 +15,9 @@ public:
     double getPrice() const;
     void displayTicketInfo() const;
 };
+Ticket::Ticket(string ticketID, string flightNumber, string passengerPassport, 
+               string seatNumber, string seatClass)
+    : ticketID(ticketID), flightNumber(flightNumber), passengerPassport(passengerPassport), 
+      seatNumber(seatNumber), seatClass(seatClass) {
+    price = calculatePrice();
+}
