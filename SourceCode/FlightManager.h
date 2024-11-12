@@ -47,3 +47,27 @@ public:
         cout << "Flight not found!" << endl;
         return nullptr;
     }
+// Hiển thị menu
+    void printMenu() {
+        cout << "====== Flight Manager Menu ======" << endl;
+        cout << "1. Add Flight" << endl;
+        cout << "2. Remove Flight" << endl;
+        cout << "3. Update Flight" << endl;
+        cout << "4. Find Flight by ID" << endl;
+        cout << "5. Display All Flights" << endl;
+        cout << "6. Exit" << endl;
+        cout << "Select an option: ";
+    }
+
+    // Hiển thị tất cả các chuyến bay
+    void displayAllFlights() const {
+        if (flights.empty()) {
+            cout << "No flights available." << endl;
+        } else {
+            cout << "List of Flights:" << endl;
+            for (const auto& flight : flights) {
+                flight.displayInfo();
+            }
+        }
+    }
+};
