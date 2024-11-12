@@ -1005,7 +1005,7 @@ int main(int argc, char **argv)
                                     break;
                                 }
                             }
-                            cout << GRREN;
+                            cout << GREEN;
                             cout << "\nChinh sua ma khuyen mai thanh cong!\n\n";
                             cout << RESET;
                             break;
@@ -1123,7 +1123,7 @@ int main(int argc, char **argv)
                     system("cls");
                 }
             }
-            else if (mchoice == 19)
+            else if (mchoice == "19")
             {
                 cout << endl
                      << "KET THUC\n";
