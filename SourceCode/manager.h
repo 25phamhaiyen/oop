@@ -396,7 +396,7 @@ void displayMenuManager(){
 	cout << "| 16. Chinh sua thong tin chuyen bay.                |\n";
 	cout << "| 17. Chinh sua thong tin may bay                    |\n";
 	cout << "| 18. Chinh sua thong tin Voucher                    |\n";
-	cout << "| T. Thoat.                                          |\n";
+	cout << "| 19. Thoat.                                         |\n";
 	cout << "|                                                    |\n";
 	cout << "+----------------------------------------------------+\n";
 }
