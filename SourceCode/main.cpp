@@ -7,16 +7,17 @@
 int main(int argc, char **argv)
 {
     // set up du lieu
-    vector<pair<Plane, string>> plane;                             // may bay
-    vector<pair<Flight, string>> flight;                           // chuyen bay
-    vector<vector<pair<humanInPlane, string>>> personal;           // nhan su
-    vector<pair<Passenger, string>> passInfo;                      // khach hang
-    vector<Voucher> voucher;                                       // voucher
-    vector<pair<Passenger, string>> history;                       // lich su dat ve
-    vector<pair<Plane, string>> emptyId;                           // vector chua thong tin may bay da bi xoa chuyen bay
-    unordered_map<string, string> planeName;                       // get plane name tu id chuyen bay
-    unordered_map<string, int> checkid;                            // luu thong tin id chuyen bay, shmb, ma khuyen mai, ma nhan su
-    unordered_map<string, set<pair<humanInPlane, string>>> employ; // luu vi tri cua nhan su
+    vector<pair<Plane, string>> plane;                                // may bay
+    vector<pair<Flight, string>> flight;                              // chuyen bay
+    unordered_map<string, vector<pair<Passenger, string>>> passInFly; // danh sach khach hang tren tuwng chuyen bay
+    vector<vector<pair<humanInPlane, string>>> personal;              // nhan su
+    vector<pair<Passenger, string>> passInfo;                         // khach hang
+    vector<Voucher> voucher;                                          // voucher
+    vector<pair<Passenger, string>> history;                          // lich su dat ve
+    vector<pair<Plane, string>> emptyId;                              // vector chua thong tin may bay da bi xoa chuyen bay
+    unordered_map<string, string> planeName;                          // get plane name tu id chuyen bay
+    unordered_map<string, int> checkid;                               // luu thong tin id chuyen bay, shmb, ma khuyen mai, ma nhan su
+    unordered_map<string, set<pair<humanInPlane, string>>> employ;    // luu vi tri cua nhan su
     readData(plane, flight, passInfo, voucher, personal, history);
     updateSitPos(flight, passInfo);
     for (auto it : plane)
@@ -36,6 +37,10 @@ int main(int argc, char **argv)
             employ[i.first.getPosition()].insert(i);
             checkid[i.first.getId()]++;
         }
+    }
+    for (auto it : passInfo)
+    {
+        passInFly[it.second].push_back(it);
     }
 
     // chayj ct
@@ -79,9 +84,9 @@ int main(int argc, char **argv)
             {
                 cout << "\nNhap lua chon cua ban:  ";
                 cin >> mchoice;
-                if ((stoi(mchoice) < 1 || stoi(mchoice) > 17) && (mchoice != "t" && mchoice != "T"))
-                    cout << "\nBan chi duoc nhap gia tri trong khoang tu 1 -> 17 hoac {t,T}. Vui long nhap lai.\n";
-            } while ((stoi(mchoice) < 1 || stoi(mchoice) > 17) && (mchoice != "t" && mchoice != "T"));
+                if ((stoi(mchoice) < 1 || stoi(mchoice) > 18) && (mchoice != "t" && mchoice != "T"))
+                    cout << "\nBan chi duoc nhap gia tri trong khoang tu 1 -> 18 hoac {t,T}. Vui long nhap lai.\n";
+            } while ((stoi(mchoice) < 1 || stoi(mchoice) > 18) && (mchoice != "t" && mchoice != "T"));
             system("cls");
             if (mchoice == "1")
             {
@@ -97,23 +102,58 @@ int main(int argc, char **argv)
             }
             else if (mchoice == "3")
             {
-                cout << endl;
-                displayPassenger(passInfo);
-                cout << endl;
+                char a;
+                do
+                {
+                    displayFlight(flight, planeName);
+                    string id;
+                    do
+                    {
+                        cout << "\nNhap id chuyen bay ban muon xem danh sach khach hang:  ";
+                        cin >> id;
+                        if (!checkid[id])
+                            cout << "\nId khong dung. Vui long nhap lai.\n";
+                    } while (!checkid[id]);
+                    system("cls");
+                    if (passInFly[id].empty())
+                    {
+                        cout << "Chuyen bay " << id << " hien chua co khach hang nao dat ve.\n";
+                    }
+                    else
+                    {
+                        displayPassenger(passInFly[id]);
+                        cout << endl;
+                    }
+                    cout << "\nBan co muon tiep tuc cho cac chuyen bay khac?\n1. Co \n2. Khong\n";
+                    do
+                    {
+                        cout << "\nNhap lua chon cua ban:  ";
+                        cin >> a;
+                        if (a != '1' && a != '2')
+                            cout << "\nBa chi duoc chon 1 hoac 2. Vui long nhap lai.\n";
+                    } while (a != '1' && a != '2');
+                    system("cls");
+                } while (a == '1');
             }
             else if (mchoice == "4")
             {
                 cout << endl;
-                displayHistory(history);
+                displayPassenger(passInfo);
                 cout << endl;
             }
             else if (mchoice == "5")
             {
                 cout << endl;
-                displayHumanInPlane(personal);
+                displayHistory(history);
                 cout << endl;
             }
             else if (mchoice == "6")
+            {
+                cout << endl;
+                displayHumanInPlane(personal);
+                cout << endl;
+            }
+            else if (mchoice == "7")
             {
                 cout << "Danh sach cac Co truong:  \n\n";
                 displayHumanInPlaneWithPosition(employ, "Co truong");
@@ -123,13 +163,13 @@ int main(int argc, char **argv)
                 displayHumanInPlaneWithPosition(employ, "Tiep vien");
                 cout << endl;
             }
-            else if (mchoice == "7")
+            else if (mchoice == "8")
             {
                 cout << endl;
                 displayVoucher(voucher);
                 cout << endl;
             }
-            else if (mchoice == "8")
+            else if (mchoice == "9")
             {
                 // check xem mảng chưa máy bay đã bị xóa chuyến bay có phần tử nào không
                 if (emptyId.empty())
@@ -167,13 +207,13 @@ int main(int argc, char **argv)
                 }
                 cout << endl;
             }
-            else if (mchoice == "9")
+            else if (mchoice == "10")
             {
                 cout << endl;
                 addVoucher(voucher, checkid);
                 cout << endl;
             }
-            else if (mchoice == "10")
+            else if (mchoice == "11")
             {
                 cout << endl;
                 int n;
@@ -205,7 +245,7 @@ int main(int argc, char **argv)
                     system("cls");
                 }
             }
-            else if (mchoice == "11")
+            else if (mchoice == "12")
             {
                 char a = '1';
                 while (a != '2')
@@ -267,7 +307,7 @@ int main(int argc, char **argv)
                     system("cls");
                 }
             }
-            else if (mchoice == "12")
+            else if (mchoice == "13")
             {
                 char a = '1';
                 while (a != '2')
@@ -387,7 +427,7 @@ int main(int argc, char **argv)
                     system("cls");
                 }
             }
-            else if (mchoice == "13")
+            else if (mchoice == "14")
             {
                 char a = '1';
                 while (a != '2')
@@ -467,7 +507,7 @@ int main(int argc, char **argv)
                     system("cls");
                 }
             }
-            else if (mchoice == "14")
+            else if (mchoice == "15")
             {
                 char a = '1';
                 while (a != '2')
@@ -507,7 +547,7 @@ int main(int argc, char **argv)
                     system("cls");
                 }
             }
-            else if (mchoice == "15")
+            else if (mchoice == "16")
             {
                 char a = '1';
                 while (a != '2')
@@ -674,7 +714,7 @@ int main(int argc, char **argv)
                     system("cls");
                 }
             }
-            else if (mchoice == "16")
+            else if (mchoice == "17")
             {
                 char a = '1';
                 while (a != '2')
@@ -833,7 +873,7 @@ int main(int argc, char **argv)
                     system("cls");
                 }
             }
-            else if (mchoice == "17")
+            else if (mchoice == "18")
             {
                 char a = '1';
                 while (a != '2')
@@ -1343,29 +1383,17 @@ int main(int argc, char **argv)
                     } while (yourChoice != '8');
                 }
                 // hỏi khách hàng về voucher
-                char a;
                 do
                 {
                     cout << "Quy khach co ma Voucher giam gia khong?( neu co thi nhap ma Voucher, neu khong thi go phim 'e' ):  ";
                     cin >> idVoucher;
                     if (idVoucher == "e" || idVoucher == "E")
                         break;
-                    else if (checkid[idVoucher] == 0)
+                    if (!checkid[idVoucher])
                     {
-                        cout << "\nQuy khach da nhap sai ma khuyen mai. Quy khach co muon tiep tuc khong?\n";
-                        cout << "1. Co.\n";
-                        cout << "2. Khong.\n";
-                        do
-                        {
-                            cout << "\nNhap lua chon cua ban:  ";
-                            cin >> a;
-                            if (a != '1' && a != '2')
-                                cout << "\nBan chi duoc chon 1 hoac 2. Vui long nhap lai.\n";
-                        } while (a != '1' && a != '2');
-                        if (a == '2')
-                            break;
+                        cout << "\nQuy khach da nhap sai ma khuyen mai.\n\n";
                     }
-                } while (checkid[idVoucher] == 0 && idVoucher != "e" && idVoucher != "E" || a == '1');
+                } while (!checkid[idVoucher] && idVoucher != "e" && idVoucher != "E");
                 system("cls");
                 // xác nhận thanh toán
                 char acept;
@@ -1450,21 +1478,26 @@ int main(int argc, char **argv)
                 {
                     cout << "Nhap vi tri ghe muon huy:  ";
                     cin >> position;
-                    if (mp[position] == 0)
+                    if (!mp[position])
                         cout << "\nVi tri khong hop le. Vui long nhap lai\n\n";
-                } while (mp[position] == 0);
+                } while (!mp[position]);
                 // xóa thông tin người dùng trong vector demoPass và thêm vào lịch sử với trạng thái hủy vé và giảm đi id chuyến bay đã hủy
-                for (auto it = demoPass.begin(); it != demoPass.end(); it++)
+                for (auto it = demoPass.begin(); it != demoPass.end(); /* không tăng it ở đây */)
                 {
                     if (it->first.getPos() == position && it->second == id)
                     {
                         it->first.setStatus("HUY");
-                        hisPass.push_back(make_pair(it->first, it->second));
-                        demoPass.erase(it);
+                        hisPass.push_back(*it);
                         idmap[it->second]--;
+                        it = demoPass.erase(it); // cập nhật it sau khi xóa
                         break;
                     }
+                    else
+                    {
+                        ++it; // tăng it khi không xóa
+                    }
                 }
+
                 // cập nhật lại vị trí đã hủy
                 for (auto &it : flight)
                 {
@@ -1474,10 +1507,18 @@ int main(int argc, char **argv)
                         break;
                     }
                 }
-                for (auto it = passfly.begin(); it != passfly.end(); it++)
+
+                // xóa các chuyến bay có ID phù hợp trong passfly
+                for (auto it = passfly.begin(); it != passfly.end(); /* không tăng it ở đây */)
                 {
                     if (it->first.getId() == id)
-                        passfly.erase(it);
+                    {
+                        it = passfly.erase(it); // cập nhật it sau khi xóa
+                    }
+                    else
+                    {
+                        ++it; // tăng it khi không xóa
+                    }
                 }
                 cout << "\nDa huy ve thanh cong\n\n";
                 break;
@@ -1514,6 +1555,7 @@ int main(int argc, char **argv)
         }
         writeDataUser(demoPass, passfly, hisPass, namefile);
     }
-    writeData(plane, flight, passInfo, voucher, personal, history);
+    // writeFile(plane, flight, passInfo, voucher, personal, history);
+    //  sau khi chạy xong thì ghi thông tin người dùng, lịch sử đặt vé vào các file gốc để khi đăng nhập với tư cách quản lý thì sẽ thấy các thông tin vừa đặt
     return 0;
 }
