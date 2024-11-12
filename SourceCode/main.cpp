@@ -81,19 +81,16 @@ int main(int argc, char **argv)
         cout << "\n---------------------------------------------\n";
         system("cls");
         string mchoice;
-        while (mchoice != "t" && mchoice != "T")
+        while (mchoice != "19")
         {
             displayMenuManager();
             do
             {
                 cout << "\nNhap lua chon cua ban:  ";
                 cin >> mchoice;
-                if ((stoi(mchoice) < 1 || stoi(mchoice) > 18) && (mchoice != "t" && mchoice != "T")){
-                    cout << RED;	
-                    cout << "\nBan chi duoc nhap gia tri trong khoang tu 1 -> 18 hoac {t,T}. Vui long nhap lai.\n";
-                    cout << RESET;	    
-                }
-            } while ((stoi(mchoice) < 1 || stoi(mchoice) > 18) && (mchoice != "t" && mchoice != "T"));
+                if ((stoi(mchoice) < 1 || stoi(mchoice) > 19))
+                    cout << "\nBan chi duoc nhap gia tri trong khoang tu 1 -> 19. Vui long nhap lai.\n";
+            } while((stoi(mchoice) < 1 || stoi(mchoice) > 19));
             system("cls");
             if (mchoice == "1")
             {
@@ -1126,7 +1123,7 @@ int main(int argc, char **argv)
                     system("cls");
                 }
             }
-            else if (mchoice == "t" || mchoice == "T")
+            else if (mchoice == 19)
             {
                 cout << endl
                      << "KET THUC\n";
