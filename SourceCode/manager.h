@@ -376,28 +376,29 @@ void displayBill( int ticketNum, vector<pair<Flight, string>> passfly, vector<pa
 	cout << "+------------------------------------------------+\n";
 }
 void displayMenuManager(){
-	cout << "+--------------------MENU-------------------------+\n";
-	cout << "|                                                 |\n";
-	cout << "| 1. Hien thi danh sach may bay.                  |\n";
-	cout << "| 2. Hien thi danh sach chuyen bay.               |\n";
-	cout << "| 3. Hien thi danh sach thong tin nguoi dung.     |\n";
-	cout << "| 4. Hien thi danh sach luot dat ve.              |\n";
-	cout << "| 5. Hien thi danh sach nhan su da co cong viec.  |\n";
-	cout << "| 6. Hien thi danh sach tat ca nhan su hien co.   |\n";
-	cout << "| 7. Hien thi danh sach Voucher.                  |\n";
-	cout << "| 8. Them thong tin chuyen bay.                   |\n";
-	cout << "| 9. Them Voucher.                                |\n";
-	cout << "| 10. Them nhan su.                               |\n";
-	cout << "| 11. Xoa chuyen bay.                             |\n";
-	cout << "| 12. Xoa may bay.                                |\n";
-	cout << "| 13. Xoa nhan su.                                |\n";
-	cout << "| 14. Xoa voucher.                                |\n";
-	cout << "| 15. Chinh sua thong tin chuyen bay.             |\n";
-	cout << "| 16. Chinh sua thong tin may bay                 |\n";
-	cout << "| 17. Chinh sua thong tin Voucher                 |\n";
-	cout << "| T. Thoat.                                       |\n";
-	cout << "|                                                 |\n";
-	cout << "+-------------------------------------------------+\n";
+	cout << "+--------------------MENU----------------------------+\n";
+	cout << "|                                                    |\n";
+	cout << "| 1. Hien thi danh sach may bay.                     |\n";
+	cout << "| 2. Hien thi danh sach chuyen bay.                  |\n";
+	cout << "| 3. Hien thi danh sach nguoi dung tren chuyen bay   |\n";
+	cout << "| 4. Hien thi danh sach thong tin nguoi dung.        |\n";
+	cout << "| 5. Hien thi danh sach luot dat ve.                 |\n";
+	cout << "| 6. Hien thi danh sach nhan su da co cong viec.     |\n";
+	cout << "| 7. Hien thi danh sach tat ca nhan su hien co.      |\n";
+	cout << "| 8. Hien thi danh sach Voucher.                     |\n";
+	cout << "| 9. Them thong tin chuyen bay.                      |\n";
+	cout << "| 10. Them Voucher.                                  |\n";
+	cout << "| 11. Them nhan su.                                  |\n";
+	cout << "| 12. Xoa chuyen bay.                                |\n";
+	cout << "| 13. Xoa may bay.                                   |\n";
+	cout << "| 14. Xoa nhan su.                                   |\n";
+	cout << "| 15. Xoa voucher.                                   |\n";
+	cout << "| 16. Chinh sua thong tin chuyen bay.                |\n";
+	cout << "| 17. Chinh sua thong tin may bay                    |\n";
+	cout << "| 18. Chinh sua thong tin Voucher                    |\n";
+	cout << "| T. Thoat.                                          |\n";
+	cout << "|                                                    |\n";
+	cout << "+----------------------------------------------------+\n";
 }
 void displayMenuUser(){
 	cout << "+----------------------MENU--------------------------+\n";
