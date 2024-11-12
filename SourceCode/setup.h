@@ -93,7 +93,7 @@ void readData( vector<pair<Plane, string>> &plane, vector<pair<Flight, string>> 
 
 	ifstream file;
 	string line;
-	file.open("./Database/PlaneData.txt");
+	file.open("../Database/PlaneData.txt");
     while( getline(file, line) ) {
         stringstream ss(line);
         string name, num, type, status, id;
@@ -106,7 +106,7 @@ void readData( vector<pair<Plane, string>> &plane, vector<pair<Flight, string>> 
     }
     file.close();
 
-    file.open("./Database/FlightData.txt");
+    file.open("../Database/FlightData.txt");
     while( getline(file, line) ) {
         stringstream ss(line);
         string id, date, firstLocal, secondLocal, firstTime, secondTime, popPrice, vipPrice, area, planeName;
@@ -124,7 +124,7 @@ void readData( vector<pair<Plane, string>> &plane, vector<pair<Flight, string>> 
     }
     file.close();
 
-    file.open("./Database/VoucherData.txt");
+    file.open("../Database/VoucherData.txt");
     while( getline(file, line) ) {
         stringstream ss(line);
         string id, level, firstDate, lastDate;
@@ -136,7 +136,7 @@ void readData( vector<pair<Plane, string>> &plane, vector<pair<Flight, string>> 
     }
     file.close();
 
-    file.open("./Database/PassengerData.txt");
+    file.open("../Database/PassengerData.txt");
     while( getline(file, line) ) {
         stringstream ss(line);
         string name, date, sex, age, sdt, passport, cccd, rank, pos, status, id;
@@ -154,7 +154,7 @@ void readData( vector<pair<Plane, string>> &plane, vector<pair<Flight, string>> 
     }
     file.close();
 
-    file.open("./Database/HistoryData.txt");
+    file.open("../Database/HistoryData.txt");
     while( getline(file, line) ) {
         stringstream ss(line);
         string name, date, sex, age, sdt, passport, cccd, rank, pos, status, id;
@@ -172,7 +172,7 @@ void readData( vector<pair<Plane, string>> &plane, vector<pair<Flight, string>> 
     }
     file.close();
 
-    file.open("./Database/HumanInPlaneData.txt");
+    file.open("../Database/HumanInPlaneData.txt");
     int count = 0;
     vector<pair<humanInPlane,string>> tmp;
     while( getline(file, line) ) {
@@ -209,7 +209,7 @@ void writeData( vector<pair<Plane, string>> &plane, vector<pair<Flight, string>>
     vector<vector<pair<humanInPlane, string>>> &personal, vector<pair<Passenger,string>> &history ){
 	// ghi file du lieu cua Plane
 	ofstream file;
-	file.open("./Database/PlaneData.txt",ios::trunc);
+	file.open("../Database/PlaneData.txt",ios::trunc);
 	string str = "";
     if( file.is_open() ) {
         for( auto &it : plane ){
@@ -221,7 +221,7 @@ void writeData( vector<pair<Plane, string>> &plane, vector<pair<Flight, string>>
     file.close();
 
     // ghi file du lieu cua Flight
-    file.open("./Database/FlightData.txt",ios::trunc);
+    file.open("../Database/FlightData.txt",ios::trunc);
     if( file.is_open() ) {
         for( auto &it : flight ){
 	        file << it.first.getId() << "," << it.first.getFlightDate() << "," << it.first.getDepartureLocation() << "," << it.first.getDestination() << "," << it.first.getDepartureTime() << ","
@@ -231,7 +231,7 @@ void writeData( vector<pair<Plane, string>> &plane, vector<pair<Flight, string>>
     file.close();
 
     // ghi file du lieu cua Passenger
-    file.open("./Database/PassengerData.txt",ios::trunc);
+    file.open("../Database/PassengerData.txt",ios::trunc);
     if( file.is_open() ) {
         for( auto &it : passInfo ){
 	        file << it.first.getName() << "," << it.first.getDate() << "," << it.first.getSex() << "," << it.first.getPhoneNum() << "," << it.first.getPassportNum() << ","
@@ -241,7 +241,7 @@ void writeData( vector<pair<Plane, string>> &plane, vector<pair<Flight, string>>
     file.close();
 
      // ghi file du lieu cua personal
-    file.open("./Database/HumanInPlane.txt",ios::trunc);
+    file.open("../Database/HumanInPlane.txt",ios::trunc);
     if( file.is_open() ) {
         for( auto &it : personal ){
         	for( auto i : it )
@@ -251,7 +251,7 @@ void writeData( vector<pair<Plane, string>> &plane, vector<pair<Flight, string>>
     file.close();
 
     // ghi file du lieu cua personal
-    file.open("./Database/HistoryData.txt",ios::trunc);
+    file.open("../Database/HistoryData.txt",ios::trunc);
     if( file.is_open() ) {
         for( auto &it : personal ){
         	for( auto i : it )

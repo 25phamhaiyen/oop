@@ -268,15 +268,21 @@ istream& operator >> ( istream& is, Passenger &pas ){
 		cout << "\nNhap so dien thoai ( 0********* ):  ";
 		is >> pas.phoneNum;
 		if( pas.phoneNum.size() != 10 ){
+			cout << RED;	
 			cout << "\nSo dien thoai phai du 10 chu so. Vui long nhap lai.\n";
+			cout << RESET;	
 			continue;
 		}
 		if( pas.phoneNum[0] != '0' ){
+			cout << RED;	
 			cout << "\nSo dien thoai phai bat dau bang 0. Vui long nhap lai.\n";
+			cout << RESET;	
 			continue;
 		}
 		if( !pas.isPhoneNum(pas.phoneNum) ){
+			cout << RED;	
 			cout << "\nSo dien thoai chi chua cac chu so. Vui long nhap lai.\n";
+			cout << RESET;	
 		}
 	}while( pas.phoneNum.size() != 10 || pas.phoneNum[0] != '0' || !pas.isPhoneNum(pas.phoneNum) );
 
@@ -285,11 +291,16 @@ istream& operator >> ( istream& is, Passenger &pas ){
 			cout << "\nNhap so ho chieu ( 1 chu IN HOA + 7 chu SO ):  ";
 			is >> pas.passportNum;
 			if( pas.passportNum.size() != 8 ){
+				cout << RED;	
 				cout << "\nHo chieu phai du 8 ky tu. Vui long nhap lai\n";
+				cout << RESET;	
 				continue;
 			}
-			if( !pas.isPassport( pas.passportNum ) )
+			if( !pas.isPassport( pas.passportNum ) ){
+				cout << RED;	
 				cout << "\nBan da nhap sai format ho chieu. Vui long nhap lai\n";
+				cout << RESET;		
+			}
 		}while( !pas.isPassport( pas.passportNum ) || pas.passportNum.size() != 8 );
 	}
 	else
@@ -298,15 +309,21 @@ istream& operator >> ( istream& is, Passenger &pas ){
 		cout << "\nNhap so CCCD :  ";
 		is >> pas.cidNum;
 		if( pas.cidNum.size() != 12 ){
+			cout << RED;	
 			cout << "\nSo CCCD phai du 12 chu so. Vui long nhap lai\n";
+			cout << RESET;	
 			continue;
 		}
 		if( pas.cidNum[0] != '0' ){
+			cout << RED;	
 			cout << "\nSo CCCD phai bat dau bang 0. Vui long nhap lai\n";
+			cout << RESET;	
 			continue;
 		}
 		if( !pas.isCidNum(pas.cidNum) ){
+			cout << RED;	
 			cout << "\nSo CCCD chi chua cac chu so. Vui long nhap lai.\n";
+			cout << RESET;	
 		}
 	}while( pas.cidNum.size() != 12 || pas.cidNum[0] != '0' || !pas.isCidNum(pas.cidNum) );
 	char choice;
@@ -315,7 +332,9 @@ istream& operator >> ( istream& is, Passenger &pas ){
 		cout << "\nNhap lua chon cua ban:  ";
 		is >> choice;
 		if( choice != '1' && choice != '2' )
+			cout << RED;	
 			cout << "\nBan chi duoc chon 1 hoac 2. Vui long chon lai\n";
+			cout << RESET;	
 	}while( choice != '1' && choice != '2' );
 	if( choice == '1' )
 		pas.rank = "Thuong gia";
@@ -376,7 +395,9 @@ void findWithTicketPrice( vector<pair<Flight,string>> flight, double minPrice, d
 	cout << "+------------------------------------------------------------------------------------------------------------------------------------------------------+\n\n";
 	if( !count ){
 		system("cls");
+		cout << RED;	
 		cout << "Khong tim thay khoang gia ve ban muon tim.\n";
+		cout << RESET;	
 	}
 }
 void findWithDestination( vector<pair<Flight,string>> flight, string destination, string area ){
@@ -393,7 +414,9 @@ void findWithDestination( vector<pair<Flight,string>> flight, string destination
 	cout << "+------------------------------------------------------------------------------------------------------------------------------------------------------+\n\n";
 	if( !count ){
 		system("cls");
+		cout << RED;	
 		cout << "Khong tim thay noi den ban muon tim.\n";
+		cout << RESET;	
 	}
 }
 void findWithTime( vector<pair<Flight,string>> flight, Time startTime, Time endTime, string area ){
@@ -410,7 +433,9 @@ void findWithTime( vector<pair<Flight,string>> flight, Time startTime, Time endT
 	cout << "+------------------------------------------------------------------------------------------------------------------------------------------------------+\n\n";
 	if( !count ){
 		system("cls");
+		cout << RED;	
 		cout << "Khong tim thay khoang thoi gian bay ban muon tim.\n";
+		cout << RESET;	
 	}
 }
 
@@ -428,7 +453,9 @@ void findWithFlightDate( vector<pair<Flight, string>> flight, Date date, string 
 	cout << "+------------------------------------------------------------------------------------------------------------------------------------------------------+\n\n";
 	if( !count ){
 		system("cls");
+		cout << RED;	
 		cout << "Khong tim thay ngay bay ban muon tim.\n";
+		cout << RESET;	
 	}
 }
 void findWithPlaneName( vector<pair<Flight,string>> flight, string plName, string area, unordered_map<string, string> planeName ){
@@ -445,7 +472,9 @@ void findWithPlaneName( vector<pair<Flight,string>> flight, string plName, strin
 	cout << "+------------------------------------------------------------------------------------------------------------------------------------------------------+\n\n";
 	if( !count ){
 		system("cls");
+		cout << RED;	
 		cout << "Khong tim thay ten hang bay ban muon tim.\n";
+		cout << RESET;	
 	}
 }
 void sortIncreaseTicketPrice( vector<pair<Flight, string>> &flight ){

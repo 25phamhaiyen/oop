@@ -173,8 +173,10 @@ void displayChoNgoi(vector<pair<Flight, string>> flight, string id, int start, i
 	{
 		if (it.first.getId() == id)
 		{
+			cout << YELLOW;	
 			cout << "Danh sach vi tri ngoi cua chuyen bay " << id << ":\n\n";
             cout << "--------------------------------------------\n\n";
+			cout << RESET;	
 
 			for (int i = start; i <= end; i++)
 			{
@@ -185,7 +187,7 @@ void displayChoNgoi(vector<pair<Flight, string>> flight, string id, int start, i
                     cout << "   \t\t\t\t  ";
 				if (it.first.findSitPos(i)) // Kiểm tra vị trí đã đặt
 				{
-					cout << PINK << "|  " << i;
+					cout << RED << "|  " << i;
 					if (i < 10)
 						cout << "   |" << RESET;
 					else
@@ -193,11 +195,16 @@ void displayChoNgoi(vector<pair<Flight, string>> flight, string id, int start, i
 				}
 				else
 				{
+					cout << GREEN;
 					cout << "|  " << i;
-					if (i < 10)
+					if (i < 10){
 						cout << "   |";
-					else
+						cout << RESET;	
+					}
+					else{
 						cout << "  |";
+						cout << RESET;		
+					}
 				}
 
 				// Thêm khoảng cách giữa các cột cho rõ ràng

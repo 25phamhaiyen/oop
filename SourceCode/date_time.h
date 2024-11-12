@@ -12,7 +12,19 @@
 #include <iomanip>
 #include <ctime>
 using namespace std;
+
 #define PINK "\033[38;5;206m"
+
+#define BLUE "\033[38;5;27m"
+
+#define GREEN "\033[38;5;46m"
+
+#define YELLOW "\033[38;5;226m"
+
+#define RED "\033[38;5;196m"
+
+#define CYAN "\033[38;5;39m"
+
 #define RESET "\033[0m"
 class Date
 {
