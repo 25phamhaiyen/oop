@@ -3,50 +3,50 @@
 
 class Flight
 {
-private:
-	string id;				  //  mã chuyến bay
-	string departureLocation; // nơi xuất phát
-	string destination;		  // nơi đến
-	Time departureTime;		  // giờ khởi hành
-	Time landingTime;		  // giờ hạ cánh
-	Date flightDate;		  // ngày bay
-	double popTicketPrice;	  // giá vé hạng thường
-	double vipTicketPrice;	  // giá vé hạng thương gia
-	set<int> sitPos;		  // vi tri ngoi
-	string area;
+    private:
+        string id;				  //  mã chuyến bay
+        string departureLocation; // nơi xuất phát
+        string destination;		  // nơi đến
+        Time departureTime;		  // giờ khởi hành
+        Time landingTime;		  // giờ hạ cánh
+        Date flightDate;		  // ngày bay
+        double popTicketPrice;	  // giá vé hạng thường
+        double vipTicketPrice;	  // giá vé hạng thương gia
+        set<int> sitPos;		  // vi tri ngoi
+        string area;
 
-public:
-	// hàm khởi tạo
-	Flight();
-	Flight(string id, Date flightDate, string departureLocation, string destination,
-		   Time departureTime, Time landingTime, double popTicketPrice, double vipTicketPrice, string area);
-	// hàm xuất
-	friend ostream &operator<<(ostream &os, const Flight &fly);
-	// toán tử gán
-	Flight operator=(const Flight &fly2);
-	// các hàm lấy giá trị
-	string getId();
-	string getDepartureLocation();
-	string getDestination();
-	Time getDepartureTime();
-	Time getLandingTime();
-	Date getFlightDate();
-	double getPopTicketPrice();
-	double getVipTicketPrice();
-	string getArea();
-	// các hàm thiết lập gái trị
-	void setSitPos(int pos);
-	void setSitPosHuy(int pos);
-	void setId(string id);
-	void setFlyDate(Date flyDate);
-	void setDestination(string destination);
-	void setTime(Time firstTime, Time secondTime);
-	void setPrice(double pop, double vip);
-	// hàm kiểm tra vị trí ngồi
-	bool findSitPos(int pos);
-	// hàm lấy tổng các vị trí ngồi đã đặt
-	int getSitNum();
-	friend void displayChoNgoi(vector<pair<Flight, string>> flight, string id, int start, int end);
+    public:
+        // hàm khởi tạo
+        Flight();
+        Flight(string id, Date flightDate, string departureLocation, string destination,
+               Time departureTime, Time landingTime, double popTicketPrice, double vipTicketPrice, string area);
+        // hàm xuất
+        friend ostream &operator<<(ostream &os, const Flight &fly);
+        // toán tử gán
+        Flight operator=(const Flight &fly2);
+        // các hàm lấy giá trị
+        string getId();
+        string getDepartureLocation();
+        string getDestination();
+        Time getDepartureTime();
+        Time getLandingTime();
+        Date getFlightDate();
+        double getPopTicketPrice();
+        double getVipTicketPrice();
+        string getArea();
+        // các hàm thiết lập gái trị
+        void setSitPos(int pos);
+        void setSitPosHuy(int pos);
+        void setId(string id);
+        void setFlyDate(Date flyDate);
+        void setDestination(string destination);
+        void setTime(Time firstTime, Time secondTime);
+        void setPrice(double pop, double vip);
+        // hàm kiểm tra vị trí ngồi
+        bool findSitPos(int pos);
+        // hàm lấy tổng các vị trí ngồi đã đặt
+        int getSitNum();
+        friend void displayChoNgoi(vector<pair<Flight, string>> flight, string id, int start, int end);
 };
 
 // Build class Flight
@@ -131,16 +131,41 @@ void Flight::setSitPos(int pos)
 }
 void Flight::setSitPosHuy(int pos)
 {
-	// Xóa vị trí ngồi khỏkhỏi set
-	if (sitPos.find(pos) != sitPos.end())
-    {
-		sitPos.erase(pos);
-		cout << "Vi tri ngoi " << pos << " da duoc huy." << endl;
-	}
-    else
-    {
-        cout << "Vi tri ngoi " << pos << " khong ton tai!" << endl;
-    }
+    sitPos.erase(pos);
+}
+string Flight::getId()
+{
+	return id;
+}
+bool Flight::findSitPos(int i)
+{
+	return (sitPos.find(i) != sitPos.end());
+}
+int Flight::getSitNum()
+{
+	return sitPos.size();
+}
+void Flight::setId(string id)
+{
+	this->id = id;
+}
+void Flight::setFlyDate(Date flyDate)
+{
+	this->flightDate = flyDate;
+}
+void Flight::setDestination(string destination)
+{
+	this->destination = destination;
+}
+void Flight::setTime(Time firstTime, Time secondTime)
+{
+	this->departureTime = firstTime;
+	this->landingTime = secondTime;
+}
+void Flight::setPrice(double pop, double vip)
+{
+	this->popTicketPrice = pop;
+	this->vipTicketPrice = vip;
 }
 void displayChoNgoi(vector<pair<Flight, string>> flight, string id, int start, int end)
 {
@@ -149,15 +174,15 @@ void displayChoNgoi(vector<pair<Flight, string>> flight, string id, int start, i
 		if (it.first.getId() == id)
 		{
 			cout << "Danh sach vi tri ngoi cua chuyen bay " << id << ":\n\n";
-            		cout << "--------------------------------------------\n\n";
+            cout << "--------------------------------------------\n\n";
 
 			for (int i = start; i <= end; i++)
 			{
 				if (i % 4 == 1 && i != 1)
 				// Thêm dòng mới sau mỗi 4 vị trí
 					cout << endl;
-		                if( i == 16 )
-		                    cout << "   \t\t\t\t  ";
+                if( i == 16 )
+                    cout << "   \t\t\t\t  ";
 				if (it.first.findSitPos(i)) // Kiểm tra vị trí đã đặt
 				{
 					cout << PINK << "|  " << i;
