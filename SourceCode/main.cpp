@@ -7,16 +7,16 @@
 int main(int argc, char **argv)
 {
     // set up du lieu
-    vector<pair<Plane, string>> plane; // may bay
-    vector<pair<Flight, string>> flight; // chuyen bay
-    vector<vector<pair<humanInPlane, string>>> personal;  // nhan su
-    vector<pair<Passenger, string>> passInfo;  // khach hang
-    vector<Voucher> voucher;  // voucher
-    vector<pair<Passenger, string>> history;  // lich su dat ve
-    vector<pair<Plane, string>> emptyId;  // vector chua thong tin may bay da bi xoa chuyen bay
-    unordered_map<string, string> planeName;  // get plane name tu id chuyen bay
-    unordered_map<string, int> checkid;  // luu thong tin id chuyen bay, shmb, ma khuyen mai, ma nhan su
-    unordered_map<string, set<pair<humanInPlane, string>>> employ;  // luu vi tri cua nhan su
+    vector<pair<Plane, string>> plane;                             // may bay
+    vector<pair<Flight, string>> flight;                           // chuyen bay
+    vector<vector<pair<humanInPlane, string>>> personal;           // nhan su
+    vector<pair<Passenger, string>> passInfo;                      // khach hang
+    vector<Voucher> voucher;                                       // voucher
+    vector<pair<Passenger, string>> history;                       // lich su dat ve
+    vector<pair<Plane, string>> emptyId;                           // vector chua thong tin may bay da bi xoa chuyen bay
+    unordered_map<string, string> planeName;                       // get plane name tu id chuyen bay
+    unordered_map<string, int> checkid;                            // luu thong tin id chuyen bay, shmb, ma khuyen mai, ma nhan su
+    unordered_map<string, set<pair<humanInPlane, string>>> employ; // luu vi tri cua nhan su
     readData(plane, flight, passInfo, voucher, personal, history);
     updateSitPos(flight, passInfo);
     for (auto it : plane)
@@ -49,13 +49,15 @@ int main(int argc, char **argv)
         cout << "Nhap lua chon cua ban:  ";
         cin >> choice;
         // Kiểm tra nếu nhập liệu không hợp lệ (ví dụ: nhập ký tự không phải số)
-        if (cin.fail() || (choice != '1' && choice != '2')){
-            cin.clear(); // Xóa trạng thái lỗi của cin
+        if (cin.fail() || (choice != '1' && choice != '2'))
+        {
+            cin.clear();                                         // Xóa trạng thái lỗi của cin
             cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Bỏ qua các ký tự còn lại trong bộ đệm
             cout << "\nBan chi co the chon 1 hoac 2. Vui long chon lai\n\n";
         }
-        else {
-        break; // Thoát khỏi vòng lặp nếu nhập đúng
+        else
+        {
+            break; // Thoát khỏi vòng lặp nếu nhập đúng
         }
     } while (true);
     cin.ignore();
@@ -111,7 +113,8 @@ int main(int argc, char **argv)
                 displayHumanInPlane(personal);
                 cout << endl;
             }
-            else if (mchoice == "6"){
+            else if (mchoice == "6")
+            {
                 cout << "Danh sach cac Co truong:  \n\n";
                 displayHumanInPlaneWithPosition(employ, "Co truong");
                 cout << "\nDanh sach cac Co pho:  \n\n";
@@ -119,7 +122,6 @@ int main(int argc, char **argv)
                 cout << "\nDanh sach cac Tiep vien:  \n\n";
                 displayHumanInPlaneWithPosition(employ, "Tiep vien");
                 cout << endl;
-
             }
             else if (mchoice == "7")
             {
@@ -130,23 +132,27 @@ int main(int argc, char **argv)
             else if (mchoice == "8")
             {
                 // check xem mảng chưa máy bay đã bị xóa chuyến bay có phần tử nào không
-                if( emptyId.empty() )
+                if (emptyId.empty())
                     addFlight(plane, flight, personal, checkid, employ, planeName);
-                else {
+                else
+                {
                     char ch;
                     cout << "Hien tai may bay " << emptyId[0].first.getAircraftNumber() << " chua co chuyen bay nao. Ban co muon them thong tin chuyen bay cho may bay " << emptyId[0].first.getAircraftNumber();
                     cout << "\n1. Co\n2. Khong\n";
-                    do {
+                    do
+                    {
                         cout << "\nNhap lua chon cua ban:  ";
                         cin >> ch;
                         if (ch != '1' && ch != '2')
                             cout << "\nBan chi duoc chon 1 hoac 2. Vui long chon lai\n";
-                    }while( ch != '1' && ch != '2' );
+                    } while (ch != '1' && ch != '2');
                     system("cls");
-                    if( ch == '2' ){
+                    if (ch == '2')
+                    {
                         addFlight(plane, flight, personal, checkid, employ, planeName);
                     }
-                    else {
+                    else
+                    {
                         cout << "Nhap thong tin chuyen bay:  \n\n";
                         cout << "-------------------------------------\n\n";
                         Flight fly;
@@ -184,11 +190,12 @@ int main(int argc, char **argv)
                 {
                     cin >> hip;
                     string first = "AP0";
-                    int size = employ["Co truong"].size()+employ["Co pho   "].size()+employ["Tiep vien"].size();
-                    if( size >= 100 )
+                    int size = employ["Co truong"].size() + employ["Co pho   "].size() + employ["Tiep vien"].size();
+                    if (size >= 100)
                         first.pop_back();
                     string realId = first + to_string(size);
-                    while( checkid[first] ){
+                    while (checkid[first])
+                    {
                         size++;
                         realId = first + to_string(size);
                     }
@@ -217,8 +224,10 @@ int main(int argc, char **argv)
                     } while (!checkid[idToDelete]);
                     // cap nhat may bay
                     planeName.erase(idToDelete);
-                    for( auto &it : plane ){
-                        if( it.second == idToDelete ){
+                    for (auto &it : plane)
+                    {
+                        if (it.second == idToDelete)
+                        {
                             it.second = "     ";
                             emptyId.push_back(it);
                             break;
@@ -235,10 +244,12 @@ int main(int argc, char **argv)
                         }
                     }
                     // cập nhật history
-                    for (auto it = passInfo.begin(); it != passInfo.end(); ) {
-                        if (it->second == idToDelete) {
+                    for (auto it = passInfo.begin(); it != passInfo.end();)
+                    {
+                        if (it->second == idToDelete)
+                        {
                             it->first.setStatus("HUY");
-                            history.push_back(make_pair(it->first,idToDelete));
+                            history.push_back(make_pair(it->first, idToDelete));
                             it = passInfo.erase(it);
                         }
                         else
@@ -292,23 +303,29 @@ int main(int argc, char **argv)
                     cout << "\nBan co muon them may bay moi cho chuyen bay " << idchuyenbay << " ?\n";
                     cout << "1. Co\n2. Khong\n";
                     char ch;
-                    do {
+                    do
+                    {
                         cout << "\nNhap lua chon cua ban:  ";
                         cin >> ch;
                         if (ch != '1' && ch != '2')
                             cout << "\nBan chi duoc chon 1 hoac 2. Vui long chon lai\n";
-                    }while( ch != '1' && ch != '2' );
-                    if( ch == '2'){
-                        for( auto it = flight.begin() ; it != flight.end() ; it++ ){
-                            if( it->first.getId() == idchuyenbay ){
+                    } while (ch != '1' && ch != '2');
+                    if (ch == '2')
+                    {
+                        for (auto it = flight.begin(); it != flight.end(); it++)
+                        {
+                            if (it->first.getId() == idchuyenbay)
+                            {
                                 flight.erase(it);
                                 checkid[idchuyenbay]--;
                                 break;
                             }
                         }
                         // cập nhật history
-                       for (auto it = passInfo.begin(); it != passInfo.end(); ) {
-                            if (it->second == idchuyenbay) {
+                        for (auto it = passInfo.begin(); it != passInfo.end();)
+                        {
+                            if (it->second == idchuyenbay)
+                            {
                                 it->first.setStatus("HUY");
                                 history.push_back(make_pair(it->first, idchuyenbay));
                                 it = passInfo.erase(it);
@@ -318,33 +335,39 @@ int main(int argc, char **argv)
                         }
 
                         // cập nhật nhân sự
-                        for( auto &it : personal ){
+                        for (auto &it : personal)
+                        {
                             bool check = false;
-                            for( auto &i : it ){
-                                if( i.second == aircraft ){
+                            for (auto &i : it)
+                            {
+                                if (i.second == aircraft)
+                                {
                                     i.second = "     ";
                                     check = true;
                                 }
                             }
-                            if( check ) break;
+                            if (check)
+                                break;
                         }
                     }
-                    else {
+                    else
+                    {
                         Plane p;
                         cout << "Nhap thong tin may bay:\n\n";
                         cin >> p;
                         string first;
-                        if( p.getPlaneName() == "VietNam Airlines" )
+                        if (p.getPlaneName() == "VietNam Airlines")
                             first = "VA0";
-                        else if( p.getPlaneName() == "VietJet Air     " )
+                        else if (p.getPlaneName() == "VietJet Air     ")
                             first = "VJ0";
-                        else if( p.getPlaneName() == "Bamboo Airways  " )
+                        else if (p.getPlaneName() == "Bamboo Airways  ")
                             first = "BA0";
                         else
                             first = "JP0";
-                        int size = plane.size()+1;
+                        int size = plane.size() + 1;
                         string aircraft = first + to_string(size);
-                        while( checkid[aircraft] ){
+                        while (checkid[aircraft])
+                        {
                             size++;
                             aircraft = first + to_string(size);
                         }
@@ -397,28 +420,34 @@ int main(int argc, char **argv)
                                 break;
                             }
                         }
-                        for( auto &it : personal ){
-                            for( auto &i : it ){
-                                if( i.first.getId() == id ){ // thay the nhan su vua xoa bang 1 nhan su khac
+                        for (auto &it : personal)
+                        {
+                            for (auto &i : it)
+                            {
+                                if (i.first.getId() == id)
+                                { // thay the nhan su vua xoa bang 1 nhan su khac
                                     system("cls");
                                     displayHumanInPlaneWithPosition(employ, i.first.getPosition());
                                     cout << "Chon 1 " << i.first.getPosition() << " de thay the " << i.first.getPosition() << " vua xoa\n";
                                     bool isValidId = false;
                                     string idToReplace;
                                     humanInPlane hip;
-                                    do {
+                                    do
+                                    {
                                         cout << "\nNhap id nhan su muon them:  ";
                                         cin >> idToReplace;
-                                        for( auto itor : employ[pos] ){
-                                            if( itor.first.getId() == idToReplace ){
+                                        for (auto itor : employ[pos])
+                                        {
+                                            if (itor.first.getId() == idToReplace)
+                                            {
                                                 isValidId = true;
                                                 hip = itor.first;
                                                 break;
                                             }
                                         }
-                                        if( !isValidId )
+                                        if (!isValidId)
                                             cout << "\nId khong dung. Vui long nhap lai.\n";
-                                    }while( !isValidId );
+                                    } while (!isValidId);
                                     i.first = hip;
                                 }
                             }
@@ -1013,10 +1042,12 @@ int main(int argc, char **argv)
         vector<pair<Passenger, string>> hisPass;  // vector lưu lịch sử đặt vé, hủy vé
         unordered_map<int, int> mp;               // map dùng để lưu vị trí người dùng đặt
         unordered_map<string, int> idmap;         // map dùng để lưu mã chuyến bay
-        string namefile = si.getUserName()+".txt";
+        string namefile = si.getUserName() + ".txt";
         readDataUser(demoPass, passfly, hisPass, namefile);
-        if( !demoPass.empty() ){
-            for( auto it : demoPass ){
+        if (!demoPass.empty())
+        {
+            for (auto it : demoPass)
+            {
                 mp[it.first.getPos()]++;
                 idmap[it.second]++;
             }
@@ -1050,7 +1081,7 @@ int main(int argc, char **argv)
                 char yourChoice = '0';
                 string idVoucher, area;
 
-                for( int i = 0 ; i < ticketNum ; i++ )
+                for (int i = 0; i < ticketNum; i++)
                 {
                     char n;
                     cout << "Ban muon bay trong nuoc hay nuoc ngoai?\n";
@@ -1248,13 +1279,12 @@ int main(int argc, char **argv)
                             cout << "Moi nhap thong tin ca nhan cua ban: \n\n---------------------------------------\n";
                             cin >> pas;
                             system("cls");
-                            //cout << "Danh sach cho ngoi hang " << pas.getRank() << ":  \n\n";
+                            // cout << "Danh sach cho ngoi hang " << pas.getRank() << ":  \n\n";
                             if (pas.getRank() == "Thuong gia")
                                 displayChoNgoi(flight, id, 1, 15);
                             else
                                 displayChoNgoi(flight, id, 16, 50);
                             cout << "\n\nLuu y: Nhung vi tri mau hong la da co nguoi dat cho.\n";
-
 
                             int pos;
                             do
@@ -1310,7 +1340,7 @@ int main(int argc, char **argv)
                         }
                         else
                             system("cls");
-                    }while (yourChoice != '8');
+                    } while (yourChoice != '8');
                 }
                 // hỏi khách hàng về voucher
                 char a;
@@ -1444,8 +1474,9 @@ int main(int argc, char **argv)
                         break;
                     }
                 }
-                for( auto it = passfly.begin(); it != passfly.end() ; it++ ){
-                    if( it->first.getId() == id )
+                for (auto it = passfly.begin(); it != passfly.end(); it++)
+                {
+                    if (it->first.getId() == id)
                         passfly.erase(it);
                 }
                 cout << "\nDa huy ve thanh cong\n\n";
@@ -1483,6 +1514,6 @@ int main(int argc, char **argv)
         }
         writeDataUser(demoPass, passfly, hisPass, namefile);
     }
-    writeFile(plane, flight, passInfo, voucher, personal, history);
+    writeData(plane, flight, passInfo, voucher, personal, history);
     return 0;
 }

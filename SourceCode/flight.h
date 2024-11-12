@@ -142,7 +142,7 @@ void Flight::setSitPosHuy(int pos)
         cout << "Vi tri ngoi " << pos << " khong ton tai!" << endl;
     }
 }
-void displayChoNgoi(vector<pair<Flight, string>> flight, string id, int start, int end);
+void displayChoNgoi(vector<pair<Flight, string>> flight, string id, int start, int end)
 {
 	for (auto it : flight)
 	{
