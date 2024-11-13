@@ -3,6 +3,7 @@
 #include<conio.h>
 #include<fstream>
 #include<sstream>
+#include "date_time.h"
 using namespace std;
 class SignIn {
 	private:
@@ -51,24 +52,17 @@ bool checkPass( string password ){
 }
 void inputPass(string &password) {
     char c;
-	password = ""; // Đặt lại mật khẩu
     bool isMasked = true; // Biến trạng thái để theo dõi việc ẩn/hiện mật khẩu
-
-	cout << "\n(Nhan Tab de an/hien mat khau)" << endl;
-	
     while (true) {
         c = _getch();
-
         // enter
         if( c == 13 )
             break;
-
         // tab
         else if( c == 9 ) {
             isMasked = !isMasked;
             // Xóa toàn bộ dòng trước khi in lại
             cout << "\rNhap mat khau: ";  // Quay về đầu dòng
-
             for( size_t i = 0 ; i < password.size() ; i++ ) {
                 // In lại mật khẩu với dấu * hoặc ký tự thực tế tùy theo trạng thái
                 if( isMasked )
@@ -77,7 +71,6 @@ void inputPass(string &password) {
                     cout << password[i];
             }
         }
-
         // Khi nhấn Backspace (phím ASCII 8)
         else if( c == 8 ) {
             if( !password.empty() ) {
@@ -85,7 +78,6 @@ void inputPass(string &password) {
                 cout << "\b \b";  // Xóa ký tự cuối cùng
             }
         }
-
         // Các ký tự khác
         else {
             password += c;
@@ -99,9 +91,9 @@ void inputPass(string &password) {
 bool isValidAccount( string username, string password, char choice ){
 	ifstream file;
 	if( choice == '1')
-		file.open("../Database/managerAccount.txt");
+		file.open("./Database/managerAccount.txt");
 	else
-		file.open("../Database/passengerSignInAccount.txt");
+		file.open("./Database/passengerSignInAccount.txt");
     string line;
     while( getline(file, line) ) {
         stringstream ss(line);
@@ -114,7 +106,7 @@ bool isValidAccount( string username, string password, char choice ){
     return false;
 }
 bool isValidUserName( string username ){
-	ifstream file("../Database/passengerSignInAccount.txt");
+	ifstream file("./Database/passengerSignInAccount.txt");
     string line;
     while( getline(file, line) ) {
         stringstream ss(line);
@@ -136,23 +128,23 @@ void SignIn::sign_up(){
 	do{
 		cout << "\nNhap tai khoan:  ";  getline(cin, userName);
 		if( userName.size() < 8 || userName.size() > 20 ){
-            cout << "\nTen tai khoan phai co do dai tu 8 den 20 ky tu. Vui long nhap lai.\n";
+            cout << RED << "\nTen tai khoan phai co do dai tu 8 den 20 ky tu. Vui long nhap lai.\n" << RESET;
             continue;
 		}
 		if( isValidUserName( userName) )
-			cout << "\nTen tai khoan da ton tai. Vui long nhap lai.\n";
+			cout << RED << "\nTen tai khoan da ton tai. Vui long nhap lai.\n" << RESET;
 	}while( isValidUserName( userName) || userName.size() < 8 || userName.size() > 20 );
 
 	// Nhap pass;
 	do {
 		cout << "Nhap mat khau:  ";  inputPass(password);
 		if( password.size() < 8 || password.size() > 20 ){
-			cout << "\n\nMat khau phai co do dai tu 8 den 20 ky tu. Vui long nhap lai.\n\n";
+			cout << RED << "\n\nMat khau phai co do dai tu 8 den 20 ky tu. Vui long nhap lai.\n\n" << RESET;
 			password = "";
 			continue;
 		}
 		if( checkPass(password) == false ){
-			cout << "\n\nMat khau phai bao gom chu HOA, chu THUONG, chu SO. Vui long nhap lai\n\n";
+			cout << RED << "\n\nMat khau phai bao gom chu HOA, chu THUONG, chu SO. Vui long nhap lai\n\n" << RESET;
 			password = "";
 		}
 	}while( checkPass(password) == false || password.size() < 8 || password.size() > 20);
@@ -162,14 +154,14 @@ void SignIn::sign_up(){
 		cout << "\nNhap lai mat khau:  ";
 		inputPass(repeatPass);
 		if( repeatPass != password ){
-			cout << "\n\nMat khau khong chinh xac. Vui long nhap lai\n";
+			cout << RED << "\n\nMat khau khong chinh xac. Vui long nhap lai\n" << RESET;
 			repeatPass = "";
 		}
 	}while( repeatPass != password );
-	cout << "\nDang ky thanh cong!\n\n";
+	cout << GREEN << "\nDang ky thanh cong!\n\n" << RESET;
 
 	// ghi file
-	ofstream fileSignIn("../Database/passengerSignInAccount.txt", ios::app);
+	ofstream fileSignIn("./Database/passengerSignInAccount.txt", ios::app);
 	fileSignIn << userName << ',' << password << endl;
 	fileSignIn.close();
 }
@@ -179,7 +171,7 @@ void SignIn::sign_in( char choice ){
 		// nhap username
 		count++;
 		if( count == 4 ){
-			cout << "\nDa nhap sai qua 3 lan. Vui long thoat ra dang nhap lai.\n";
+			cout << RED << "\nDa nhap sai qua 3 lan. Vui long thoat ra dang nhap lai.\n" << RESET;
 			return;
 		}
 		cout << "\nNhap tai khoan:  ";
@@ -188,9 +180,9 @@ void SignIn::sign_in( char choice ){
 		this->password = "";
 		inputPass(this->password);
 		if( !isValidAccount(this->userName, this->password, choice) )
-			cout << "\n\nTai khoan hoac mat khau sai. Vui long nhap lai.\n";
+			cout << RED << "\n\nTai khoan hoac mat khau sai. Vui long nhap lai.\n" << RESET;
 	}while( !isValidAccount(this->userName, this->password, choice) );
-	cout << "\nDang nhap thanh cong!\n";
+	cout << GREEN << "\nDang nhap thanh cong!\n" << RESET;
 }
 string SignIn::getPassword(){
 	return this->password;
