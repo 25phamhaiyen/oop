@@ -18,7 +18,7 @@ int main(int argc, char **argv)
     unordered_map<string, string> planeName;                          // get plane name tu id chuyen bay
     unordered_map<string, int> checkid;                               // luu thong tin id chuyen bay, shmb, ma khuyen mai, ma nhan su
     unordered_map<string, set<pair<humanInPlane, string>>> employ;    // luu vi tri cua nhan su
-    readData(plane, flight, passInfo, voucher, personal, history);
+    readData(plane, flight, passInfo, voucher, personal, history, employ);
     updateSitPos(flight, passInfo);
     for (auto it : plane)
     {
@@ -30,17 +30,16 @@ int main(int argc, char **argv)
     {
         checkid[it.getID()] = it.getReduceLevel();
     }
-    for (auto it : personal)
+    for (auto it : employ)
     {
-        for (auto i : it)
+        for (auto i : it.second )
         {
-            employ[i.first.getPosition()].insert(i);
             checkid[i.first.getId()]++;
         }
     }
-    for (auto it : passInfo)
+    for( auto it : passInfo )
     {
-        passInFly[it.second].push_back(it);
+       passInFly[it.second].push_back(it);
     }
 
     // chayj ct
@@ -58,9 +57,9 @@ int main(int argc, char **argv)
         {
             cin.clear();                                         // Xóa trạng thái lỗi của cin
             cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Bỏ qua các ký tự còn lại trong bộ đệm
-            cout << RED;	
+            cout << RED;
             cout << "\nBan chi co the chon 1 hoac 2. Vui long chon lai\n\n";
-            cout << RESET;	
+            cout << RESET;
         }
         else
         {
@@ -74,9 +73,9 @@ int main(int argc, char **argv)
     if (choice == '1')
     {
         system("cls");
-        cout << BLUE;	
+        cout << BLUE;
         cout << "-----------------Sign In---------------------\n";
-        cout << RESET;	
+        cout << RESET;
         si.sign_in('1');
         cout << "\n---------------------------------------------\n";
         system("cls");
@@ -116,17 +115,17 @@ int main(int argc, char **argv)
                         cout << "\nNhap id chuyen bay ban muon xem danh sach khach hang:  ";
                         cin >> id;
                         if (!checkid[id]){
-                            cout << RED;	
+                            cout << RED;
                             cout << "\nId khong dung. Vui long nhap lai.\n";
-                            cout << RESET;	    
+                            cout << RESET;
                         }
                     } while (!checkid[id]);
                     system("cls");
                     if (passInFly[id].empty())
                     {
-                        cout << YELLOW;	
+                        cout << YELLOW;
                         cout << "Chuyen bay " << id << " hien chua co khach hang nao dat ve.\n";
-                        cout << RESET;	
+                        cout << RESET;
                     }
                     else
                     {
@@ -134,19 +133,19 @@ int main(int argc, char **argv)
                         cout << endl;
                     }
                     cout << "\nBan co muon tiep tuc cho cac chuyen bay khac?\n";
-                    cout << GREEN;	
+                    cout << GREEN;
                     cout <<"1. Co \n";
-                    cout << RED;	
+                    cout << RED;
                     cout << "2. Khong\n";
-                    cout << RESET;	
+                    cout << RESET;
                     do
                     {
                         cout << "\nNhap lua chon cua ban:  ";
                         cin >> a;
                         if (a != '1' && a != '2'){
-                            cout << RED;	
+                            cout << RED;
                             cout << "\nBa chi duoc chon 1 hoac 2. Vui long nhap lai.\n";
-                            cout << RESET;	    
+                            cout << RESET;
                         }
                     } while (a != '1' && a != '2');
                     system("cls");
@@ -194,12 +193,12 @@ int main(int argc, char **argv)
                 else
                 {
                     char ch;
-                    cout << "Hien tai may bay " << emptyId[0].first.getAircraftNumber() << " chua co chuyen bay nao. Ban co muon them thong tin chuyen bay cho may bay " << emptyId[0].first.getAircraftNumber();
-                    cout << GREEN;	
+                    cout << BLUE << "Hien tai may bay " << emptyId[0].first.getAircraftNumber() << " chua co chuyen bay nao. Ban co muon them thong tin chuyen bay cho may bay " << emptyId[0].first.getAircraftNumber() << RESET;
+                    cout << GREEN;
                     cout <<"\n1. Co \n";
-                    cout << RED;	
+                    cout << RED;
                     cout << "2. Khong\n";
-                    cout << RESET;	
+                    cout << RESET;
                     do
                     {
                         cout << "\nNhap lua chon cua ban:  ";
@@ -207,7 +206,7 @@ int main(int argc, char **argv)
                         if (ch != '1' && ch != '2'){
                             cout << RED;
                             cout << "\nBan chi duoc chon 1 hoac 2. Vui long chon lai\n";
-                            cout << RESET;    
+                            cout << RESET;
                         }
                     } while (ch != '1' && ch != '2');
                     system("cls");
@@ -235,18 +234,17 @@ int main(int argc, char **argv)
             {
                 cout << endl;
                 addVoucher(voucher, checkid);
-                cout << endl;
+                system("cls");
             }
             else if (mchoice == "11")
             {
-                cout << endl;
                 int n;
                 do
                 {
-                    cout << "\nNhap so luong nhap su muon them:  ";
+                    cout << "Nhap so luong nhap su muon them:  ";
                     cin >> n;
                     if (n <= 0)
-                        cout << "\nSo luong nhan su muon them phai > 0. Vui long nhap lai.\n";
+                        cout << RED << "\nSo luong nhan su muon them phai > 0. Vui long nhap lai.\n" << RESET;
                 } while (n <= 0);
                 humanInPlane hip;
                 system("cls");
@@ -254,11 +252,11 @@ int main(int argc, char **argv)
                 {
                     cin >> hip;
                     string first = "AP0";
-                    int size = employ["Co truong"].size() + employ["Co pho   "].size() + employ["Tiep vien"].size();
+                    int size = employ["Co truong"].size() + employ["Co pho   "].size() + employ["Tiep vien"].size() + 1;
                     if (size >= 100)
                         first.pop_back();
                     string realId = first + to_string(size);
-                    while (checkid[first])
+                    while (checkid[realId])
                     {
                         size++;
                         realId = first + to_string(size);
@@ -324,18 +322,14 @@ int main(int argc, char **argv)
                     cout << GREEN;
                     cout << "\nXoa chuyen bay thanh cong!\n\n";
                     cout << RESET;
-                    cout << "Ban co muon tiep tuc xoa? ";
-                    cout << GREEN;	
-                    cout <<"\n1. Co \n";
-                    cout << RED;	
-                    cout << "2. Khong\n";
-                    cout << RESET;	
+                    cout << "Ban co muon tiep tuc xoa?\n";
+                    cout << GREEN << "1. Co\n" << RED << "2. Khong\n" << RESET;
                     do
                     {
                         cout << "\nNhap lua chon cua ban:  ";
                         cin >> a;
                         if (a != '1' && a != '2')
-                            cout << "\nBan chi duoc chon 1 hoac 2. Vui long chon lai\n";
+                            cout << RED << "\nBan chi duoc chon 1 hoac 2. Vui long chon lai\n" << RESET;
                     } while (a != '1' && a != '2');
                     system("cls");
                 }
@@ -354,9 +348,9 @@ int main(int argc, char **argv)
                         cin >> aircraft;
                         if (!checkid[aircraft])
                         {
-                            cout << RED;	
+                            cout << RED;
                             cout << "\nSo hieu may bay khong hop le. Vui long nhap lai.\n";
-                            cout << RESET;	
+                            cout << RESET;
                         }
                     } while (!checkid[aircraft]);
 
@@ -373,17 +367,17 @@ int main(int argc, char **argv)
                         }
                     }
                     system("cls");
-                    cout << GREEN;	
+                    cout << GREEN;
                     cout << "\nXoa may bay thanh cong!\n\n";
-                    cout << BLUE;	
+                    cout << BLUE;
                     cout << "Vi may bay " << aircraft << " tuong ung voi chuyen bay " << idchuyenbay << " da bi xoa. Nen he thong se tu dong xoa chuyen bay " << idchuyenbay << ".\n";
-                    cout << RESET;	
+                    cout << RESET;
                     cout << "\nBan co muon them may bay moi cho chuyen bay " << idchuyenbay << " ?\n";
-                    cout << GREEN;	
+                    cout << GREEN;
                     cout <<"1. Co \n";
-                    cout << RED;	
+                    cout << RED;
                     cout << "2. Khong\n";
-                    cout << RESET;	
+                    cout << RESET;
                     char ch;
                     do
                     {
@@ -458,18 +452,14 @@ int main(int argc, char **argv)
                         plane.push_back(make_pair(p, idchuyenbay));
                     }
                     system("cls");
-                    cout << "Ban co muon tiep tuc xoa? ";
-                    cout << GREEN;	
-                    cout <<"\n1. Co \n";
-                    cout << RED;	
-                    cout << "2. Khong\n";
-                    cout << RESET;
+                    cout << "Ban co muon tiep tuc xoa?\n";
+                    cout << GREEN << "1. Co\n" << RED << "2. Khong\n" << RESET;
                     do
                     {
                         cout << "\nNhap lua chon cua ban:  ";
                         cin >> a;
                         if (a != '1' && a != '2')
-                            cout << "\nBan chi duoc chon 1 hoac 2. Vui long chon lai\n";
+                            cout << RED << "\nBan chi duoc chon 1 hoac 2. Vui long chon lai\n" << RESET;
                     } while (a != '1' && a != '2');
                     system("cls");
                 }
@@ -486,7 +476,7 @@ int main(int argc, char **argv)
                         cout << "\nNhap lua chon cua ban:  ";
                         cin >> t;
                         if (t < '1' || t > '3')
-                            cout << "\nBan chi dươc nhap 1 hoac 2 hoac 3. Vui long nhap lai.\n";
+                            cout << RED << "\nBan chi dươc nhap 1 hoac 2 hoac 3. Vui long nhap lai.\n" << RESET;
                     } while (t < '1' || t > '3');
                     string pos = (t == '1') ? "Co truong" : ((t == '2') ? "Co pho   " : "Tiep vien");
                     system("cls");
@@ -515,7 +505,7 @@ int main(int argc, char **argv)
                                 { // thay the nhan su vua xoa bang 1 nhan su khac
                                     system("cls");
                                     displayHumanInPlaneWithPosition(employ, i.first.getPosition());
-                                    cout << "Chon 1 " << i.first.getPosition() << " de thay the " << i.first.getPosition() << " vua xoa\n";
+                                    cout << BLUE << "Chon 1 " << i.first.getPosition() << " de thay the " << i.first.getPosition() << " vua xoa\n" << RESET;
                                     bool isValidId = false;
                                     string idToReplace;
                                     humanInPlane hip;
@@ -533,7 +523,7 @@ int main(int argc, char **argv)
                                             }
                                         }
                                         if (!isValidId)
-                                            cout << "\nId khong dung. Vui long nhap lai.\n";
+                                            cout << RED << "\nId khong dung. Vui long nhap lai.\n" << RESET;
                                     } while (!isValidId);
                                     i.first = hip;
                                 }
@@ -542,14 +532,15 @@ int main(int argc, char **argv)
                         if (!isValidId)
                             cout << "\nId khong dung. Vui long nhap lai.\n";
                     } while (!isValidId);
-                    cout << "\nXoa nhan su " << id << " thanh cong!\n\n";
-                    cout << "Ban co muon tiep tuc xoa? \n1. Co \n2. Khong\n";
+                    cout << GREEN << "\nXoa nhan su " << id << " thanh cong!\n\n" << RESET;
+                    cout << "Ban co muon tiep tuc xoa?\n";
+                    cout << GREEN << "1. Co\n" << RED << "2. Khong\n" << RESET;
                     do
                     {
                         cout << "\nNhap lua chon cua ban:  ";
                         cin >> a;
                         if (a != '1' && a != '2')
-                            cout << "\nBan chi duoc chon 1 hoac 2. Vui long chon lai\n";
+                            cout << RED << "\nBan chi duoc chon 1 hoac 2. Vui long chon lai\n" << RESET;
                     } while (a != '1' && a != '2');
                     system("cls");
                 }
@@ -580,18 +571,19 @@ int main(int argc, char **argv)
                         if (it->getID() == id)
                         {
                             voucher.erase(it);
-                            checkid[id]--;
+                            checkid.erase(id);
                             break;
                         }
                     }
-                    cout << "\nXoa Voucher thanh cong!\n\n";
-                    cout << "Ban co muon tiep tuc xoa? \n1. Co \n2. Khong\n";
+                    cout << GREEN << "\nXoa Voucher thanh cong!\n\n" << RESET;
+                    cout << "Ban co muon tiep tuc xoa?\n";
+                    cout << GREEN << "1. Co\n" << RED << "2. Khong\n" << RESET;
                     do
                     {
                         cout << "\nNhap lua chon cua ban:  ";
                         cin >> a;
                         if (a != '1' && a != '2')
-                            cout << "\nBan chi duoc chon 1 hoac 2. Vui long chon lai\n";
+                            cout << RED << "\nBan chi duoc chon 1 hoac 2. Vui long chon lai\n" << RESET;
                     } while (a != '1' && a != '2');
                     system("cls");
                 }
@@ -736,15 +728,15 @@ int main(int argc, char **argv)
                             {
                                 cout << "Tu:  ";
                                 cin >> minTic;
-                                if (minTic <= 0)
-                                    cout << "\nGia ve phai > 0. Vui long nhap lai.\n\n";
-                            } while (minTic <= 0);
+                                if (minTic <= 900)
+                                    cout << RED << "\nGia ve phai > 900. Vui long nhap lai.\n\n" << RESET;
+                            } while (minTic <= 900);
                             do
                             {
                                 cout << "Den:  ";
                                 cin >> maxTic;
                                 if (maxTic < minTic)
-                                    cout << "\nGia ve sau phai lon hon gia ve truoc. Vui long nhap lai.\n\n";
+                                    cout << RED << "\nGia ve sau phai lon hon gia ve truoc. Vui long nhap lai.\n\n" << RESET;
                             } while (maxTic < minTic);
                             for (auto it = flight.begin(); it != flight.end(); ++it)
                             {
@@ -764,13 +756,14 @@ int main(int argc, char **argv)
                         }
                     }
                     system("cls");
-                    cout << "Ban co muon tiep tuc chinh sua cac chuyen bay khac?\n1. Co \n2. Khong\n";
+                    cout << "Ban co muon tiep tuc chinh sua cac chuyen bay khac?\n";
+                    cout << GREEN << "1. Co\n" << RED << "2. Khong\n" << RESET;
                     do
                     {
                         cout << "\nNhap lua chon cua ban:  ";
                         cin >> a;
                         if (a != '1' && a != '2')
-                            cout << "\nBan chi duoc chon 1 hoac 2. Vui long chon lai.\n";
+                            cout << RED << "\nBan chi duoc chon 1 hoac 2. Vui long chon lai\n" << RESET;
                     } while (a != '1' && a != '2');
                     system("cls");
                 }
@@ -816,7 +809,7 @@ int main(int argc, char **argv)
                             char c;
                             string planeName;
                             cout << "Chon 1 trong cac hang bay:\n\n";
-                            
+
                             cout << "1. VietNam Airlines\n";
                             cout << RED;
                             cout << "2. VietJet Air\n";
@@ -830,7 +823,7 @@ int main(int argc, char **argv)
                                 cout << "Nhap lua chon cua ban:  ";
                                 cin >> c;
                                 if (c < '1' || c > '4')
-                                    cout << "\nBan chi duoc nhap gia tri trong khaong 1 -> 4. Vui long nhap lai\n";
+                                    cout << RED << "\nBan chi duoc nhap gia tri trong khaong 1 -> 4. Vui long nhap lai\n" << RESET;
                             } while (c < '1' || c > '4');
                             switch (c)
                             {
@@ -868,7 +861,7 @@ int main(int argc, char **argv)
                                 cout << "Nhap so hieu may bay ban muon thay the:  ";
                                 cin >> idToReplace;
                                 if (checkid[idToReplace])
-                                    cout << "\nSo hieu may bay ban nhap da ton tai. Vui long nhap lai.\n\n";
+                                    cout << RED << "\nSo hieu may bay ban nhap da ton tai. Vui long nhap lai.\n\n" << RESET;
                             } while (checkid[idToReplace]);
                             for (auto it = plane.begin(); it != plane.end(); ++it)
                             {
@@ -892,7 +885,7 @@ int main(int argc, char **argv)
                                 cout << "\nNhap lua chon cua ban:  ";
                                 cin >> b;
                                 if (b != '1' && b != '2')
-                                    cout << "\nBan chi duoc chon 1 hoac 2. Vui long chon lai.\n";
+                                    cout << RED << "\nBan chi duoc chon 1 hoac 2. Vui long chon lai.\n" << RESET;
                             } while (b != '1' && b != '2');
                             string type = (b == '1') ? "Dan dung" : "Cho hang";
                             for (auto it = plane.begin(); it != plane.end(); ++it)
@@ -917,7 +910,7 @@ int main(int argc, char **argv)
                                 cout << "\nNhap lua chon cua ban:  ";
                                 cin >> b;
                                 if (b != '1' && b != '2')
-                                    cout << "\nBan chi duoc chon 1 hoac 2. Vui long chon lai.\n";
+                                    cout << RED << "\nBan chi duoc chon 1 hoac 2. Vui long chon lai.\n" << RESET;
                             } while (b != '1' && b != '2');
                             string status = (b == '1') ? "Hoat dong" : "Bao tri  ";
                             for (auto it = plane.begin(); it != plane.end(); ++it)
@@ -938,13 +931,14 @@ int main(int argc, char **argv)
                         }
                     }
                     system("cls");
-                    cout << "Ban co muon tiep tuc chinh sua cac may bay khac?\n1. Co \n2. Khong\n";
+                    cout << "Ban co muon tiep tuc chinh sua cac may bay khac?\n";
+                    cout << GREEN << "1. Co\n" << RED << "2. Khong\n" << RESET;
                     do
                     {
                         cout << "\nNhap lua chon cua ban:  ";
                         cin >> a;
                         if (a != '1' && a != '2')
-                            cout << "\nBan chi duoc chon 1 hoac 2. Vui long chon lai.\n";
+                            cout << RED << "\nBan chi duoc chon 1 hoac 2. Vui long chon lai\n" << RESET;
                     } while (a != '1' && a != '2');
                     system("cls");
                 }
@@ -979,7 +973,7 @@ int main(int argc, char **argv)
                             cout << "Nhap lua chon cua ban:  ";
                             cin >> ychoice;
                             if (ychoice < '1' || ychoice > '5')
-                                cout << "\bBan chi duoc chon gia tri trong khoang 1 -> 5. Vui long nhap lai.\n\n";
+                                cout << RED << "\nBan chi duoc chon gia tri trong khoang 1 -> 5. Vui long nhap lai.\n\n" << RESET;
                         } while (ychoice < '1' || ychoice > '5');
                         system("cls");
                         switch (ychoice)
@@ -992,7 +986,7 @@ int main(int argc, char **argv)
                                 cout << "Nhap ma khuyen mai ban muon thay the:  ";
                                 cin >> idToReplace;
                                 if (checkid[idToReplace])
-                                    cout << "\nMa khuyen mai ban nhap da ton tai. Vui long nhap lai.\n\n";
+                                    cout << RED << "\nMa khuyen mai ban nhap da ton tai. Vui long nhap lai.\n\n" << RESET;
                             } while (checkid[idToReplace]);
                             for (auto it = voucher.begin(); it != voucher.end(); ++it)
                             {
@@ -1018,7 +1012,7 @@ int main(int argc, char **argv)
                                 cout << "Nhap muc giam ban muon thay the:  ";
                                 cin >> level;
                                 if (level <= 0)
-                                    cout << "\nMuc giam phai > 0. Vui long nhap lai.\n\n";
+                                    cout << RED << "\nMuc giam phai > 0. Vui long nhap lai.\n\n" << RESET;
                             } while (level <= 0);
                             for (auto it = voucher.begin(); it != voucher.end(); ++it)
                             {
@@ -1053,8 +1047,8 @@ int main(int argc, char **argv)
                                 {
                                     cout << RED;
                                     cout << "\nNgay bat dau khuyen mai phai nho hon ngay ket thuc khuyen mai.\n";
-                                    cout << RESET;
                                     cout << "Vui long nhap ngay bat dau khuyen mai nho hon ngay:  " << t << "\n\n";
+                                    cout << RESET;
                                 }
                             } while (d > t);
                             for (auto it = voucher.begin(); it != voucher.end(); ++it)
@@ -1090,8 +1084,8 @@ int main(int argc, char **argv)
                                 {
                                     cout << RED;
                                     cout << "\nNgay ket thuc khuyen mai phai lon hon ngay bat dau khuyen mai.\n";
-                                    cout << RESET;
                                     cout << "Vui long nhap ngay ket thuc khuyen mai lon hon ngay:  " << t << "\n\n";
+                                    cout << RESET;
                                 }
                             } while (d < t);
                             for (auto it = voucher.begin(); it != voucher.end(); ++it)
@@ -1112,21 +1106,21 @@ int main(int argc, char **argv)
                         }
                     }
                     system("cls");
-                    cout << "Ban co muon tiep tuc chinh sua cac Voucher khac?\n1. Co \n2. Khong\n";
+                    cout << "Ban co muon tiep tuc chinh sua cac Voucher khac?\n";
+                    cout << GREEN << "1. Co\n" << RED << "2. Khong\n" << RESET;
                     do
                     {
                         cout << "\nNhap lua chon cua ban:  ";
                         cin >> a;
                         if (a != '1' && a != '2')
-                            cout << "\nBan chi duoc chon 1 hoac 2. Vui long chon lai.\n";
+                            cout << RED << "\nBan chi duoc chon 1 hoac 2. Vui long chon lai\n" << RESET;
                     } while (a != '1' && a != '2');
                     system("cls");
                 }
             }
             else if (mchoice == "19")
             {
-                cout << endl
-                     << "KET THUC\n";
+                cout << BLUE << "KET THUC\n" << RESET;
             }
         }
     }
@@ -1145,7 +1139,7 @@ int main(int argc, char **argv)
             cout << "Nhap lua chon cua ban:  ";
             cin >> signChoice;
             if (signChoice != '1' && signChoice != '2')
-                cout << "\nBan chi co the chon 1 hoac 2. Vui long chon lai\n\n";
+                cout << RED << "\nBan chi co the chon 1 hoac 2. Vui long chon lai\n\n" << RESET;
         } while (signChoice != '1' && signChoice != '2');
         system("cls");
         if (signChoice == '1')
@@ -1198,7 +1192,7 @@ int main(int argc, char **argv)
                 cout << "Nhap lua chon cua ban:  ";
                 cin >> choice;
                 if (choice < '1' || choice > '6')
-                    cout << "\nBan chi duoc nhap trong khoang tu 1 -> 6. Vui long nhap lai\n\n";
+                    cout << RED << "\nBan chi duoc nhap trong khoang tu 1 -> 6. Vui long nhap lai\n\n" << RESET;
             } while (choice < '1' || choice > '6');
             system("cls");
             switch (choice)
@@ -1231,7 +1225,7 @@ int main(int argc, char **argv)
                         cout << "\nNhap lua chon cua ban:  ";
                         cin >> n;
                         if (n != '1' && n != '2')
-                            cout << "\nBan chi duoc chon 1 hoac 2. Vui long chon lai.\n";
+                            cout << RED << "\nBan chi duoc chon 1 hoac 2. Vui long chon lai.\n" << RESET;
                     } while (n != '1' && n != '2');
                     if (n == '1')
                     {
@@ -1256,7 +1250,7 @@ int main(int argc, char **argv)
                             cout << "\nNhap lua chon cua ban:  ";
                             cin >> yourChoice;
                             if (yourChoice < '1' || yourChoice > '8')
-                                cout << "\nBan chi duoc nhap trong khoang tu 1 -> 8. Vui long nhap lai\n";
+                                cout << RED << "\nBan chi duoc nhap trong khoang tu 1 -> 8. Vui long nhap lai\n" << RESET;
                         } while (yourChoice < '1' || yourChoice > '8');
                         system("cls");
                         switch (yourChoice)
@@ -1278,25 +1272,33 @@ int main(int argc, char **argv)
                         }
                         case '3':
                         {
-                            cout << endl;
                             double minTic, maxTic;
                             cout << "Nhap khoang gia ve muon tim: \n\n";
                             do
                             {
                                 cout << "Tu:  ";
                                 cin >> minTic;
-                                if (minTic <= 0)
-                                    cout << "\nGia ve phai > 0. Vui long nhap lai.\n\n";
-                            } while (minTic <= 0);
+                                if (minTic <= 900)
+                                    cout << RED << "\nGia ve phai > 900. Vui long nhap lai.\n\n" << RESET;
+                            } while (minTic <= 900);
                             do
                             {
                                 cout << "Den:  ";
                                 cin >> maxTic;
                                 if (maxTic < minTic)
-                                    cout << "\nGia ve sau phai lon hon gia ve truoc. Vui long nhap lai.\n\n";
+                                    cout << RED << "\nGia ve sau phai lon hon gia ve truoc. Vui long nhap lai.\n\n" << RESET;
                             } while (maxTic < minTic);
-
-                            findWithTicketPrice(flight, minTic, maxTic, pas.getRank(), area);
+                            char rank;
+                            cout << "\nChon hang ghe muon tim gia ve: \n";
+                            cout << GREEN << "1. Thuong gia\n1. Pho thong\n" << RESET;
+                            do {
+                                cout << "\nNhap lua chon cua ban:  ";
+                                cin >> rank;
+                                if( rank != '1' && rank != '2' )
+                                    cout << RED << "\nBan chi duoc chon 1 hoac 2. Vui long nhap lai.\n" << RESET;
+                            }while( rank != '1' && rank != '2' );
+                            string getRank = (rank == '1')?"Thuong gia":"Pho thong ";
+                            findWithTicketPrice(flight, minTic, maxTic, getRank, area);
                             cout << endl;
                             break;
                         }
@@ -1320,7 +1322,7 @@ int main(int argc, char **argv)
                                 cout << "Nhap lua chon cua ban:  ";
                                 cin >> c;
                                 if (c < '1' || c > '4')
-                                    cout << "\nBan chi duoc nhap gia tri trong khaong 1 -> 4. Vui long nhap lai\n";
+                                    cout << RED << "\nBan chi duoc nhap gia tri trong khaong 1 -> 4. Vui long nhap lai\n" << RESET;
                             } while (c < '1' || c > '4');
                             switch (c)
                             {
@@ -1371,7 +1373,7 @@ int main(int argc, char **argv)
                                 if (eTime <= sTime){
                                     cout << RED;
                                     cout << "\nThoi gian sau phai lon hon thoi gian truoc. Vui long nhap lai\n";
-                                    cout << RESET;    
+                                    cout << RESET;
                                  }
                             } while (eTime <= sTime);
                             findWithTime(flight, sTime, eTime, area);
@@ -1385,8 +1387,7 @@ int main(int argc, char **argv)
                             break;
                         }
                         case '8':
-                            cout << endl
-                                 << "KET THUC\n";
+                            cout << BLUE << "KET THUC\n" << RESET;
                             break;
                         }
                         // hỏi người dùng đã tìm được chuyến bay mong muốn chưa
@@ -1402,7 +1403,7 @@ int main(int argc, char **argv)
                             cout << "\nNhap lua chon cua ban:  ";
                             cin >> ch;
                             if (ch != '1' && ch != '2')
-                                cout << "\nBan chi duoc chon 1 hoac 2. Vui long chon lai\n";
+                                cout << RED << "\nBan chi duoc chon 1 hoac 2. Vui long chon lai\n" << RESET;
                         } while (ch != '1' && ch != '2');
                         cout << "------------------------------------\n";
                         // nếu đã tìm được thì sẽ cho người dùng nhập mã chuyến bay và chỗ ngồi
@@ -1419,7 +1420,7 @@ int main(int argc, char **argv)
                                     cout << "\nID chuyen bay khong co trong danh sach. Vui long nhap lai.\n";
                                     cout << RESET;
                                 }
-                                    
+
                             } while (!checkid[id]);
                             Flight f;
                             for (auto it : flight)
@@ -1464,11 +1465,11 @@ int main(int argc, char **argv)
                                 }
                                 if (pas.getRank() == "Thuong gia" && (pos < 1 || pos > 15))
                                 {
-                                    cout << "\nBan chi duoc chon cac vi tri ghe " << YELLOW << "( 1->15 ). " << RED << "Vui long chon lai.\n";
+                                    cout << RED << "\nBan chi duoc chon cac vi tri ghe " << YELLOW << "( 1->15 ). " << RED << "Vui long chon lai.\n" << RESET;
                                 }
                                 if (pas.getRank() == "Pho thong " && (pos < 16 || pos > 50))
                                 {
-                                    cout << "\nBan chi duoc chon cac vi tri ghe " << YELLOW << "( 16->50 ). " << RED << "Vui long chon lai.\n";
+                                    cout << RED << "\nBan chi duoc chon cac vi tri ghe " << YELLOW << "( 16->50 ). " << RED << "Vui long chon lai.\n" << RESET;
                                 }
                             } while (f.findSitPos(pos) || (pas.getRank() == "Thuong gia" && (pos < 1 || pos > 15)) || (pas.getRank() == "Pho thong " && (pos < 16 || pos > 50)));
                             // cập nhật vị trí ghế và mã chuyến bay;
@@ -1536,7 +1537,7 @@ int main(int argc, char **argv)
                     cout << "\nNhap lua chon cua ban:  ";
                     cin >> acept;
                     if (acept != '1' && acept != '2')
-                        cout << "\nBan chi duoc chon 1 hoac 2. Vui long chon lai.\n";
+                        cout << RED << "\nBan chi duoc chon 1 hoac 2. Vui long chon lai.\n" << RED;
                 } while (acept != '1' && acept != '2');
                 system("cls");
                 if (acept == '1')
@@ -1573,16 +1574,19 @@ int main(int argc, char **argv)
                     break;
                 }
                 char b;
-                cout << "Ban co chac chan muon huy? \n1. Co \n2. Khong\n";
+                cout << "Ban co chac chan muon huy?\n";
+                cout << GREEN << "1. Co \n" << RED << "2. Khong\n" << RESET;
                 do
                 {
                     cout << "\nNhap lua chon cua ban:  ";
                     cin >> b;
                     if (b != '1' && b != '2')
-                        cout << "\nBan chi duoc chon 1 hoac 2. Vui long chon lai.\n";
+                        cout << RED << "\nBan chi duoc chon 1 hoac 2. Vui long chon lai.\n" << RESET;
                 } while (b != '1' && b != '2');
-                if (b == '2')
+                if (b == '2'){
+                    system("cls");
                     break;
+                }
                 // list các chuyến bay đã đặt
                 cout << PINK << "\n+----------------------------------------------------------------+" << endl;
                 cout << "|   Ho va ten\t  " << " |    Hang ghe    " << "| Vi tri ghe " << "| Ma chuyen bay |" << endl;
@@ -1605,17 +1609,17 @@ int main(int argc, char **argv)
                     cout << "\nNhap id chuyen bay muon huy:  ";
                     cin >> id;
                     if (idmap[id] == 0)
-                        cout << "\nID khong dung. Vui long nhap lai.\n";
+                        cout << RED << "\nID khong dung. Vui long nhap lai.\n" << RESET;
                 } while (idmap[id] == 0);
                 do
                 {
                     cout << "Nhap vi tri ghe muon huy:  ";
                     cin >> position;
                     if (!mp[position])
-                        cout << "\nVi tri khong hop le. Vui long nhap lai\n\n";
+                        cout << RED << "\nVi tri khong hop le. Vui long nhap lai\n\n" << RESET;
                 } while (!mp[position]);
                 // xóa thông tin người dùng trong vector demoPass và thêm vào lịch sử với trạng thái hủy vé và giảm đi id chuyến bay đã hủy
-                for (auto it = demoPass.begin(); it != demoPass.end(); /* không tăng it ở đây */)
+                for (auto it = demoPass.begin(); it != demoPass.end(); )
                 {
                     if (it->first.getPos() == position && it->second == id)
                     {
@@ -1627,7 +1631,7 @@ int main(int argc, char **argv)
                     }
                     else
                     {
-                        ++it; // tăng it khi không xóa
+                        ++it;
                     }
                 }
 
@@ -1642,7 +1646,7 @@ int main(int argc, char **argv)
                 }
 
                 // xóa các chuyến bay có ID phù hợp trong passfly
-                for (auto it = passfly.begin(); it != passfly.end(); /* không tăng it ở đây */)
+                for (auto it = passfly.begin(); it != passfly.end(); )
                 {
                     if (it->first.getId() == id)
                     {
@@ -1650,7 +1654,7 @@ int main(int argc, char **argv)
                     }
                     else
                     {
-                        ++it; // tăng it khi không xóa
+                        ++it;
                     }
                 }
                 cout << GREEN;
@@ -1670,13 +1674,14 @@ int main(int argc, char **argv)
                 ticketNum = demoPass.size();
                 cout << endl;
                 if (demoPass.empty())
-                    cout << "Khong co Bill dat ve vi quy khach chua dat ve nao.\n";
+                    cout << BLUE << "Khong co Bill dat ve vi quy khach chua dat ve nao.\n" << RESET;
                 else
                     displayBill(ticketNum, passfly, demoPass, 0, idmap);
                 cout << endl;
                 break;
             }
             case '6':
+                cout << BLUE << "KET THUC\n" << RESET;
                 break;
             }
         }
@@ -1690,7 +1695,7 @@ int main(int argc, char **argv)
         }
         writeDataUser(demoPass, passfly, hisPass, namefile);
     }
-    // writeFile(plane, flight, passInfo, voucher, personal, history);
+    writeData(plane, flight, passInfo, voucher, personal, history, employ);
     //  sau khi chạy xong thì ghi thông tin người dùng, lịch sử đặt vé vào các file gốc để khi đăng nhập với tư cách quản lý thì sẽ thấy các thông tin vừa đặt
     return 0;
 }
