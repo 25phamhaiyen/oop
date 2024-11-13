@@ -89,7 +89,8 @@ void readDataUser( vector<pair<Passenger, string>> &demopass, vector<pair<Flight
     cout << "\nDoc file thanh cong\n\n";
 }
 void readData( vector<pair<Plane, string>> &plane, vector<pair<Flight, string>> &flight, vector<pair<Passenger,string>> &passInfo,
-    vector<Voucher> &voucher, vector<vector<pair<humanInPlane, string>>> &personal, vector<pair<Passenger,string>> &history ){
+    vector<Voucher> &voucher, vector<vector<pair<humanInPlane, string>>> &personal, vector<pair<Passenger,string>> &history,
+    unordered_map<string, set<pair<humanInPlane, string>>> &employ ){
 
 	ifstream file;
 	string line;
@@ -204,9 +205,25 @@ void readData( vector<pair<Plane, string>> &plane, vector<pair<Flight, string>> 
     if( !tmp.empty() )
     	personal.push_back(tmp);
     file.close();
+
+    // GHI FILE ALLHUMANINPLANE
+    file.open("../Database/AllHumanInPlaneData.txt");
+    while( getline(file, line) ) {
+        stringstream ss(line);
+        string id, name, date, sex, age, job, salary, aircraftNum;
+        getline(ss, id, ',');
+        getline(ss, name, ',');
+        getline(ss, date, ',');
+        getline(ss, sex, ',');
+        getline(ss, job, ',');
+        getline(ss, salary, ',');
+        getline(ss, aircraftNum, ',');
+        employ[job].insert(make_pair(humanInPlane(Human(name, stringToDate(date), sex), id, job, stringToInt(salary)), aircraftNum));
+    }
+    file.close();
 }
-void writeData( vector<pair<Plane, string>> &plane, vector<pair<Flight, string>> &flight, vector<pair<Passenger,string>> &passInfo, vector<Voucher> &voucher,
-    vector<vector<pair<humanInPlane, string>>> &personal, vector<pair<Passenger,string>> &history ){
+void writeData( vector<pair<Plane, string>> plane, vector<pair<Flight, string>> flight, vector<pair<Passenger,string>> passInfo, vector<Voucher> voucher,
+    vector<vector<pair<humanInPlane, string>>> personal, vector<pair<Passenger,string>> history, unordered_map<string, set<pair<humanInPlane, string>>> employ ){
 	// ghi file du lieu cua Plane
 	ofstream file;
 	file.open("../Database/PlaneData.txt",ios::trunc);
@@ -225,7 +242,8 @@ void writeData( vector<pair<Plane, string>> &plane, vector<pair<Flight, string>>
     if( file.is_open() ) {
         for( auto &it : flight ){
 	        file << it.first.getId() << "," << it.first.getFlightDate() << "," << it.first.getDepartureLocation() << "," << it.first.getDestination() << "," << it.first.getDepartureTime() << ","
-				<< it.first.getLandingTime() << ","<< it.first.getPopTicketPrice() << "," << it.first.getVipTicketPrice() << "," << it.second << endl;
+				<< it.first.getLandingTime() << ","<< it.first.getPopTicketPrice() << "," << it.first.getVipTicketPrice() << "," << it.first.getArea() << ",";
+            file << it.second << endl;
 	    }
     }
     file.close();
@@ -235,17 +253,32 @@ void writeData( vector<pair<Plane, string>> &plane, vector<pair<Flight, string>>
     if( file.is_open() ) {
         for( auto &it : passInfo ){
 	        file << it.first.getName() << "," << it.first.getDate() << "," << it.first.getSex() << "," << it.first.getPhoneNum() << "," << it.first.getPassportNum() << ","
-				<< it.first.getCidNum() << ","<< it.first.getRank() << "," << it.first.getPos() << "," << it.second << endl;
+				<< it.first.getCidNum() << ","<< it.first.getRank() << "," << it.first.getPos() << "," << it.first.getStatus() << ",";
+            file << it.second << endl;
 	    }
     }
     file.close();
 
      // ghi file du lieu cua personal
-    file.open("../Database/HumanInPlane.txt",ios::trunc);
+    file.open("../Database/HumanInPlaneData.txt",ios::trunc);
     if( file.is_open() ) {
         for( auto &it : personal ){
-        	for( auto i : it )
-		        file << i.first.getId() << "," << i.first.getName() << "," << i.first.getDate() << "," << i.first.getSex() << "," << i.first.getPosition() << "," << i.first.getSalary() << "," << i.second << endl;
+        	for( auto i : it ){
+		        file << i.first.getId() << "," << i.first.getName() << "," << i.first.getDate() << "," << i.first.getSex() << "," << i.first.getPosition() << "," << i.first.getSalary() << ",";
+                file << i.second << endl;
+        	}
+	    }
+    }
+    file.close();
+
+    // ghi file allhumaninplane
+    file.open("../Database/AllHumanInPlaneData.txt",ios::trunc);
+    if( file.is_open() ) {
+        for( auto &it : employ ){
+        	for( auto i : it.second ){
+		        file << i.first.getId() << "," << i.first.getName() << "," << i.first.getDate() << "," << i.first.getSex() << "," << i.first.getPosition() << "," << i.first.getSalary() << ",";
+                file << i.second << endl;
+        	}
 	    }
     }
     file.close();
@@ -253,9 +286,19 @@ void writeData( vector<pair<Plane, string>> &plane, vector<pair<Flight, string>>
     // ghi file du lieu cua personal
     file.open("../Database/HistoryData.txt",ios::trunc);
     if( file.is_open() ) {
-        for( auto &it : personal ){
-        	for( auto i : it )
-		        file << i.first.getName() << "," << i.first.getDate() << "," << i.first.getSex() << "," << i.first.getPosition() << "," << i.first.getSalary() << "," << i.second << endl;
+        for( auto &it : history ){
+	        file << it.first.getName() << "," << it.first.getDate() << "," << it.first.getSex() << "," << it.first.getPhoneNum() << "," << it.first.getPassportNum() << ","
+				<< it.first.getCidNum() << ","<< it.first.getRank() << "," << it.first.getPos() << "," << it.first.getStatus() << ",";
+            file << it.second << endl;
+	    }
+    }
+    file.close();
+
+    // GHI FILE voucher
+    file.open("../Database/VoucherData.txt",ios::trunc);
+    if( file.is_open() ) {
+        for( auto &it : voucher ){
+		        file << it.getID() << "," << it.getReduceLevel() << "," << it.getFromDate() << "," << it.getReduceDeadline() << endl;
 	    }
     }
     file.close();
