@@ -1290,7 +1290,7 @@ int main(int argc, char **argv)
                             } while (maxTic < minTic);
                             char rank;
                             cout << "\nChon hang ghe muon tim gia ve: \n";
-                            cout << GREEN << "1. Thuong gia\n1. Pho thong\n" << RESET;
+                            cout << GREEN << "1. Thuong gia\n2. Pho thong\n" << RESET;
                             do {
                                 cout << "\nNhap lua chon cua ban:  ";
                                 cin >> rank;
