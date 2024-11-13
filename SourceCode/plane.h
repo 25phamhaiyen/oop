@@ -49,7 +49,7 @@ istream &operator>>(istream &is, Plane &plane)
 		cout << "Nhap lua chon cua ban:  ";
 		is >> choice;
 		if (choice > '4' || choice < '1')
-			cout << "\nBan chi duoc chon so trong khoang 1 -> 4. Vui long nhap lai.\n\n";
+			cout << RED << "\nBan chi duoc chon so trong khoang 1 -> 4. Vui long nhap lai.\n\n" << RESET;
 	} while (choice > '4' || choice < '1');
 	switch (choice)
 	{
@@ -72,7 +72,7 @@ istream &operator>>(istream &is, Plane &plane)
 		cout << "\nNhap lua chon cua ban:  ";
 		is >> choice;
 		if (choice != '2' && choice != '1')
-			cout << "\nBan chi duoc chon 1 hoac 2. Vui long nhap lai.\n\n";
+			cout << RED << "\nBan chi duoc chon 1 hoac 2. Vui long nhap lai.\n\n" << RESET;
 	} while (choice != '2' && choice != '1');
 	plane.type = (choice == '1') ? "Dan dung" : "Cho hang";
 	cout << "\nTinh trang: \n1.Hoat dong \n2.Bao tri" << endl;
@@ -81,7 +81,7 @@ istream &operator>>(istream &is, Plane &plane)
 		cout << "\nNhap lua chon cua ban:  ";
 		is >> choice;
 		if (choice != '2' && choice != '1')
-			cout << "\nBan chi duoc chon 1 hoac 2. Vui long nhap lai.\n\n";
+			cout << RED << "\nBan chi duoc chon 1 hoac 2. Vui long nhap lai.\n\n" << RESET;
 	} while (choice != '2' && choice != '1');
 	plane.status = (choice == '1') ? "Hoat dong" : "Bao tri  ";
 	return is;
