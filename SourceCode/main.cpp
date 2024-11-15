@@ -76,7 +76,7 @@ int main(int argc, char **argv)
         cout << BLUE;
         cout << "-----------------Sign In---------------------\n";
         cout << RESET;
-        si.sign_in('1');
+        if(si.sign_in('1')==false) return 0;
         cout << "\n---------------------------------------------\n";
         system("cls");
         string mchoice;
@@ -1148,7 +1148,7 @@ int main(int argc, char **argv)
             cout << PINK;
             cout << "-----------------Sign In---------------------\n";
             cout << RESET;
-            si.sign_in('2');
+            if(si.sign_in('2')==false) return 0;
             cout << "\n---------------------------------------------\n";
         }
         else
@@ -1162,10 +1162,10 @@ int main(int argc, char **argv)
             cout << PINK;
             cout << "-----------------Sign In---------------------\n";
             cout << RESET;
-            si.sign_in('2');
+            if(si.sign_in('2')==false) return 0;
             cout << "\n---------------------------------------------\n";
         }
-        system("cls");
+        // system("cls");
         char choice;
         vector<pair<Flight, string>> passfly;     // vector luu chuyen bay nguoi dung đã đặt
         vector<pair<Passenger, string>> demoPass; // vector lưu thông tin người dùng
