@@ -1,3 +1,9 @@
+#pragma once
+#include <vector>
+#include <string>
+#include <algorithm>
+#include "flight.h"
+
 class FlightManager {
 private:
     vector<Flight> flights;
@@ -70,4 +76,73 @@ public:
             }
         }
     }
+
+    // Hàm tìm kiếm chuyến bay theo địa điểm xuất phát và điểm đến
+    vector<Flight> searchFlights(const string &departure, const string &destination);
+
+    // Thống kê tổng số chuyến bay
+    int getTotalFlights() const;
+
+    // Tìm chuyến bay theo ngày
+    vector<Flight> findFlightsByDate(const Date &date) const;
+
+    // Hiển thị tất cả các chuyến bay trong khoảng thời gian cụ thể
+    void displayFlightsByDateRange(const Date &startDate, const Date &endDate) const;
+
+    // Kiểm tra xem mã chuyến bay có tồn tại hay không
+    bool flightExists(const string &id) const;
+
+    // Tính tổng doanh thu từ tất cả các chuyến bay
+    double calculateTotalRevenue() const;
 };
+
+// Tìm kiếm chuyến bay theo địa điểm xuất phát và điểm đến
+vector<Flight> FlightManager::searchFlights(const string &departure, const string &destination) {
+    vector<Flight> results;
+    for (const auto &flight : flights) {
+        if (flight.getDepartureLocation() == departure && flight.getDestination() == destination) {
+            results.push_back(flight);
+        }
+    }
+    return results;
+}
+
+// Tìm chuyến bay theo ngày
+vector<Flight> FlightManager::findFlightsByDate(const Date &date) const {
+    vector<Flight> results;
+    for (const auto &flight : flights) {
+        if (flight.getFlightDate() == date) {
+            results.push_back(flight);
+        }
+    }
+    return results;
+}
+
+// Hiển thị tất cả các chuyến bay trong khoảng thời gian cụ thể
+void FlightManager::displayFlightsByDateRange(const Date &startDate, const Date &endDate) const {
+    for (const auto &flight : flights) {
+        if (flight.getFlightDate() >= startDate && flight.getFlightDate() <= endDate) {
+            cout << flight << endl;
+        }
+    }
+}
+
+// Kiểm tra xem mã chuyến bay có tồn tại hay không
+bool FlightManager::flightExists(const string &id) const {
+    for (const auto &flight : flights) {
+        if (flight.getId() == id) {
+            return true;
+        }
+    }
+    return false;
+}
+
+// Tính tổng doanh thu từ tất cả các chuyến bay
+double FlightManager::calculateTotalRevenue() const {
+    double totalRevenue = 0;
+    for (const auto &flight : flights) {
+        totalRevenue += flight.getSitNum() * flight.getPopTicketPrice(); // Vé hạng thường
+        totalRevenue += flight.getSitNum() * flight.getVipTicketPrice(); // Vé hạng thương gia
+    }
+    return totalRevenue;
+}
