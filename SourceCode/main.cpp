@@ -1634,6 +1634,31 @@ int main(int argc, char **argv)
                         ++it;
                     }
                 }
+                // XOA THONG TIN NGUOI DUNG TRONG FILE KHACH HANG GOC
+                for (auto it = passInfo.begin(); it != passInfo.end(); )
+                {
+                    if (it->first.getPos() == position && it->second == id)
+                    {
+                        it = passInfo.erase(it); // cập nhật it sau khi xóa
+                        break;
+                    }
+                    else
+                    {
+                        ++it;
+                    }
+                }
+                // XOA CAC LICH SU TRUOC DO
+                for (auto it = history.begin(); it != history.end(); )
+                {
+                    if (it->first.getPos() == position && it->second == id)
+                    {
+                        it = history.erase(it); // cập nhật it sau khi xóa
+                    }
+                    else
+                    {
+                        ++it;
+                    }
+                }
 
                 // cập nhật lại vị trí đã hủy
                 for (auto &it : flight)
@@ -1685,13 +1710,22 @@ int main(int argc, char **argv)
                 break;
             }
         }
-        for (auto it : hisPass)
-        {
-            history.push_back(it);
+        for (const auto& it : hisPass) {
+            if (find_if(history.begin(), history.end(),[&]
+                        (const std::pair<Passenger, std::string>& p) {
+                                 return (p.first == it.first && p.second == it.second); // hàm kiểm tra trùng lặp theo Passenger trong pair
+                             }) == history.end()) {
+                history.push_back(it);
+            }
         }
-        for (auto it : demoPass)
-        {
-            passInfo.push_back(it);
+
+        for (const auto& it : demoPass) {
+            if (find_if(passInfo.begin(), passInfo.end(),[&]
+                        (const std::pair<Passenger, std::string>& p) {
+                                 return (p.first == it.first && p.second == it.second); // hàm kiểm tra trùng lặp theo Passenger trong pair
+                             }) == passInfo.end()) {
+                passInfo.push_back(it);
+            }
         }
         writeDataUser(demoPass, passfly, hisPass, namefile);
     }
