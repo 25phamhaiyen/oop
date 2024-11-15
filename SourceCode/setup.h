@@ -86,7 +86,6 @@ void readDataUser( vector<pair<Passenger, string>> &demopass, vector<pair<Flight
         }
     }
     file.close();
-    cout << "\nDoc file thanh cong\n\n";
 }
 void readData( vector<pair<Plane, string>> &plane, vector<pair<Flight, string>> &flight, vector<pair<Passenger,string>> &passInfo,
     vector<Voucher> &voucher, vector<vector<pair<humanInPlane, string>>> &personal, vector<pair<Passenger,string>> &history,
