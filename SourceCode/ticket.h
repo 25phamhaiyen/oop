@@ -45,3 +45,4 @@ void Ticket::displayTicketInfo() const {
     cout << "Seat Class: " << seatClass << endl;
     cout << "Price: $" << price << endl;
 }
+

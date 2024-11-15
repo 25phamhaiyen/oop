@@ -21,6 +21,27 @@ public:
     // Hiển thị tất cả nhân viên
     void displayAllEmployees() const;
 
+    void EmployeeManager::exportToFile(const string& filename) const {
+    std::ofstream file(filename);
+    if (!file) {
+        cout << "Unable to open file." << endl;
+        return;
+    }
+
+    //Xuất nhân viên vào một tệp
+    file << "Employee List:" << endl;
+    for (const auto& employee : employees) {
+        file << "ID: " << employee.getEmployeeID() << ", "
+             << "Name: " << employee.getName() << ", "
+             << "Age: " << employee.getAge() << ", "
+             << "Position: " << employee.getPosition() << ", "
+             << "Salary: " << employee.getSalary() << endl;
+    }
+    
+    file.close();
+    cout << "Employee data exported to " << filename << " successfully!" << endl;
+}
+
     // Hiển thị menu
     void printMenu();
 };
@@ -83,6 +104,7 @@ void EmployeeManager::printMenu() {
     cout << "3. Update Employee" << endl;
     cout << "4. Find Employee by ID" << endl;
     cout << "5. Display All Employees" << endl;
-    cout << "6. Exit" << endl;
+    cout << "6. Export Employee Data to File" << endl;
+    cout << "7. Exit" << endl;   
     cout << "Select an option: ";
 }

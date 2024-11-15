@@ -376,7 +376,7 @@ string Passenger::getCidNum(){
 	return cidNum;
 }
 
-void findWithTicketPrice( vector<pair<Flight,string>> flight, double minPrice, double maxPrice, string rank, string area ){
+void findWithTicketPrice( vector<pair<Flight,string>> flight, double minPrice, double maxPrice, string rank, string area, unordered_map<string, string> planeName ){
 	int count = 0;
 	cout << PINK << "+------------------------------------------------------------------------------------------------------------------------------------------------------+" << endl;
     cout << "|    ID     |    Ngay bay    |   Lich trinh bay              | TG cat canh | TG ha canh  | Gia ve thuong | Gia ve vip | Luot dat |   Ten hang bay      |" << endl;
@@ -385,7 +385,7 @@ void findWithTicketPrice( vector<pair<Flight,string>> flight, double minPrice, d
 		double veThuong = it.first.getPopTicketPrice();
 		double veVip = it.first.getVipTicketPrice();
 		if( rank == "Pho thong" && veThuong >= minPrice && veThuong <= maxPrice ||  rank == "Thuong gia" && veVip >= minPrice && veVip <= maxPrice && it.first.getArea() == area ){
-			cout << "|   " << it.first << "    " << it.first.getSitNum() << "     |   " << it.second << "  |" << endl;
+			cout << "|   " << it.first << "    " << it.first.getSitNum() << "     |   " << planeName[it.first.getId()] << "  |" << endl;
 			count++;
 		}
 	}
@@ -397,14 +397,14 @@ void findWithTicketPrice( vector<pair<Flight,string>> flight, double minPrice, d
 		cout << RESET;
 	}
 }
-void findWithDestination( vector<pair<Flight,string>> flight, string destination, string area ){
+void findWithDestination( vector<pair<Flight,string>> flight, string destination, string area, unordered_map<string, string> planeName ){
 	int count = 0;
 	cout << PINK << "+------------------------------------------------------------------------------------------------------------------------------------------------------+" << endl;
     cout << "|    ID     |    Ngay bay    |   Lich trinh bay              | TG cat canh | TG ha canh  | Gia ve thuong | Gia ve vip | Luot dat |   Ten hang bay      |" << endl;
     cout << "+------------------------------------------------------------------------------------------------------------------------------------------------------+" << RESET << "\n";
 	for( auto &it : flight ){
 		if( it.first.getDestination() == destination && it.first.getPopTicketPrice() != 0 && it.first.getArea() == area ){
-			cout << "|   " << it.first << "    " << it.first.getSitNum() << "     |   " << it.second << "  |" << endl;
+			cout << "|   " << it.first << "    " << it.first.getSitNum() << "     |   " << planeName[it.first.getId()] << "  |" << endl;
 			count++;
 		}
 	}
@@ -416,14 +416,14 @@ void findWithDestination( vector<pair<Flight,string>> flight, string destination
 		cout << RESET;
 	}
 }
-void findWithTime( vector<pair<Flight,string>> flight, Time startTime, Time endTime, string area ){
+void findWithTime( vector<pair<Flight,string>> flight, Time startTime, Time endTime, string area, unordered_map<string, string> planeName ){
 	int count = 0;
 	cout << PINK << "+------------------------------------------------------------------------------------------------------------------------------------------------------+" << endl;
     cout << "|    ID     |    Ngay bay    |   Lich trinh bay              | TG cat canh | TG ha canh  | Gia ve thuong | Gia ve vip | Luot dat |   Ten hang bay      |" << endl;
     cout << "+------------------------------------------------------------------------------------------------------------------------------------------------------+" << RESET << "\n";
 	for( auto &it : flight ){
 		if( it.first.getDepartureTime() >= startTime && it.first.getLandingTime() <= endTime && it.first.getPopTicketPrice() != 0 && it.first.getArea() == area ){
-			cout << "|   " << it.first << "    " << it.first.getSitNum() << "     |   " << it.second << "  |" << endl;
+			cout << "|   " << it.first << "    " << it.first.getSitNum() << "     |   " << planeName[it.first.getId()] << "  |" << endl;
 			count++;
 		}
 	}
@@ -436,14 +436,14 @@ void findWithTime( vector<pair<Flight,string>> flight, Time startTime, Time endT
 	}
 }
 
-void findWithFlightDate( vector<pair<Flight, string>> flight, Date date, string area ){
+void findWithFlightDate( vector<pair<Flight, string>> flight, Date date, string area, unordered_map<string, string> planeName ){
 	int count = 0;
 	cout << PINK << "+------------------------------------------------------------------------------------------------------------------------------------------------------+" << endl;
     cout << "|    ID     |    Ngay bay    |   Lich trinh bay              | TG cat canh | TG ha canh  | Gia ve thuong | Gia ve vip | Luot dat |   Ten hang bay      |" << endl;
     cout << "+------------------------------------------------------------------------------------------------------------------------------------------------------+" << RESET << "\n";
 	for( auto &it : flight ){
 		if( it.first.getFlightDate() == date && it.first.getArea() == area ){
-			cout << "|   " << it.first << "    " << it.first.getSitNum() << "     |   " << it.second << "  |" << endl;
+			cout << "|   " << it.first << "    " << it.first.getSitNum() << "     |   " << planeName[it.first.getId()] << "  |" << endl;
 			count++;
 		}
 	}
@@ -462,7 +462,7 @@ void findWithPlaneName( vector<pair<Flight,string>> flight, string plName, strin
     cout << "+------------------------------------------------------------------------------------------------------------------------------------------------------+" << RESET << "\n";
 	for( auto &it : flight ){
 		if( planeName[it.first.getId()] == plName && it.first.getPopTicketPrice() != 0 && it.first.getArea() == area ){
-			cout << "|   " << it.first << "    " << it.first.getSitNum() << "     |   " << it.second << "  |" << endl;
+			cout << "|   " << it.first << "    " << it.first.getSitNum() << "     |   " << planeName[it.first.getId()] << "  |" << endl;
 			count++;
 		}
 	}

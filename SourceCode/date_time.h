@@ -138,9 +138,9 @@ void Date::inputDate(){
             else
                 inputDay(day,28);
         }
-        if( day <= now->tm_mday )
+        if( day <= now->tm_mday && month == now->tm_mon+1 )
             cout << RED << "\nNgay phai lon hon ngay hien tai\n\n" << RESET;
-    }while( day <= now->tm_mday );
+    }while( day <= now->tm_mday && month == now->tm_mon+1 );
 }
 istream& operator >> ( istream& is, Date &date ){
     time_t t = time(nullptr);

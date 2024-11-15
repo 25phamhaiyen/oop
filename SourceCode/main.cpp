@@ -1266,7 +1266,7 @@ int main(int argc, char **argv)
                             Date date;
                             cout << "Nhap ngay bay ban muon tim:\n";
                             date.inputDate();
-                            findWithFlightDate(flight, date, area);
+                            findWithFlightDate(flight, date, area, planeName);
                             cout << endl;
                             break;
                         }
@@ -1298,7 +1298,7 @@ int main(int argc, char **argv)
                                     cout << RED << "\nBan chi duoc chon 1 hoac 2. Vui long nhap lai.\n" << RESET;
                             }while( rank != '1' && rank != '2' );
                             string getRank = (rank == '1')?"Thuong gia":"Pho thong ";
-                            findWithTicketPrice(flight, minTic, maxTic, getRank, area);
+                            findWithTicketPrice(flight, minTic, maxTic, getRank, area, planeName);
                             cout << endl;
                             break;
                         }
@@ -1356,7 +1356,7 @@ int main(int argc, char **argv)
                                 space += " ";
                             }
                             destination += space;
-                            findWithDestination(flight, destination, area);
+                            findWithDestination(flight, destination, area, planeName);
                             break;
                         }
                         case '6':
@@ -1376,7 +1376,7 @@ int main(int argc, char **argv)
                                     cout << RESET;
                                  }
                             } while (eTime <= sTime);
-                            findWithTime(flight, sTime, eTime, area);
+                            findWithTime(flight, sTime, eTime, area, planeName);
                             break;
                         }
                         case '7':
