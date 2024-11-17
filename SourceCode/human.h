@@ -104,7 +104,7 @@ istream& operator >> ( istream& is, Human &human ){
 	cin.ignore();
 	cout << "\nNhap ho va ten:  ";
 	getline(is,human.name);
-	human.name.resize(16, ' ');
+	human.name.resize(15, ' ');
 	standarName(human.name);
 	cout << "\nNhap ngay sinh (year/month/day):  \n";
 	is >> human.date;
