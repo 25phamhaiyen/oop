@@ -1172,7 +1172,7 @@ int main(int argc, char **argv)
         vector<pair<Passenger, string>> hisPass;  // vector lưu lịch sử đặt vé, hủy vé
         unordered_map<int, int> mp;               // map dùng để lưu vị trí người dùng đặt
         unordered_map<string, int> idmap;         // map dùng để lưu mã chuyến bay
-        string namefile = si.getUserName() + ".txt";
+        string namefile = "../UserData/" + si.getUserName() + ".txt";
         readDataUser(demoPass, passfly, hisPass, namefile);
         if (!demoPass.empty())
         {
