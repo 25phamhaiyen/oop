@@ -202,15 +202,15 @@ void SignIn::sign_up()
 			repeatPass = "";
 		}
 	} while (repeatPass != password);
-	
+
 	// Chọn câu hỏi bảo mật
-    cout << "\nChon cau hoi bao mat:\n";
+    cout << "\n\nChon cau hoi bao mat:\n";
     cout << "1. Ten thu cung cua ban?\n";
     cout << "2. Ten truong tieu hoc cua ban?\n";
     cout << "3. Mon an yeu thich cua ban?\n";
     int questionChoice;
     do {
-        cout << "Nhap lua chon (1-3): ";
+        cout << "\nNhap lua chon (1-3): ";
         cin >> questionChoice;
         if (questionChoice < 1 || questionChoice > 3)
             cout << RED << "Lua chon khong hop le. Vui long chon lai.\n" << RESET;
@@ -245,7 +245,7 @@ bool SignIn::sign_in(char choice) {
             return false;
         }
 
-        if (count > 1) cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Xóa bộ đệm
+        //if (count > 1) cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Xóa bộ đệm
         cout << "\nNhap tai khoan:  ";
         getline(cin, this->userName);
         cout << "Nhap mat khau:  ";
@@ -260,19 +260,23 @@ bool SignIn::sign_in(char choice) {
             if(choice=='2')
 			{// Hỏi người dùng có muốn khôi phục mật khẩu không
 				char recoveryChoice;
-				cout << "\nBan co muon khoi phuc mat khau? (y/n): ";
-				cin >> recoveryChoice;
+				do {
+                    cout << "\nBan co muon khoi phuc mat khau? (y/n): ";
+                    cin >> recoveryChoice;
+                    if( recoveryChoice != 'y' && recoveryChoice != 'n' )
+                        cout << "\n\nBan chi co the chon y hoac n. Vui long nhap lai.\n";
+				}while( recoveryChoice != 'y' && recoveryChoice != 'n' );
 				if (recoveryChoice == 'y' || recoveryChoice == 'Y') {
 					// Gọi hàm khôi phục mật khẩu
 					if(forgotPassword()==true){
 						cout << GREEN << "\nMat khau da duoc thay doi thanh cong!\n" << RESET;
-						return true; 
-					} 
-						
+						return true;
+					}
+
 				}
 			}
         } else if (result == 0) {
-            cout << RED << "\nTai khoan khong ton tai. Vui long nhap lai.\n" << RESET;
+            cout << RED << "\n\nTai khoan khong ton tai. Vui long nhap lai.\n" << RESET;
         }
 
     } while (!isAuthenticated);
@@ -331,26 +335,40 @@ bool SignIn::forgotPassword() {
         cout << RED << "\nCau tra loi khong chinh xac. Thu lai sau.\n" << RESET;
         return false;
     }
-
-    // Đặt lại mật khẩu
-    string newPassword, repeatPassword;
     cout << GREEN << "\nCau tra loi dung. Hay tao mat khau moi.\n" << RESET;
 
-    do {
-        cout << "Nhap mat khau moi: ";
-        inputPass(newPassword);
-        if (newPassword.size() < 8 || newPassword.size() > 20 || !checkPass(newPassword)) {
-            cout << RED << "\nMat khau phai co do dai tu 8 den 20 ky tu va bao gom chu HOA, chu THUONG, chu SO.\n" << RESET;
-            newPassword="";
-            continue;
-        }
-        cout << "\nNhap lai mat khau moi: ";
-        inputPass(repeatPassword);
 
-        if (newPassword != repeatPassword) {
-            cout << RED << "\nMat khau khong khop. Vui long nhap lai.\n" << RESET;
-        }
-    } while (newPassword != repeatPassword);
+    // dat lai mat khau
+    string newPassword, repeatPassword;
+    do
+	{
+		cout << "Nhap mat khau moi:  ";
+		inputPass(newPassword);
+		if (newPassword.size() < 8 || newPassword.size() > 20)
+		{
+			cout << RED << "\n\nMat khau phai co do dai tu 8 den 20 ky tu. Vui long nhap lai.\n\n" << RESET;
+			newPassword = "";
+			continue;
+		}
+		if (checkPass(newPassword) == false)
+		{
+			cout << RED << "\n\nMat khau phai bao gom chu HOA, chu THUONG, chu SO. Vui long nhap lai\n\n" << RESET;
+			newPassword = "";
+		}
+	} while (checkPass(newPassword) == false || newPassword.size() < 8 || newPassword.size() > 20);
+
+	// Nhap lai pass;
+	do
+	{
+		cout << "\nNhap lai mat khau:  ";
+		inputPass(repeatPassword);
+		if (repeatPassword != newPassword)
+		{
+			cout << RED << "\n\nMat khau khong chinh xac. Vui long nhap lai\n" << RESET;
+			repeatPassword = "";
+		}
+	} while (repeatPassword != newPassword);
+
 
     // Cập nhật mật khẩu
     ifstream fileIn("../Database/passengerSignInAccount.txt");
@@ -375,6 +393,6 @@ bool SignIn::forgotPassword() {
     remove("../Database/passengerSignInAccount.txt");
     rename("../Database/temp.txt", "../Database/passengerSignInAccount.txt");
 
-    
+
 	return true;
 }
