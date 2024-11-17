@@ -54,6 +54,7 @@ class Passenger : public Human {
 		Passenger( const Human &human, string sdt, string passport, string cccd, string rank, int pos, string status );
 		friend istream& operator >> ( istream& is, Passenger &pas );
 		friend ostream& operator << ( ostream& os, const Passenger &pas );
+		friend bool operator == ( const Passenger &pas1 , const Passenger &pas2 );
 		void setInCountry( bool check );
 		void setRank( string rank );
 		void setPosition( int position );
@@ -103,6 +104,7 @@ istream& operator >> ( istream& is, Human &human ){
 	cin.ignore();
 	cout << "\nNhap ho va ten:  ";
 	getline(is,human.name);
+	human.name.resize(16, ' ');
 	standarName(human.name);
 	cout << "\nNhap ngay sinh (year/month/day):  \n";
 	is >> human.date;
@@ -485,4 +487,9 @@ void sortIncreaseTicketPrice( vector<pair<Flight, string>> &flight ){
         }
         flight[j + 1] = key;
     }
+}
+bool operator == ( const Passenger &pas1 , const Passenger &pas2 ){
+    return pas1.phoneNum == pas2.phoneNum &&
+           pas1.passportNum == pas2.passportNum &&
+           pas1.cidNum == pas2.cidNum;
 }
