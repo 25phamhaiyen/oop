@@ -274,6 +274,9 @@ bool SignIn::sign_in(char choice) {
 					}
 
 				}
+				else{
+					cin.ignore();
+				}
 			}
         } else if (result == 0) {
             cout << RED << "\n\nTai khoan khong ton tai. Vui long nhap lai.\n" << RESET;
