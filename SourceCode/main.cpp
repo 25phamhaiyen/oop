@@ -1042,7 +1042,7 @@ int main(int argc, char **argv)
                             do
                             {
                                 cout << "Nhap ngay bat dau khuyen mai:  \n\n";
-                                cin >> d;
+                                d.inputDate();
                                 if (d > t)
                                 {
                                     cout << RED;
@@ -1079,7 +1079,7 @@ int main(int argc, char **argv)
                             do
                             {
                                 cout << "Nhap ngay bat dau khuyen mai:  \n\n";
-                                cin >> d;
+                                d.inputDate();
                                 if (d < t)
                                 {
                                     cout << RED;
