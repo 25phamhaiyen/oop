@@ -1673,7 +1673,7 @@ int main(int argc, char **argv)
                 // xóa các chuyến bay có ID phù hợp trong passfly
                 for (auto it = passfly.begin(); it != passfly.end(); )
                 {
-                    if (it->first.getId() == id)
+                    if (it->first.getId() == id && !idmap[id] )
                     {
                         it = passfly.erase(it); // cập nhật it sau khi xóa
                     }
