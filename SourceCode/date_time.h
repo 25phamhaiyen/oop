@@ -11,6 +11,7 @@
 #include<sstream>
 #include<iomanip>
 #include<ctime>
+#include<algorithm>
 using namespace std;
 #define PINK "\033[38;5;206m"
 #define RESET "\033[0m"
